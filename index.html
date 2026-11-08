@@ -1,0 +1,468 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0b5640">
+<meta name="description" content="Guía de la Dirección de Participación Comunitaria y Ciudadana de la Gobernación de Antioquia para los organismos comunales: elección de dignatarios, mapa, guías y asistente.">
+<title>Guía Comunal DPCC</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/estilos.css?v=7">
+<link rel="icon" href="img/logo-gobernacion.webp">
+</head>
+<body>
+<a class="saltar" href="#contenido">Saltar al contenido</a>
+
+<!-- Franja superior GOV.CO, como en antioquia.gov.co -->
+<div class="franja-gob">
+  <div class="contenedor franja-gob__in">
+    <a class="govco" href="https://www.gov.co/" target="_blank" rel="noopener" aria-label="Portal del Estado colombiano GOV.CO">GOV.CO</a>
+    <span class="franja-gob__der">
+      <span class="tamano" role="group" aria-label="Tamaño del texto">
+        <button type="button" data-tamano="1" aria-label="Letra más grande">Aumentar</button>
+        <button type="button" data-tamano="0" aria-label="Tamaño normal">Restaurar</button>
+        <button type="button" data-tamano="-1" aria-label="Letra más pequeña">Disminuir</button>
+      </span>
+      <button type="button" class="contraste-btn" id="contrasteBtn" aria-pressed="false"><svg class="ico" aria-hidden="true"><use href="#i-contraste"></use></svg><span class="contraste-btn__txt"> Contraste</span></button>
+    </span>
+  </div>
+</div>
+
+<header class="cabecera">
+  <div class="contenedor cabecera__in">
+    <a class="marca" href="#/inicio" aria-label="Guía Comunal, inicio">
+      <img class="marca__logo" src="img/logo-gobernacion.webp" alt="Gobernación de Antioquia, República de Colombia" width="127" height="56">
+      <span class="marca__texto"><strong>Guía Comunal</strong><small>Dirección de Participación<br>Comunitaria y Ciudadana</small></span>
+    </a>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="menu"><svg class="ico" aria-hidden="true"><use href="#i-menu"></use></svg> Menú</button>
+    <nav id="menu" class="menu" aria-label="Secciones">
+      <a href="#/inicio" data-seccion="inicio">Inicio</a>
+      <a href="#/eleccion" data-seccion="eleccion">Elecciones</a>
+      <a href="#/mapa" data-seccion="mapa">Mapa</a>
+      <a href="#/documentos" data-seccion="documentos">Formatos y guías</a>
+      <a href="#/aprenda" data-seccion="aprenda">Aprenda</a>
+      <a href="#/estatutos" data-seccion="estatutos">Estatutos</a>
+    </nav>
+  </div>
+</header>
+
+<main id="contenido">
+<!-- Cada <section class="pantalla"> es una pantalla con dirección propia (js/rutas.js):
+     data-ruta = dirección (index.html#/eleccion/calculadora) · data-titulo = nombre en la ruta de navegación.
+     [data-migas] se llena solo con el botón "Volver" y la ruta (Inicio › …). -->
+
+<!-- ===================== INICIO ===================== -->
+<section class="pantalla" data-ruta="inicio" data-titulo="Inicio">
+  <div class="heroe">
+    <div class="contenedor heroe__in">
+      <div class="carrusel" id="carrusel" aria-roledescription="carrusel" aria-label="Imágenes de la acción comunal">
+        <div class="carrusel__pista" id="carruselPista"></div>
+        <button type="button" class="carrusel__flecha carrusel__flecha--izq" data-carrusel="-1" aria-label="Imagen anterior">‹</button>
+        <button type="button" class="carrusel__flecha carrusel__flecha--der" data-carrusel="1" aria-label="Imagen siguiente">›</button>
+        <div class="carrusel__puntos" id="carruselPuntos"></div>
+      </div>
+      <div class="portada">
+        <div class="portada__titulo">
+          <h1>Guía Comunal <span>Trámites de los organismos de acción comunal de Antioquia</span></h1>
+          <p class="frase">¿Qué necesita hacer hoy?</p>
+        </div>
+        <nav class="botones-grandes" aria-label="Accesos principales">
+          <a class="boton-tarjeta" href="#/eleccion"><svg class="ico" aria-hidden="true"><use href="#i-urna"></use></svg>Elección de dignatarios</a>
+          <a class="boton-tarjeta" href="#/eleccion/calculadora"><svg class="ico" aria-hidden="true"><use href="#i-calculadora"></use></svg>Calculadora del cociente</a>
+          <a class="boton-tarjeta" href="#/mapa"><svg class="ico" aria-hidden="true"><use href="#i-mapa"></use></svg>Profesional de mi municipio</a>
+          <a class="boton-tarjeta" href="#/documentos/formatos"><svg class="ico" aria-hidden="true"><use href="#i-descargar"></use></svg>Formatos para descargar</a>
+          <a class="boton-tarjeta" href="#/documentos/guias"><svg class="ico" aria-hidden="true"><use href="#i-libro"></use></svg>Guías paso a paso</a>
+          <a class="boton-tarjeta" href="#/aprenda"><svg class="ico" aria-hidden="true"><use href="#i-birrete"></use></svg>Aprenda</a>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <div class="contenedor">
+    <section class="ayuda-franja" id="ayuda" aria-labelledby="t-ayuda">
+      <h2 id="t-ayuda">¿Necesita ayuda?</h2>
+      <ul>
+        <li><a href="mailto:organismoscomunales@antioquia.gov.co"><svg class="ico" aria-hidden="true"><use href="#i-correo"></use></svg>Correo de la Dirección</a></li>
+        <li><a href="#/mapa"><svg class="ico" aria-hidden="true"><use href="#i-persona"></use></svg>Su profesional de zona</a></li>
+        <li><a href="https://mercurio.antioquia.gov.co/mercurio/ServletPublic?operacion=9&amp;codIndice=00126&amp;idAsunto=PQRSDW&amp;indicador=1&amp;logueoPqr=S" target="_blank" rel="noopener"><svg class="ico" aria-hidden="true"><use href="#i-correo"></use></svg>PQRSD en MERCURIO</a></li>
+        <li><button type="button" class="enlace-boton" data-abrir-chat><svg class="ico" aria-hidden="true"><use href="#i-chat"></use></svg>Asistente virtual</button></li>
+      </ul>
+    </section>
+  </div>
+</section>
+
+<!-- ===================== ELECCIÓN DE DIGNATARIOS ===================== -->
+<section class="pantalla" data-ruta="eleccion" data-titulo="Elección de dignatarios" hidden>
+  <div class="heroe heroe--interno"><div class="contenedor">
+    <nav class="migas" data-migas aria-label="Ruta de navegación"></nav>
+    <div class="titulo-seccion"><h1>Elección de dignatarios</h1><p class="heroe__lead">Juntas de Acción Comunal y de Vivienda Comunal</p></div>
+  </div></div>
+  <div class="contenedor bloque">
+    <nav class="accesos" aria-label="Partes de la elección">
+      <a class="acceso" href="#/eleccion/etapas"><span class="acceso__ico"><svg class="ico" aria-hidden="true"><use href="#i-calendario"></use></svg></span><b>Etapas de la elección</b><small>Quién hace qué y cuándo</small></a>
+      <a class="acceso acceso--principal" href="#/eleccion/herramienta"><span class="acceso__ico"><svg class="ico" aria-hidden="true"><use href="#i-lapiz"></use></svg></span><b>Registrar la elección</b><small>Llene las actas paso a paso</small></a>
+      <a class="acceso" href="#/eleccion/calculadora"><span class="acceso__ico"><svg class="ico" aria-hidden="true"><use href="#i-calculadora"></use></svg></span><b>Calculadora del cociente</b><small>Cuántos cargos gana cada plancha</small></a>
+      <a class="acceso" href="#/documentos/formatos"><span class="acceso__ico"><svg class="ico" aria-hidden="true"><use href="#i-descargar"></use></svg></span><b>Formatos en Word</b><small>Actas y listados en blanco</small></a>
+      <a class="acceso" href="#/eleccion/devoluciones"><span class="acceso__ico"><svg class="ico" aria-hidden="true"><use href="#i-alerta"></use></svg></span><b>Causas de devolución</b><small>Errores que debe evitar</small></a>
+      <a class="acceso" href="#/eleccion/despues"><span class="acceso__ico"><svg class="ico" aria-hidden="true"><use href="#i-balanza"></use></svg></span><b>Después de la elección</b><small>Inscribir, impugnar y empalme</small></a>
+    </nav>
+  </div>
+</section>
+
+<section class="pantalla" data-ruta="eleccion/etapas" data-titulo="Etapas" hidden>
+  <div class="heroe heroe--interno"><div class="contenedor">
+    <nav class="migas" data-migas aria-label="Ruta de navegación"></nav>
+    <div class="titulo-seccion"><h1>Etapas de la elección</h1><p class="heroe__lead">Toque cada etapa para ver quién hace qué.</p></div>
+  </div></div>
+  <div class="contenedor bloque">
+    <ol class="linea" id="lineaTiempo"></ol>
+    <div class="linea-detalle" id="lineaDetalle" aria-live="polite"></div>
+    <details class="mas-info"><summary>🎬 Ver el video del proceso completo</summary><div class="video" data-video="eleccion"></div></details>
+  </div>
+</section>
+
+<section class="pantalla" data-ruta="eleccion/herramienta" data-titulo="Registrar la elección" hidden>
+  <div class="heroe heroe--interno"><div class="contenedor">
+    <nav class="migas" data-migas aria-label="Ruta de navegación"></nav>
+    <div class="titulo-seccion"><h1>Registrar la elección</h1><p class="heroe__lead">Un paso por pantalla. Lo que escriba se guarda solo en este equipo.</p></div>
+    <div class="aviso aviso--clave"><b>🚦 Prevalidación no es aprobación.</b> La página revisa sus datos antes de imprimir. La revisión oficial la hace la Dirección.</div>
+  </div></div>
+  <div class="contenedor bloque" id="formulario"><div id="formularioApp"></div></div>
+</section>
+
+<section class="pantalla" data-ruta="eleccion/calculadora" data-titulo="Calculadora del cociente" hidden>
+  <div class="heroe heroe--interno"><div class="contenedor">
+    <nav class="migas" data-migas aria-label="Ruta de navegación"></nav>
+    <div class="titulo-seccion"><h1>Calculadora del cociente electoral</h1><p class="heroe__lead">Escriba los votos y vea cuántos cargos gana cada plancha.</p></div>
+  </div></div>
+  <div class="contenedor bloque"><div id="calcApp" class="calc"></div></div>
+</section>
+
+<section class="pantalla" data-ruta="eleccion/devoluciones" data-titulo="Causas de devolución" hidden>
+  <div class="heroe heroe--interno"><div class="contenedor">
+    <nav class="migas" data-migas aria-label="Ruta de navegación"></nav>
+    <div class="titulo-seccion"><h1>Causas de devolución</h1><p class="heroe__lead">Los errores más comunes y cómo evitarlos. Toque cada uno.</p></div>
+  </div></div>
+  <div class="contenedor bloque">
+    <div id="faqLista" class="faq"></div>
+    <p class="nota"><span class="etiqueta etiqueta--pendiente">Orden pendiente</span> El orden se ajustará con los datos reales de frecuencia de la Dirección.</p>
+  </div>
+</section>
+
+<section class="pantalla" data-ruta="eleccion/despues" data-titulo="Después de la elección" hidden>
+  <div class="heroe heroe--interno"><div class="contenedor">
+    <nav class="migas" data-migas aria-label="Ruta de navegación"></nav>
+    <div class="titulo-seccion"><h1>Después de la elección</h1><p class="heroe__lead">Qué sigue, en pocos pasos.</p></div>
+  </div></div>
+  <div class="contenedor bloque">
+    <div class="respuestas">
+      <article class="respuesta">
+        <h2>📨 Inscribir a los elegidos</h2>
+        <ol class="pasos-cortos"><li>Imprima y firme las actas</li><li>Escanéelas con los listados firmados</li><li>Envíelas al correo de la Dirección</li></ol>
+        <p class="respuesta__quien"><b>Quién la resuelve:</b> la Dirección de Participación Comunitaria y Ciudadana.</p>
+        <div class="respuesta__mas"><a class="btn btn--peque" href="#/eleccion/herramienta/paso-8">Ir a enviar</a></div>
+      </article>
+      <article class="respuesta">
+        <h2>⚖️ Impugnar una elección</h2>
+        <ol class="pasos-cortos"><li>Reúna el acta y las pruebas</li><li>Escriba qué pasó y qué regla no se cumplió</li><li>Preséntela dentro del plazo de sus estatutos</li></ol>
+        <p class="respuesta__quien"><b>Quién la resuelve:</b> primero, la Comisión de Convivencia y Conciliación de la Asocomunal (si no hay, la Dirección). Si apela, la entidad de inspección, vigilancia y control. Respuesta: hasta 4 meses.</p>
+        <details class="ver-norma"><summary>📖 Ver norma</summary>
+          <p>Ley 2166 de 2021 y Decreto 1501 de 2023. El Modelo de Estatutos 2024 (arts. 89 a 94) pide que la presenten <b>mínimo 5 afiliados</b> que estuvieron en la elección, dentro de los <b>10 días hábiles</b> siguientes. Revise lo que dicen los estatutos de su Junta: son los que mandan.</p></details>
+      </article>
+      <article class="respuesta">
+        <h2>🤝 Hacer el empalme</h2>
+        <ol class="pasos-cortos"><li>La junta saliente entrega documentos, bienes y cuentas</li><li>Entrega también su informe de gestión</li><li>Todo queda en un acta firmada por ambas juntas</li></ol>
+      </article>
+    </div>
+    <p class="enlaces-peque"><button type="button" class="enlace-boton" data-abrir-chat>💬 ¿Otra duda? Pregúntele al asistente</button></p>
+  </div>
+</section>
+
+<!-- ===================== MAPA (único) ===================== -->
+<section class="pantalla" data-ruta="mapa" data-titulo="Mapa" hidden>
+  <div class="heroe heroe--interno"><div class="contenedor">
+    <nav class="migas" data-migas aria-label="Ruta de navegación"></nav>
+    <div class="titulo-seccion"><h1>Mapa de atención por municipio</h1>
+    <p class="heroe__lead">Toque su municipio o escriba su nombre.</p></div>
+  </div></div>
+  <div class="contenedor bloque">
+    <div class="mapa-barra">
+      <label for="mapaBuscar" class="oculto">Buscar municipio</label>
+      <input id="mapaBuscar" list="mapaLista" placeholder="Escriba su municipio" autocomplete="off">
+      <datalist id="mapaLista"></datalist>
+      <button type="button" class="btn btn--claro btn--peque" id="mapaTodo" hidden>Ver todo Antioquia</button>
+    </div>
+    <div class="mapa-grid">
+      <div class="mapa-caja">
+        <svg id="mapaSvg" class="mapa-svg" role="img" aria-label="Mapa de los municipios de Antioquia por subregión"></svg>
+        <aside id="mapaInfo" class="mapa-info" hidden aria-live="polite"></aside>
+      </div>
+      <div>
+        <div id="mapaLeyenda" class="mapa-leyenda" aria-label="Subregiones (toque para acercar)"></div>
+        <div class="video" data-video="v4"></div>
+      </div>
+    </div>
+    <p class="nota">Límites: DANE, Marco Geoestadístico Nacional 2025. Los municipios en gris los atiende su alcaldía.</p>
+  </div>
+</section>
+
+<!-- ===================== FORMATOS Y GUÍAS ===================== -->
+<section class="pantalla" data-ruta="documentos" data-titulo="Formatos y guías" hidden>
+  <div class="heroe heroe--interno"><div class="contenedor">
+    <nav class="migas" data-migas aria-label="Ruta de navegación"></nav>
+    <div class="titulo-seccion"><h1>Formatos y guías</h1><p class="heroe__lead">Para descargar, imprimir o consultar.</p></div>
+  </div></div>
+  <div class="contenedor bloque">
+    <nav class="accesos accesos--tres" aria-label="Formatos y guías">
+      <a class="acceso" href="#/documentos/formatos"><span class="acceso__ico"><svg class="ico" aria-hidden="true"><use href="#i-descargar"></use></svg></span><b>Formatos en Word</b><small>Actas, planchas y listados en blanco</small></a>
+      <a class="acceso" href="#/documentos/guias"><span class="acceso__ico"><svg class="ico" aria-hidden="true"><use href="#i-libro"></use></svg></span><b>Guías paso a paso</b><small>Cómo usar la herramienta de registro</small></a>
+      <a class="acceso" href="#/documentos/consulta"><span class="acceso__ico"><svg class="ico" aria-hidden="true"><use href="#i-carpeta"></use></svg></span><b>Consultas oficiales</b><small>Cartilla, circular, SURCO y PQRSD</small></a>
+    </nav>
+  </div>
+</section>
+
+<section class="pantalla" data-ruta="documentos/formatos" data-titulo="Formatos en Word" hidden>
+  <div class="heroe heroe--interno"><div class="contenedor">
+    <nav class="migas" data-migas aria-label="Ruta de navegación"></nav>
+    <div class="titulo-seccion"><h1>Formatos oficiales en Word</h1><p class="heroe__lead">En blanco. La herramienta de registro llena las actas por usted.</p></div>
+  </div></div>
+  <div class="contenedor bloque">
+    <div class="aviso aviso--clave"><b>📋 Listados de asistencia:</b> imprímalo y llévelo a la reunión para que los asistentes firmen. Luego tómele una foto o escanéelo.</div>
+    <div id="listaDescargas" class="descargas"></div>
+  </div>
+</section>
+
+<section class="pantalla" data-ruta="documentos/guias" data-titulo="Guías" hidden>
+  <div class="heroe heroe--interno"><div class="contenedor">
+    <nav class="migas" data-migas aria-label="Ruta de navegación"></nav>
+    <div class="titulo-seccion"><h1>Guías paso a paso</h1><p class="heroe__lead">Para ver en pantalla, imprimir o descargar.</p></div>
+  </div></div>
+  <div class="contenedor bloque">
+    <div class="guias" id="listaGuias"></div>
+    <details class="mas-info"><summary>🎬 Videos cortos por etapa</summary><div class="videos-cortos" id="videosCortos"></div></details>
+  </div>
+</section>
+
+<section class="pantalla" data-ruta="documentos/consulta" data-titulo="Consultas oficiales" hidden>
+  <div class="heroe heroe--interno"><div class="contenedor">
+    <nav class="migas" data-migas aria-label="Ruta de navegación"></nav>
+    <div class="titulo-seccion"><h1>Consultas oficiales</h1><p class="heroe__lead">Documentos y sistemas de la Gobernación y del Ministerio.</p></div>
+  </div></div>
+  <div class="contenedor bloque">
+    <h2 class="sub">Documentos</h2>
+    <div class="fuentes fuentes--tres">
+      <a href="documentos/Afiche%20paso%20a%20paso%20-%20Elecciones%20comunales%202026.pdf" download><span>🗳️</span><b>Afiche paso a paso</b><small>PDF · 4 MB</small></a>
+      <a href="documentos/Circular%2009%20de%202025%20-%20Ministerio%20del%20Interior.pdf" download><span>📑</span><b>Circular 09 de 2025</b><small>Ministerio del Interior · PDF · 5 MB</small></a>
+      <a href="documentos/Cartilla%20ABC%20Comunal%20-%20Preparemonos%20para%20las%20elecciones.pdf" download><span>📘</span><b>Cartilla ABC Comunal</b><small>PDF · 19 MB (mejor con wifi)</small></a>
+    </div>
+    <h2 class="sub">Sistemas de consulta</h2>
+    <div class="fuentes">
+      <a href="https://surco.antioquia.gov.co/Surco/formularios/registroAfiliados/frmafiliadospublicados.xhtml" target="_blank" rel="noopener"><span>👥</span><b>SURCO · Afiliados</b><small>¿Quién está afiliado?</small></a>
+      <a href="https://surco.antioquia.gov.co/Surco/formularios/certificadosPublicados/frmcertificadospublicados.xhtml" target="_blank" rel="noopener"><span>📜</span><b>SURCO · Certificados</b><small>Dignatarios inscritos</small></a>
+      <a href="https://mercurio.antioquia.gov.co/mercurio/ServletPublic?operacion=9&amp;codIndice=00126&amp;idAsunto=PQRSDW&amp;indicador=1&amp;logueoPqr=S" target="_blank" rel="noopener"><span>📮</span><b>PQRSD · MERCURIO</b><small>Peticiones, quejas y reclamos</small></a>
+      <a href="https://www.antioquia.gov.co/direccion-de-participacion-comunitaria-y-ciudadana" target="_blank" rel="noopener"><span>🌐</span><b>Página de la Dirección</b><small>antioquia.gov.co</small></a>
+    </div>
+    <details class="mas-info"><summary>🎬 Video: ¿dónde consultar información oficial?</summary><div class="video" data-video="v5"></div></details>
+  </div>
+</section>
+
+<!-- ===================== APRENDA ===================== -->
+<section class="pantalla" data-ruta="aprenda" data-titulo="Aprenda" hidden>
+  <div class="heroe heroe--interno"><div class="contenedor">
+    <nav class="migas" data-migas aria-label="Ruta de navegación"></nav>
+    <div class="titulo-seccion"><h1>Aprenda</h1><p class="heroe__lead">Lo básico de la acción comunal, en pocas palabras.</p></div>
+  </div></div>
+  <div class="contenedor bloque">
+    <nav class="accesos accesos--tres" aria-label="Aprenda">
+      <a class="acceso" href="#/aprenda/accion-comunal"><span class="acceso__ico"><svg class="ico" aria-hidden="true"><use href="#i-personas"></use></svg></span><b>La acción comunal</b><small>Qué es, cómo se organiza y qué hace la Gobernación</small></a>
+      <a class="acceso" href="#/aprenda/juego"><span class="acceso__ico"><svg class="ico" aria-hidden="true"><use href="#i-diana"></use></svg></span><b>Preguntas de repaso</b><small>Ponga a prueba lo que sabe</small></a>
+      <a class="acceso" href="#/aprenda/glosario"><span class="acceso__ico"><svg class="ico" aria-hidden="true"><use href="#i-texto"></use></svg></span><b>Glosario</b><small>Palabras comunales explicadas</small></a>
+    </nav>
+  </div>
+</section>
+
+<section class="pantalla" data-ruta="aprenda/accion-comunal" data-titulo="La acción comunal" hidden>
+  <div class="heroe heroe--interno"><div class="contenedor">
+    <nav class="migas" data-migas aria-label="Ruta de navegación"></nav>
+    <div class="titulo-seccion"><h1>La acción comunal</h1><p class="heroe__lead">Es la comunidad organizada para mejorar su barrio o vereda.</p></div>
+  </div></div>
+  <div class="contenedor">
+    <section class="bloque" aria-labelledby="t-que-es">
+      <div class="dos-col dos-col--video">
+        <div>
+          <h2 id="t-que-es">¿Qué hace una Junta?</h2>
+          <div class="iconos3">
+            <div><span>🤝</span>Se une</div><div><span>🗣️</span>Decide en asamblea</div><div><span>🏗️</span>Trabaja por su territorio</div>
+          </div>
+        </div>
+        <div class="video" data-video="v1"></div>
+      </div>
+    </section>
+    <section class="bloque" aria-labelledby="t-quienes">
+      <h2 id="t-quienes">Cómo se organiza una Junta</h2>
+      <div class="dos-col dos-col--video">
+        <div class="organigrama" aria-label="Estructura de una Junta de Acción Comunal">
+          <div class="org org--raiz"><span>👥</span><b>Asamblea general</b><small>Todos los afiliados</small></div>
+          <div class="org-fila">
+            <div class="org"><span>👔</span><b>Directiva</b><small>Presidente, vice, tesorero y secretario</small></div>
+            <div class="org"><span>🔍</span><b>Fiscalía</b><small>Fiscal y suplente</small></div>
+            <div class="org"><span>🤝</span><b>Conciliación</b><small>3 conciliadores</small></div>
+            <div class="org"><span>📣</span><b>Delegados</b><small>3 y sus suplentes</small></div>
+            <div class="org"><span>🛠️</span><b>Comisiones</b><small>Mínimo 3, con coordinador</small></div>
+          </div>
+        </div>
+        <div class="video" data-video="v2"></div>
+      </div>
+    </section>
+    <section class="bloque" aria-labelledby="t-hace">
+      <div class="dos-col dos-col--video">
+        <div>
+          <h2 id="t-hace">Qué hace la Gobernación</h2>
+          <div class="tarjetas tarjetas--dos">
+            <div class="tarjeta tarjeta--icono"><span>🧭</span><b>Acompaña</b><small>Profesionales de zona en los municipios</small></div>
+            <div class="tarjeta tarjeta--icono"><span>📄</span><b>Reconoce</b><small>Inscribe a los dignatarios elegidos</small></div>
+            <div class="tarjeta tarjeta--icono"><span>⚖️</span><b>Vigila</b><small>Inspección, vigilancia y control</small></div>
+            <div class="tarjeta tarjeta--icono"><span>🎓</span><b>Forma</b><small>Guías, talleres y esta página</small></div>
+          </div>
+        </div>
+        <div class="video" data-video="v3"></div>
+      </div>
+    </section>
+  </div>
+</section>
+
+<section class="pantalla" data-ruta="aprenda/juego" data-titulo="Preguntas de repaso" hidden>
+  <div class="heroe heroe--interno"><div class="contenedor">
+    <nav class="migas" data-migas aria-label="Ruta de navegación"></nav>
+    <div class="titulo-seccion"><h1>Preguntas de repaso</h1><p class="heroe__lead">Elija un juego. Cada respuesta trae su explicación.</p></div>
+  </div></div>
+  <div class="contenedor bloque"><div id="juegoApp" class="juego"></div></div>
+</section>
+
+<section class="pantalla" data-ruta="aprenda/glosario" data-titulo="Glosario" hidden>
+  <div class="heroe heroe--interno"><div class="contenedor">
+    <nav class="migas" data-migas aria-label="Ruta de navegación"></nav>
+    <div class="titulo-seccion"><h1>Glosario</h1><p class="heroe__lead">Escriba una palabra para buscarla.</p></div>
+  </div></div>
+  <div class="contenedor bloque">
+    <input id="glosarioBuscar" class="buscador" placeholder="Buscar una palabra" aria-label="Buscar en el glosario">
+    <div id="glosario" class="glosario"></div>
+  </div>
+</section>
+
+<!-- ===================== ESTATUTOS ===================== -->
+<section class="pantalla" data-ruta="estatutos" data-titulo="Estatutos" hidden>
+  <div class="heroe heroe--interno"><div class="contenedor">
+    <nav class="migas" data-migas aria-label="Ruta de navegación"></nav>
+    <div class="titulo-seccion"><h1>Reforma de estatutos</h1><p class="heroe__lead"><span class="etiqueta etiqueta--pronto">Próximamente</span></p></div>
+  </div></div>
+  <div class="contenedor bloque">
+    <div class="construccion">
+      <img src="img/mascota/lista.webp" alt="" class="mascota" width="120" height="183">
+      <div>
+        <h2>Requisitos básicos</h2>
+        <ul class="lista-check">
+          <li>Los estatutos son las reglas internas de la Junta.</li>
+          <li>La asamblea se instala con la <b>mitad más uno</b> de los afiliados.</li>
+          <li>La reforma se aprueba con <b>dos tercios (2/3)</b> de los presentes.</li>
+          <li><b>No</b> se puede usar el quórum supletorio.</li>
+        </ul>
+        <button type="button" class="enlace-boton" data-abrir-chat>💬 Pregúntele al asistente</button>
+      </div>
+    </div>
+    <!-- Espacio reservado: guía, formatos y herramienta de reforma de estatutos -->
+  </div>
+</section>
+
+<!-- ===================== VISTA DE LA DIRECCIÓN (demostración) ===================== -->
+<section class="pantalla" data-ruta="direccion" data-titulo="Vista de la Dirección" hidden>
+  <div class="heroe heroe--interno"><div class="contenedor">
+    <nav class="migas" data-migas aria-label="Ruta de navegación"></nav>
+    <div class="titulo-seccion"><h1>Seguimiento de elecciones</h1>
+    <p class="heroe__lead">Demostración de uso interno: qué juntas hacen el proceso y en qué estado está su prevalidación.</p></div></div></div>
+  <div class="contenedor bloque">
+    <div class="panel-resumen">
+      <button type="button" data-pestana-panel="proceso" aria-selected="true"><b id="panelNProceso">0</b>En proceso</button>
+      <button type="button" data-pestana-panel="terminado" aria-selected="false"><b id="panelNTerminado">0</b>Terminados (correo enviado)</button>
+    </div>
+    <div id="panelTabla" class="tabla-registros"></div>
+    <div class="botones"><button type="button" class="btn btn--claro" id="panelEjemplos">Cargar ejemplos ficticios</button><button type="button" class="btn btn--claro" id="panelCsv">Descargar CSV</button><button type="button" class="btn btn--texto" id="panelBorrar">Borrar</button></div>
+    <div class="aviso aviso--info"><b>¿Cómo funcionaría de verdad?</b> "En proceso" llega por un reporte automático de la herramienta (ID, junta, municipio, paso y estado, sin cédulas), sin escribir al correo. "Terminados" se toma de los correos con asunto <code>[ELECCIÓN DIGNATARIOS]</code> que llegan al buzón de la Dirección, con un flujo de Power Automate. Detalles en <code>js/formulario.js</code>.</div>
+  </div>
+</section>
+
+</main>
+
+<!-- Pie con la estructura del de antioquia.gov.co: marca, horario, líneas, dirección, enlaces legales y franja GOV.CO -->
+<footer class="pie">
+  <div class="contenedor pie__in">
+    <div class="pie__marca">
+      <img src="img/logo-gobernacion.webp" alt="Gobernación de Antioquia, República de Colombia" width="159" height="70" loading="lazy">
+      <b>Dirección de Participación Comunitaria y Ciudadana</b>
+      <span>Secretaría de Gobierno</span>
+    </div>
+    <div class="pie__col">
+      <svg class="ico" aria-hidden="true"><use href="#i-reloj"></use></svg>
+      <p><b>Horario:</b>Lunes a jueves de 7:30 a. m. a 12:00 m. y de 1:30 p. m. a 5:30 p. m.<br>Viernes de 7:30 a. m. a 12:00 m. y de 1:30 p. m. a 4:30 p. m.</p>
+    </div>
+    <div class="pie__col">
+      <svg class="ico" aria-hidden="true"><use href="#i-telefono"></use></svg>
+      <p><b>Conmutador y línea de atención:</b>+57 604 409 9000<br>01 8000 41 9000</p>
+    </div>
+    <div class="pie__col">
+      <svg class="ico" aria-hidden="true"><use href="#i-ubicacion"></use></svg>
+      <p><b>Dirección:</b>Calle 42B N.º 52-106, Centro Administrativo Departamental José María Córdova, La Alpujarra, Medellín</p>
+      <svg class="ico" aria-hidden="true"><use href="#i-correo"></use></svg>
+      <p><b>Correo de la Dirección:</b><a href="mailto:organismoscomunales@antioquia.gov.co">organismoscomunales@antioquia.gov.co</a></p>
+    </div>
+  </div>
+  <div class="contenedor pie__legal">
+    <a href="https://compilacionjuridica.antioquia.gov.co/compilacion/compilacion/docs/d_gobant_2022070004096_2022.htm" target="_blank" rel="noopener">Protección de datos personales</a><span>|</span>
+    <a href="https://mercurio.antioquia.gov.co/mercurio/ServletPublic?operacion=9&amp;codIndice=00126&amp;idAsunto=PQRSDW&amp;indicador=1&amp;logueoPqr=S" target="_blank" rel="noopener">PQRSD</a><span>|</span>
+    <a href="https://www.antioquia.gov.co/" target="_blank" rel="noopener">antioquia.gov.co</a><span>|</span>
+    <a href="#/direccion">Vista de la Dirección (demostración)</a>
+  </div>
+  <div class="pie__barra">
+    <div class="contenedor">
+      <a class="govco" href="https://www.gov.co/" target="_blank" rel="noopener">GOV.CO</a>
+      <span class="pie__nota">Prototipo presentado como propuesta de mejora</span>
+    </div>
+  </div>
+</footer>
+
+<button type="button" class="chat-flotante" data-abrir-chat aria-label="Abrir el asistente virtual"><svg class="ico" aria-hidden="true"><use href="#i-chat"></use></svg><span>Asistente virtual</span></button>
+<!-- Asistente: solo como botón flotante, disponible en todas las pantallas -->
+<div class="chat-ventana" id="chatVentana" role="dialog" aria-modal="false" aria-labelledby="chatTitulo" hidden>
+  <div class="chat-ventana__barra"><strong id="chatTitulo">Asistente comunal</strong><button type="button" class="chat-ventana__cerrar" id="chatCerrar" aria-label="Cerrar el asistente">✕</button></div>
+  <div class="chat-ventana__slot">
+    <div id="chat" class="chat">
+      <div class="chat__mensajes" id="chatMensajes" role="log" aria-live="polite" aria-label="Conversación con el asistente"></div>
+      <form class="chat__form" id="chatForm">
+        <label for="chatEntrada" class="oculto">Escriba su pregunta</label>
+        <input id="chatEntrada" type="text" placeholder="Escriba su pregunta…" autocomplete="off" maxlength="300">
+        <button type="submit" class="btn">Enviar</button>
+      </form>
+    </div>
+  </div>
+</div>
+<datalist id="catalogoComisiones"></datalist>
+
+<script src="js/iconos.js?v=7"></script>
+<script src="js/rutas.js?v=7"></script>
+<script src="js/datos.js?v=7"></script>
+<script src="datos/mapa.js?v=7"></script>
+<script src="js/videos.js?v=7"></script>
+<script src="js/contenido.js?v=7"></script>
+<script src="js/mapa.js?v=7"></script>
+<script src="js/word.js?v=7"></script>
+<script src="js/formulario.js?v=7"></script>
+<script src="js/norma.js?v=7"></script>
+<script src="js/mapa-app.js?v=7"></script>
+<script src="js/juego.js?v=7"></script>
+<script src="js/calculadora.js?v=7"></script>
+<script src="js/panel.js?v=7"></script>
+<script src="js/chatbot.js?v=7"></script>
+<script src="js/app.js?v=7"></script>
+</body>
+</html>

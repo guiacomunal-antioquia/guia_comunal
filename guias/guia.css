@@ -1,0 +1,19 @@
+*{box-sizing:border-box}body{font-family:Poppins,Arial,sans-serif;color:#212529;margin:0;background:#fff;line-height:1.5}
+.portada{display:flex;justify-content:space-between;align-items:center;gap:20px;background:#0b5640;color:#fff;padding:28px 36px}
+.portada .ceja{font-size:12px;letter-spacing:.06em;text-transform:uppercase;opacity:.9;margin:0}.portada .num{display:inline-block;background:#3AF9A2;color:#0b5640;font-weight:700;border-radius:99px;padding:2px 12px;margin:10px 0 4px}
+.portada h1{margin:0;font-size:30px;line-height:1.2}.portada .sub{margin:4px 0 10px;font-size:17px}.portada .aviso{background:rgba(255,255,255,.15);border-radius:10px;padding:8px 12px;margin:0}
+.mascota{width:120px;height:auto}main{max-width:1000px;margin:0 auto;padding:20px}
+.paso{background:#fff;border-radius:7px;padding:20px 22px;margin:0 0 18px;border:1px solid #dee2e6;break-inside:avoid}
+.paso h2{margin:0 0 12px;color:#0b5640;font-size:21px}.paso__grid{display:grid;grid-template-columns:1.25fr 1fr;gap:20px;align-items:start}
+.captura{width:100%;border:1px solid #dee2e6;border-radius:12px}.puntos{padding-left:0;list-style:none;counter-reset:n;margin:0}
+.puntos li{counter-increment:n;position:relative;padding:0 0 12px 42px;font-size:16px}.puntos li::before{content:counter(n);position:absolute;left:0;top:-2px;width:30px;height:30px;border-radius:50%;background:#0b5640;color:#fff;font-weight:700;display:grid;place-items:center}
+.ojo{display:flex;gap:12px;align-items:center;background:#f8f9fa;border-left:5px solid #f28e18;border-radius:0 7px 7px 0;padding:10px 14px;margin-top:8px}.ojo img{width:60px;height:auto}.ojo p{margin:0}
+.tarjetas{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:10px}.tarjeta{background:#f8f9fa;border-top:3px solid #018d38;border-radius:7px;padding:14px}.tarjeta span{font-size:28px;display:block}.tarjeta p{margin:4px 0 0;font-size:14px}
+.chequeo ul{list-style:none;padding:0;margin:0}.chequeo li{display:flex;gap:12px;align-items:center;font-size:17px;padding:6px 0}.caja{width:24px;height:24px;border:2px solid #0b5640;border-radius:6px;flex:none}
+.portada .normas{font-size:13px;opacity:.95;margin:8px 0 0}
+.ico{width:1.2em;height:1.2em;vertical-align:-.22em}.ico-envoltura{display:inline-flex}.tarjeta span{color:#018d38}.paso h2 .ico,.norma .ico{color:#018d38}.portada .ico{color:#fff}
+.punto{display:inline-block;width:.8em;height:.8em;border-radius:50%;vertical-align:-.05em}.punto--verde{background:#018d38}.punto--amarillo{background:#f28e18}.punto--rojo{background:#dc3545}
+.norma{border-left:5px solid #0b5640;background:#f8f9fa;border-radius:0 12px 12px 0;padding:10px 14px;margin-top:10px}.norma>b{color:#0b5640;font-size:13px;letter-spacing:.04em;text-transform:uppercase}.norma p{margin:4px 0 0;font-size:14px}.fuente{display:inline-block;background:#fff;color:#0b5640;border-radius:6px;padding:0 6px;font-size:12px;font-weight:600}
+footer{text-align:center;font-size:12px;color:#6c757d;padding:10px 0 24px}
+@media(max-width:760px){.paso__grid{grid-template-columns:1fr}.portada{padding:20px}.portada h1{font-size:24px}.mascota{width:80px}}
+@media print{@page{size:letter;margin:12mm}body{background:#fff}main{padding:10px 0}.paso{break-inside:auto;padding:14px 16px}.paso h2{break-after:avoid}.paso__grid{grid-template-columns:1fr 1fr;gap:14px}.captura{max-height:115mm;width:auto;max-width:100%;break-inside:avoid}.puntos li{font-size:14px}.portada{padding:18px 24px}.portada{-webkit-print-color-adjust:exact;print-color-adjust:exact}.paso{border-color:#bbb}.puntos li::before,.tarjeta,.ojo,.portada .num{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
