@@ -218,7 +218,7 @@
       if (ctx.municipio) responderMunicipio(ctx.municipio, e);
       else {
         ctx.esperandoMunicipio = e;
-        burbuja('<p>📍 ¿En qué municipio está la Junta? Así te digo quién la atiende.</p>');
+        burbuja('<p>📍 ¿En qué municipio está tu organismo comunal (la Junta o la Asocomunal)? Así te digo quién lo atiende.</p>');
       }
       return;
     }
@@ -290,7 +290,7 @@
 
   function menuInicial() {
     burbuja(`<p>¡Hola! Soy el asistente de la Dirección de Participación Comunitaria y Ciudadana. Escribe tu pregunta como la dirías, o elige un tema.</p>
-      <p class="msj__nota">🔒 No escribas cédulas, contraseñas ni datos bancarios. <a href="${esc(window.ENLACES.politicaDatos)}" target="_blank" rel="noopener">Política de tratamiento de datos</a></p>`);
+      <p class="msj__nota">🔒 No escribas números de documento de identidad, contraseñas ni datos bancarios. <a href="${esc(window.ENLACES.politicaDatos)}" target="_blank" rel="noopener">Política de tratamiento de datos</a></p>`);
     temasComoChips();
   }
   function temasComoChips() {
@@ -310,7 +310,7 @@
 
     if (RE.menu.test(n)) { burbuja('<p>Claro. Estos son los temas:</p>'); temasComoChips(); return; }
     if (RE.gracias.test(n) && n.split(' ').length <= 4) { burbuja('<p>¡Con gusto! Si te surge otra duda, aquí estoy.</p>'); return; }
-    if (RE.despedida.test(n)) { burbuja('<p>¡Hasta pronto! Mucho éxito con tu Junta.</p>'); return; }
+    if (RE.despedida.test(n)) { burbuja('<p>¡Hasta pronto! Mucho éxito con tu organismo comunal.</p>'); return; }
     if (RE.fuente.test(n) && ctx.ultimo) {
       burbuja(`<p>Esa respuesta se basa en: <strong>${esc(ctx.ultimo.f || 'Ley 2166 de 2021')}</strong>, y en el Manual Comunal de la Gobernación de Antioquia (2025).</p>`);
       return;
@@ -380,7 +380,7 @@
       return;
     }
     responderEntrada(top.e);
-    if (mu && !top.e.municipio) burbuja(`<p class="msj__nota">📍 Anoté que tu Junta está en ${esc(mu.m)} (${esc(mu.sub)}).</p>`);
+    if (mu && !top.e.municipio) burbuja(`<p class="msj__nota">📍 Anoté que tu organismo comunal está en ${esc(mu.m)} (${esc(mu.sub)}).</p>`);
   }
 
   /* ---------- Arranque ---------- */

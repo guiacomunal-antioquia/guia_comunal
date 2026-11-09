@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/estilos.css?v=7">
+<link rel="stylesheet" href="css/estilos.css?v=8">
 <link rel="icon" href="img/logo-gobernacion.webp">
 </head>
 <body>
@@ -96,7 +96,7 @@
 <section class="pantalla" data-ruta="eleccion" data-titulo="Elección de dignatarios" hidden>
   <div class="heroe heroe--interno"><div class="contenedor">
     <nav class="migas" data-migas aria-label="Ruta de navegación"></nav>
-    <div class="titulo-seccion"><h1>Elección de dignatarios</h1><p class="heroe__lead">Juntas de Acción Comunal y de Vivienda Comunal</p></div>
+    <div class="titulo-seccion"><h1>Elección de dignatarios</h1><p class="heroe__lead">Juntas de Acción Comunal, Juntas de Vivienda Comunitaria y Asocomunales</p></div>
   </div></div>
   <div class="contenedor bloque">
     <nav class="accesos" aria-label="Partes de la elección">
@@ -166,13 +166,13 @@
       <article class="respuesta">
         <h2>⚖️ Impugnar una elección</h2>
         <ol class="pasos-cortos"><li>Reúna el acta y las pruebas</li><li>Escriba qué pasó y qué regla no se cumplió</li><li>Preséntela dentro del plazo de sus estatutos</li></ol>
-        <p class="respuesta__quien"><b>Quién la resuelve:</b> primero, la Comisión de Convivencia y Conciliación de la Asocomunal (si no hay, la Dirección). Si apela, la entidad de inspección, vigilancia y control. Respuesta: hasta 4 meses.</p>
+        <p class="respuesta__quien"><b>Quién la resuelve:</b> primero, la Comisión de Convivencia y Conciliación del organismo de grado superior: para una JAC o JVC, la Asocomunal (si no hay, la Dirección); para una Asocomunal, la Federación. Si apela, la entidad de inspección, vigilancia y control. Respuesta: hasta 4 meses.</p>
         <details class="ver-norma"><summary>📖 Ver norma</summary>
-          <p>Ley 2166 de 2021 y Decreto 1501 de 2023. El Modelo de Estatutos 2024 (arts. 89 a 94) pide que la presenten <b>mínimo 5 afiliados</b> que estuvieron en la elección, dentro de los <b>10 días hábiles</b> siguientes. Revise lo que dicen los estatutos de su Junta: son los que mandan.</p></details>
+          <p>Ley 2166 de 2021 y Decreto 1501 de 2023. El Modelo de Estatutos 2024 (arts. 89 a 94) pide que la presenten <b>mínimo 5 afiliados</b> que estuvieron en la elección, dentro de los <b>10 días hábiles</b> siguientes. Revise lo que dicen los estatutos de su organismo comunal: son los que mandan.</p></details>
       </article>
       <article class="respuesta">
         <h2>🤝 Hacer el empalme</h2>
-        <ol class="pasos-cortos"><li>La junta saliente entrega documentos, bienes y cuentas</li><li>Entrega también su informe de gestión</li><li>Todo queda en un acta firmada por ambas juntas</li></ol>
+        <ol class="pasos-cortos"><li>Los dignatarios salientes entregan documentos, bienes y cuentas</li><li>Entregan también su informe de gestión</li><li>Todo queda en un acta firmada por salientes y entrantes</li></ol>
       </article>
     </div>
     <p class="enlaces-peque"><button type="button" class="enlace-boton" data-abrir-chat>💬 ¿Otra duda? Pregúntele al asistente</button></p>
@@ -363,7 +363,7 @@
       <div>
         <h2>Requisitos básicos</h2>
         <ul class="lista-check">
-          <li>Los estatutos son las reglas internas de la Junta.</li>
+          <li>Los estatutos son las reglas internas del organismo comunal.</li>
           <li>La asamblea se instala con la <b>mitad más uno</b> de los afiliados.</li>
           <li>La reforma se aprueba con <b>dos tercios (2/3)</b> de los presentes.</li>
           <li><b>No</b> se puede usar el quórum supletorio.</li>
@@ -380,15 +380,18 @@
   <div class="heroe heroe--interno"><div class="contenedor">
     <nav class="migas" data-migas aria-label="Ruta de navegación"></nav>
     <div class="titulo-seccion"><h1>Seguimiento de elecciones</h1>
-    <p class="heroe__lead">Demostración de uso interno: qué juntas hacen el proceso y en qué estado está su prevalidación.</p></div></div></div>
+    <p class="heroe__lead">Demostración de uso interno: qué organismos comunales hacen el proceso, en qué estado está su prevalidación y el historial de sus solicitudes.</p></div></div></div>
   <div class="contenedor bloque">
+    <div class="aviso aviso--clave"><b>Esto es una demostración.</b> El prototipo no guarda la información en la Gobernación: esta vista solo muestra lo registrado en <b>este navegador</b>. El registro oficial es el correo radicado en MERCURIO.</div>
     <div class="panel-resumen">
       <button type="button" data-pestana-panel="proceso" aria-selected="true"><b id="panelNProceso">0</b>En proceso</button>
       <button type="button" data-pestana-panel="terminado" aria-selected="false"><b id="panelNTerminado">0</b>Terminados (correo enviado)</button>
     </div>
+    <div class="panel-filtros" id="panelFiltros"></div>
     <div id="panelTabla" class="tabla-registros"></div>
-    <div class="botones"><button type="button" class="btn btn--claro" id="panelEjemplos">Cargar ejemplos ficticios</button><button type="button" class="btn btn--claro" id="panelCsv">Descargar CSV</button><button type="button" class="btn btn--texto" id="panelBorrar">Borrar</button></div>
-    <div class="aviso aviso--info"><b>¿Cómo funcionaría de verdad?</b> "En proceso" llega por un reporte automático de la herramienta (ID, junta, municipio, paso y estado, sin cédulas), sin escribir al correo. "Terminados" se toma de los correos con asunto <code>[ELECCIÓN DIGNATARIOS]</code> que llegan al buzón de la Dirección, con un flujo de Power Automate. Detalles en <code>js/formulario.js</code>.</div>
+    <div class="botones"><button type="button" class="btn btn--claro" id="panelEjemplos">Cargar ejemplos ficticios</button><button type="button" class="btn btn--claro" id="panelXlsx">Descargar Excel</button><button type="button" class="btn btn--claro" id="panelCsv">Descargar CSV</button><button type="button" class="btn btn--texto" id="panelBorrar">Borrar</button></div>
+    <p class="ayuda">Las descargas incluyen todas las versiones de lo que esté filtrado.</p>
+    <div class="aviso aviso--info"><b>¿Cómo funcionaría de verdad?</b> "En proceso" llega por un reporte automático de la herramienta (ID, organismo, municipio, paso y estado, sin documentos de identidad), sin escribir al correo. "Terminados" se toma de los correos con asunto <code>[ELECCIÓN DIGNATARIOS - NUEVA v1]</code> o <code>[… - SUBSANACIÓN v2]</code> que llegan al buzón de la Dirección, con un flujo de Power Automate. Integrado con SURCO, sería una base de datos con una fila por solicitud y versión (estado, fecha y período); los períodos anteriores quedan como histórico. Detalles en <code>js/formulario.js</code> y en el LEEME.</div>
   </div>
 </section>
 
@@ -448,21 +451,21 @@
 </div>
 <datalist id="catalogoComisiones"></datalist>
 
-<script src="js/iconos.js?v=7"></script>
-<script src="js/rutas.js?v=7"></script>
-<script src="js/datos.js?v=7"></script>
-<script src="datos/mapa.js?v=7"></script>
-<script src="js/videos.js?v=7"></script>
-<script src="js/contenido.js?v=7"></script>
-<script src="js/mapa.js?v=7"></script>
-<script src="js/word.js?v=7"></script>
-<script src="js/formulario.js?v=7"></script>
-<script src="js/norma.js?v=7"></script>
-<script src="js/mapa-app.js?v=7"></script>
-<script src="js/juego.js?v=7"></script>
-<script src="js/calculadora.js?v=7"></script>
-<script src="js/panel.js?v=7"></script>
-<script src="js/chatbot.js?v=7"></script>
-<script src="js/app.js?v=7"></script>
+<script src="js/iconos.js?v=8"></script>
+<script src="js/rutas.js?v=8"></script>
+<script src="js/datos.js?v=8"></script>
+<script src="datos/mapa.js?v=8"></script>
+<script src="js/videos.js?v=8"></script>
+<script src="js/contenido.js?v=8"></script>
+<script src="js/mapa.js?v=8"></script>
+<script src="js/word.js?v=8"></script>
+<script src="js/formulario.js?v=8"></script>
+<script src="js/norma.js?v=8"></script>
+<script src="js/mapa-app.js?v=8"></script>
+<script src="js/juego.js?v=8"></script>
+<script src="js/calculadora.js?v=8"></script>
+<script src="js/panel.js?v=8"></script>
+<script src="js/chatbot.js?v=8"></script>
+<script src="js/app.js?v=8"></script>
 </body>
 </html>

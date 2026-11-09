@@ -100,9 +100,9 @@
 
   /* ---------- Guías corregidas y videos cortos ---------- */
   const GUIAS = [
-    ['g1', 'Guía 1', 'Antes de empezar y la cédula', '🪪', 'Qué tener a la mano y cómo copiar bien los datos.'],
+    ['g1', 'Guía 1', 'Antes de empezar y el documento de identidad', '🪪', 'Qué tener a la mano y cómo copiar bien los datos.'],
     ['g2', 'Guía 2', 'Asamblea, Tribunal y asistencia', '⚖️', 'Pasos 1 a 4 de la herramienta.'],
-    ['g3', 'Guía 3', 'Planchas, votación y escrutinio', '🗳️', 'Una o varias planchas, cociente y junta elegida.'],
+    ['g3', 'Guía 3', 'Planchas, votación y escrutinio', '🗳️', 'Una o varias planchas, cociente y dignatarios elegidos.'],
     ['g4', 'Guía 4', 'Revisar, imprimir y enviar', '📨', 'Semáforo, formatos y envío a la Dirección.']
   ];
   $('#listaGuias').innerHTML = GUIAS.map(([id, n, t, ico, d]) => `<article class="guia" id="${id}"><span class="guia__ico" aria-hidden="true">${ico}</span><p class="ceja">${n}</p><h3>${esc(t)}</h3><p>${esc(d)}</p>

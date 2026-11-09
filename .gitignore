@@ -1,0 +1,6 @@
+﻿# Instrucciones de trabajo con Claude (no se publican)
+CLAUDE.md
+.claude/
+# Scripts y archivos de trabajo para regenerar guías, plantillas y capturas
+_mantenimiento/
+__pycache__/

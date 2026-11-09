@@ -789,8 +789,10 @@ a.descarga small { display: block; color: var(--tenue); font-weight: 400; }
   .personas td { padding: 0; }
   .personas td.rol { grid-column: 1 / -1; }
   .personas td[data-col]::before { content: attr(data-col); display: block; font-size: .75rem; color: var(--tenue); }
-  .personas td.ancho, .personas td[data-col="Nombre completo"], .personas td[data-col="Cédula"], .personas td[data-col="Apellidos"],
-  .personas td[data-col="Nombres"], .personas td[data-col="Comisión"] { grid-column: 1 / -1; }
+  .personas td.ancho, .personas td[data-col="Nombre completo"], .personas td[data-col="Apellidos"],
+  .personas td[data-col="Nombres"], .personas td[data-col="Comisión"], .personas td[data-col="Secretaría"],
+  .personas td[data-col="Tipo de documento"], .personas td[data-col="Número de documento"] { grid-column: 1 / -1; }
+  .personas select.tdoc { min-width: 0; width: 100%; }
   .personas td.mini { display: flex; align-items: center; gap: 8px; font-size: .875rem; }
   .personas td.mini::before { order: 2; }
   .subir { padding: 18px; }
@@ -973,4 +975,29 @@ a.descarga small { display: block; color: var(--tenue); font-weight: 400; }
   .mapa-info__persona { grid-template-columns: 96px 1fr; }
   .mapa-info__persona img { width: 96px; height: 120px; }
   body.chat-abierto .chat-flotante { display: none; }
+}
+/* ===== Versión 8: documento de identidad, organismo, subsanaciones, calculadora con nombres y panel ===== */
+.personas select.tdoc { min-height: 40px; padding: 6px 8px; min-width: 12rem; max-width: 15rem; font-size: .875rem; }
+.af-guardado { margin: 8px 0 0; font-size: .8125rem; color: var(--tenue); text-align: right; min-height: 1.2em; }
+.dato-fijo { margin: 6px 0 0; font-size: 1.125rem; }
+.dato-fijo small { font-size: .8125rem; color: var(--tenue); }
+.af-ayuda__guia { display: grid; gap: 2px; justify-items: start; max-width: 260px; }
+.af-ayuda__guia small.ayuda { display: block; margin: 0; }
+.calc__nombres { margin-top: 14px; border: 1px solid var(--linea); border-radius: var(--radio); padding: 12px 14px; background: #fff; }
+.calc__nombres > summary { cursor: pointer; font-weight: 600; color: var(--verde-osc); }
+.calc__nombres-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; margin-top: 10px; }
+.calc__nombres-grid fieldset { border: 1px solid var(--linea); border-radius: var(--radio); padding: 8px 10px; margin: 0; }
+.calc__nombres-grid legend { font-weight: 600; font-size: .875rem; padding: 0 4px; }
+.calc__nombres-grid ol { margin: 0; padding-left: 1.4rem; display: grid; gap: 4px; }
+.calc__nombres-grid input { width: 100%; min-height: 36px; padding: 4px 8px; }
+.panel-filtros { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 10px; margin: 12px 0; }
+.panel-filtros label { display: grid; gap: 4px; font-size: .8125rem; font-weight: 600; color: var(--tenue); }
+.panel-filtros select { min-height: 40px; }
+.panel-historial { margin: 0; padding-left: 1.1rem; font-size: .8125rem; }
+.panel-historial li { margin: 2px 0; }
+.etiqueta-ultima { display: inline-block; background: var(--verde); color: #fff; border-radius: 999px; padding: 0 8px; font-size: .75rem; font-weight: 600; margin-left: 4px; }
+.etiqueta-historico { display: inline-block; background: var(--fondo-2); color: var(--tenue); border: 1px solid var(--linea); border-radius: 999px; padding: 0 8px; font-size: .75rem; margin-left: 4px; }
+@media (max-width: 760px) {
+  .personas select.tdoc { max-width: none; min-width: 0; }
+  .af-guardado { text-align: left; }
 }

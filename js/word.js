@@ -83,5 +83,5 @@
     return blob;
   }
 
-  window.Word = { generarWord, descargarBlob, cargarScript };
+  window.Word = { generarWord, descargarBlob, cargarScript, cargarZip: () => cargarScript(JSZIP_URL) };
 })();

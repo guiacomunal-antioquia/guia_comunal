@@ -74,7 +74,7 @@
       ['¿Los suplentes del Tribunal son obligatorios?', 'Sí. El Tribunal tiene 6 afiliados: 3 titulares y 3 suplentes (Manual, p. 35). Los suplentes reemplazan a quien falte.'],
       ['¿Los votos en blanco cuentan?', 'Sí. Son votos válidos para calcular el cociente. Los nulos no.'],
       ['¿Con cuántas personas vale la votación?', 'En asamblea, con la mitad más uno de los afiliados; en elección directa, con mínimo el 30 %.'],
-      ['¿Por qué importa tanto la cédula?', 'Identifica a cada persona. Un número mal escrito puede ser de otra persona y la elección se devuelve.'],
+      ['¿Por qué importa tanto el documento de identidad?', 'Identifica a cada persona. Un número mal escrito puede ser de otra persona y la elección se devuelve.'],
       ['¿Puedo continuar otro día?', 'Sí. Lo que escribe se guarda solo en este equipo y al volver puede seguir donde quedó.'],
       ['¿Verde quiere decir aprobado?', 'No. Verde es prevalidación: la Dirección revisa y expide el reconocimiento.']
     ].map(([p, r]) => `<details class="nm-faq"><summary>${p}</summary><p>${r}</p></details>`).join('')}`,
@@ -83,7 +83,7 @@
         <li>Ley 2166 de 2021 (arts. 34, 35 y 45)</li>
         <li>Decreto 1501 de 2023, Ministerio del Interior</li>
         <li>Circular 09 de 2025, Ministerio del Interior (calendario 2026)</li>
-      </ul><p class="nota">Esta ayuda no reemplaza el texto oficial de las normas ni los estatutos de su junta.</p>`
+      </ul><p class="nota">Esta ayuda no reemplaza el texto oficial de las normas ni los estatutos de su organismo comunal.</p>`
   };
 
   let ov;

@@ -5,7 +5,10 @@
    - Los cargos que faltan van, uno a uno, a las planchas con mayor residuo (votos que les sobran).
    - Con una sola plancha no hay cociente: necesita la mitad más uno de los votos.
    - Qué cargo exacto (presidente, vicepresidente…) le toca a cada plancha queda por validar con la
-     Dirección: la calculadora muestra un orden tentativo (primero la plancha con más cargos). */
+     Dirección: la calculadora muestra un orden tentativo (primero la plancha con más cargos).
+   - Nombres (opcional): si la persona escribe los candidatos de cada plancha en su orden, cada cargo
+     muestra a quien le toca: el primer cargo que gana una plancha es para su primer nombre, el
+     segundo para el segundo, etc. Sin nombres funciona solo con números. */
 (function () {
   'use strict';
   const esc = (t) => String(t == null ? '' : t).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -18,7 +21,7 @@
     del: { t: 'Delegados a la Asocomunal', n: 3, cargos: ['Delegado(a) y su suplente', 'Delegado(a) y su suplente', 'Delegado(a) y su suplente'] },
     otro: { t: 'Otro número de cargos', n: 0 }
   };
-  const S = { que: 'dir', cargos: 4, np: 2, votos: ['', ''], bl: '', nu: '', junta: '' };
+  const S = { que: 'dir', cargos: 4, np: 2, votos: ['', ''], bl: '', nu: '', junta: '', nombres: [], verNombres: false };
   let caja;
   const num = (v) => Math.max(0, parseInt(v, 10) || 0);
 
@@ -32,6 +35,9 @@
       </div>
       <p class="etiq">4. Votos de cada una</p>
       <div class="fila calc__votos" id="cVotos">${votosHTML()}</div>
+      <details class="calc__nombres" id="cNombresCaja" ${S.verNombres ? 'open' : ''}><summary>+ Agregar candidatos (opcional)</summary>
+        <p class="ayuda">Escriba los nombres de cada plancha <b>en su orden</b>. El resultado mostrará quién queda en cada cargo.</p>
+        <div class="calc__nombres-grid" id="cNombres">${nombresHTML()}</div></details>
       <div class="botones"><button type="button" class="btn btn--texto" data-calc-ejemplo>Probar con un ejemplo</button><button type="button" class="btn btn--texto" data-calc-borrar>Borrar los votos</button></div>
     </div>
     <div id="cRes" aria-live="polite"></div>`;
@@ -41,6 +47,14 @@
       `<div class="campo"><label for="cBl">En blanco</label><input type="number" id="cBl" min="0" inputmode="numeric" value="${esc(S.bl)}" placeholder="0"></div>
        <div class="campo"><label for="cNu">Nulos</label><input type="number" id="cNu" min="0" inputmode="numeric" value="${esc(S.nu)}" placeholder="0"></div>`;
   }
+
+  function nombresHTML() {
+    return Array.from({ length: S.np }, (_, i) => `<fieldset style="border-top:4px solid ${COLORES[i % COLORES.length]}"><legend>Plancha ${i + 1}</legend><ol>${
+      Array.from({ length: Math.max(1, num(S.cargos)) }, (_, k) => `<li><input data-nombre="${i}:${k}" value="${esc((S.nombres[i] || [])[k])}" placeholder="Nombre ${k + 1}" aria-label="Plancha ${i + 1}, candidato ${k + 1}" autocomplete="off"></li>`).join('')}</ol></fieldset>`).join('');
+  }
+  // Nombre de quien ocupa el n-ésimo cargo que gana la plancha i (vacío si no lo escribieron)
+  const quien = (i, n) => String((S.nombres[i] || [])[n] || '').trim();
+  const hayNombres = () => S.nombres.some((xs) => (xs || []).some((x) => String(x || '').trim()));
 
   function calcular() {
     const votos = Array.from({ length: S.np }, (_, i) => num(S.votos[i]));
@@ -78,13 +92,14 @@
     if (!r) { box.innerHTML = '<p class="nota calc__vacio">Escriba los votos y el resultado aparece aquí.</p>'; return; }
     const titulo = `<div class="solo-imprimir"><p class="ceja">Gobernación de Antioquia · Dirección de Participación Comunitaria y Ciudadana</p><h2>Reparto de cargos – ${esc(QUE[S.que].t)}</h2><p>${S.junta ? esc(S.junta) + ' · ' : ''}${new Date().toLocaleDateString('es-CO')}</p></div>`;
     const imprimir = `<div class="botones no-imprimir"><button type="button" class="btn btn--grande" data-calc-imprimir>🖨️ Imprimir o guardar en PDF</button></div>
-      <div class="campo no-imprimir calc__junta"><label for="cJunta">Nombre de la Junta (opcional, sale en la impresión)</label><input id="cJunta" value="${esc(S.junta)}" autocomplete="off"></div>`;
+      <div class="campo no-imprimir calc__junta"><label for="cJunta">Nombre del organismo comunal (opcional, sale en la impresión)</label><input id="cJunta" value="${esc(S.junta)}" autocomplete="off"></div>`;
     if (r.una) {
       const gana = r.votos[0] >= r.minimo;
       box.innerHTML = `<div class="calc__res" id="calcImprimible">${titulo}
         <div class="reparto reparto--una"><div class="reparto__paso"><span class="reparto__n">1</span><h3>Se cuentan los votos</h3>${barras(r)}<p>Total de votos: <b>${r.total}</b></p></div>
         <div class="reparto__paso"><span class="reparto__n">2</span><h3>Una sola plancha: no hay cociente</h3><p>Necesita la <b>mitad más uno</b> de los votos: <b>${r.minimo}</b>.</p>
           <p class="calc__veredicto calc__veredicto--${gana ? 'ok' : 'no'}">${gana ? `✅ Plancha 1 obtuvo ${r.votos[0]}: gana los ${r.cargos} cargos.` : `❌ Plancha 1 obtuvo ${r.votos[0]}: no alcanza. La elección de este bloque no queda en firme.`}</p></div></div>
+        ${gana && hayNombres() ? `<h3 class="sub">Así quedan los cargos</h3><ol class="calc__cargos">${Array.from({ length: r.cargos }, (_, k) => `<li><span>${esc((QUE[S.que].cargos || [])[k] || `Cargo ${k + 1}`)}</span><b>${quien(0, k) ? esc(quien(0, k)) + ' · ' : ''}Plancha 1</b></li>`).join('')}</ol>` : ''}
         ${imprimir}</div>`;
       return;
     }
@@ -113,7 +128,9 @@
       <div class="tabla-desliza"><table class="tabla-comp"><thead><tr><th>Plancha</th><th>Votos</th><th>Por cociente</th><th>Sobran</th><th>Por residuo</th><th>Total</th></tr></thead>
         <tbody>${r.votos.map((v, i) => `<tr><td><i class="calc__marca" style="--c:${color(i)}"></i>${nombre(i)}</td><td>${v}</td><td>${r.por[i]}</td><td>${r2(r.res[i])}</td><td>${r.extra[i]}</td><td><b>${r.total[i]}</b></td></tr>`).join('')}</tbody></table></div>
       <h3 class="sub">Qué cargos le corresponden a cada plancha</h3>
-      <ol class="calc__cargos">${sillas.map((i, k) => `<li><span>${esc(nombres[k] || `Cargo ${k + 1}`)}</span><b><i class="calc__marca" style="--c:${color(i)}"></i>${nombre(i)}</b></li>`).join('')}</ol>
+      <ol class="calc__cargos">${sillas.map((i, k) => { const n = quien(i, sillas.slice(0, k).filter((x) => x === i).length);
+        return `<li><span>${esc(nombres[k] || `Cargo ${k + 1}`)}</span><b><i class="calc__marca" style="--c:${color(i)}"></i>${n ? `<span class="calc__quien">${esc(n)}</span> · ` : ''}${nombre(i)}</b></li>`; }).join('')}</ol>
+      ${hayNombres() ? '<p class="nota">Cada plancha ocupa sus cargos con sus candidatos en el orden en que los escribió.</p>' : ''}
       <p class="nota">Orden tentativo: primero la plancha con más cargos. <span class="etiqueta etiqueta--pendiente">Por validar con la Dirección</span> Si sus estatutos dicen otra cosa, mandan los estatutos.</p>
       ${imprimir}</div>`;
   }
@@ -124,6 +141,7 @@
     caja = document.getElementById('calcApp');
     if (!caja) return;
     pintar();
+    caja.addEventListener('toggle', (ev) => { if (ev.target.id === 'cNombresCaja') S.verNombres = ev.target.open; }, true);
     caja.addEventListener('change', (ev) => {
       const el = ev.target;
       if (el.name === 'cQue') { S.que = el.value; if (QUE[S.que].n) S.cargos = QUE[S.que].n; pintar(); if (S.que === 'otro') caja.querySelector('#cCargos').focus(); }
@@ -135,7 +153,9 @@
         if (!el.value) return;
         S.np = n; S.votos.length = n;
         caja.querySelector('#cVotos').innerHTML = votosHTML();
-      } else if (el.id === 'cCargos') S.cargos = Math.min(30, Math.max(1, parseInt(el.value, 10) || 1));
+        caja.querySelector('#cNombres').innerHTML = nombresHTML();
+      } else if (el.id === 'cCargos') { S.cargos = Math.min(30, Math.max(1, parseInt(el.value, 10) || 1)); caja.querySelector('#cNombres').innerHTML = nombresHTML(); }
+      else if (el.dataset.nombre) { const [i, k] = el.dataset.nombre.split(':').map(Number); (S.nombres[i] = S.nombres[i] || [])[k] = el.value; }
       else if (el.dataset.voto) S.votos[+el.dataset.voto] = el.value;
       else if (el.id === 'cBl') S.bl = el.value;
       else if (el.id === 'cNu') S.nu = el.value;

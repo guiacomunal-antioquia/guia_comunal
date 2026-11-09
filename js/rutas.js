@@ -54,10 +54,7 @@
 
   // Al cambiar de pantalla se empieza arriba, sin la animación de desplazamiento
   function arriba() {
-    const h = document.documentElement;
-    h.style.scrollBehavior = 'auto';
-    window.scrollTo(0, 0);
-    h.style.scrollBehavior = '';
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
   }
 
   function mostrar(ruta, op = {}) {
@@ -84,11 +81,27 @@
     if (cambia && !op.inicial) { const h = el.querySelector('h1'); if (h) { h.setAttribute('tabindex', '-1'); h.focus({ preventScroll: true }); } }
   }
 
+  /* Posición de la página: antes de salir de una entrada del historial se anota dónde estaba la
+     persona (y), para que "atrás" la devuelva al mismo punto y no al comienzo de la pantalla. */
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  function anotarPosicion() {
+    try { history.replaceState(Object.assign({}, history.state, { y: Math.round(window.scrollY) }), '', location.href); } catch (e) { /* sin historial */ }
+  }
+  function volverAPosicion(y) {
+    if (typeof y !== 'number') return;
+    // Después de que la pantalla (y la herramienta) se dibuje; se repite por si la página aún crecía
+    const ir = () => window.scrollTo({ top: y, left: 0, behavior: 'instant' });
+    setTimeout(ir, 40);
+    setTimeout(() => { if (Math.abs(window.scrollY - y) > 4) ir(); }, 350);
+  }
+  window.addEventListener('pagehide', anotarPosicion);  // al abrir una guía o un PDF en la misma pestaña
+
   function escribir(ruta, reemplazar) {
     const url = '#/' + ruta;
     if (atrasPendiente) { clearTimeout(atrasPendiente); atrasPendiente = null; reemplazar = true; }
     if (capa) { const f = capa; capa = null; f(); reemplazar = true; }
-    if (reemplazar) history.replaceState(null, '', url); else history.pushState(null, '', url);
+    if (reemplazar) history.replaceState(null, '', url);
+    else { anotarPosicion(); history.pushState(null, '', url); }
   }
   /* Ir a una pantalla (como tocar un enlace) */
   function ir(hash, reemplazar) {
@@ -117,8 +130,13 @@
   window.addEventListener('popstate', () => {
     if (ignorarPop) { ignorarPop = false; return; }
     if (capa) { const f = capa; capa = null; f(); return; }
-    mostrar(normalizar(location.hash), { sinScroll: false });
+    const y = history.state && history.state.y;
+    mostrar(normalizar(location.hash), { sinScroll: typeof y === 'number' });
+    volverAPosicion(y);
   });
+  // Antes de salir a una guía, un PDF u otra página se anota la posición (algunos celulares abren
+  // la "pestaña nueva" en la misma ventana; al volver, la persona queda donde estaba).
+  document.addEventListener('click', (ev) => { const a = ev.target.closest('a[href]'); if (a && !a.getAttribute('href').startsWith('#')) anotarPosicion(); }, true);
   document.addEventListener('click', (ev) => {
     const a = ev.target.closest('a[href^="#"]');
     if (!a || a.hasAttribute('data-ir-campo') || ev.ctrlKey || ev.metaKey || ev.shiftKey) return;
@@ -132,8 +150,10 @@
 
   function iniciar() {
     const ruta = normalizar(location.hash);
+    const y = history.state && history.state.y;  // al volver de una guía abierta en la misma pestaña
     if (location.hash !== '#/' + ruta && location.hash) history.replaceState(null, '', '#/' + ruta);
     mostrar(ruta, { inicial: true });
+    volverAPosicion(y);
   }
 
   window.Rutas = { ir, marcar, al: (r, fn) => { manejadores[r] = fn; }, abrirCapa, cerrarCapa, actual: () => actual, iniciar, normalizar };

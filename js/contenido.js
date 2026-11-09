@@ -4,7 +4,7 @@
 window.GLOSARIO = [
   ['🏘️', 'Acción comunal', 'La comunidad organizada para trabajar por su territorio, de forma democrática y solidaria.'],
   ['🏠', 'JAC', 'Junta de Acción Comunal: organización de los vecinos de un barrio o vereda (primer grado).'],
-  ['🏗️', 'JVC', 'Junta de Vivienda Comunal: familias organizadas para construir o mejorar vivienda.'],
+  ['🏗️', 'JVC', 'Junta de Vivienda Comunitaria: familias organizadas para construir o mejorar vivienda.'],
   ['🏛️', 'Asocomunal', 'Asociación de juntas de un municipio (segundo grado). Atiende impugnaciones en primera instancia.'],
   ['🙋', 'Afiliado', 'Persona inscrita en el libro de afiliados. Puede votar y ser elegida.'],
   ['📒', 'Libro de afiliados', 'Registro oficial de quienes hacen parte de la junta. Se cierra 15 días antes de la elección.'],
@@ -38,7 +38,7 @@ window.FAQ_DEVOLUCIONES = [
   ['⚖️', 'El Tribunal de Garantías estaba mal conformado', 'Deben ser 6 afiliados (3 principales y 3 suplentes). Ninguno puede ser candidato ni dignatario actual.'],
   ['📅', 'No pasaron 30 días entre el Tribunal y la elección', 'El Tribunal se designa mínimo 30 días calendario antes de la elección y vale máximo 3 meses.'],
   ['👥', 'Hubo doble afiliación', 'Nadie puede estar afiliado a dos juntas. Consulte en SURCO antes de postular.'],
-  ['🪪', 'Una cédula o un nombre estaban mal escritos', 'Copie número, apellidos y nombres igual que en la cédula. Revise dos veces.'],
+  ['🪪', 'Un documento de identidad o un nombre estaban mal escritos', 'Copie el tipo y el número de documento, los apellidos y los nombres igual que en el documento. Revise dos veces.'],
   ['🧩', 'Faltaron cargos por elegir', 'En una elección total se eligen todos: directiva, fiscal y suplente, 3 conciliadores, coordinadores y 3 delegados con suplentes.'],
   ['🔁', 'Una persona estaba en dos cargos', 'Nadie puede aspirar a dos cargos ni estar en dos planchas.'],
   ['✍️', 'La plancha no tenía firmas de recibido', 'Cada plancha necesita "presentada por" y la firma de recibido del Tribunal.'],
