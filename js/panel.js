@@ -5,10 +5,11 @@
    registros guardados en este navegador por la herramienta (localStorage "dpcc-avances").
    El registro oficial hoy es el correo radicado en MERCURIO.
 
-   En la versión real integrada con SURCO, esta tabla leería una base de datos con una fila por
-   solicitud y versión (código, versión, organismo, tipo, municipio, período, estado y fechas), que
-   se actualiza con cada envío. Los períodos anteriores quedan como histórico de solo lectura.
-   Ver el comentario "VERSIÓN REAL INTEGRADA CON SURCO" en js/formulario.js y el LEEME. */
+   En la versión real (Guía Comunal alojada en el Observatorio de Participación Ciudadana, OPC),
+   esta tabla leería una base de datos de la Gobernación con una fila por solicitud y versión
+   (código, versión, organismo, tipo, municipio, período, estado y fechas), que se actualiza con
+   cada envío. Los períodos anteriores quedan como histórico de solo lectura.
+   Ver el comentario "VERSIÓN REAL" en js/formulario.js y el LEEME. */
 (function () {
   'use strict';
   const esc = (t) => String(t == null ? '' : t).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -76,7 +77,7 @@
           <td>${esc(r.periodo)}${r.periodo !== VIGENTE ? '<span class="etiqueta-historico">Histórico</span>' : ''}</td>
           <td>v${esc(r.version)}${r.solicitud === 'Subsanación' ? '<br><small>Subsanación</small>' : ''}${o.versiones.length > 1 ? '<span class="etiqueta-ultima">Última</span>' : ''}</td>
           <td>${pestana === 'proceso' ? `Paso ${esc(r.paso)}: ${esc(r.pasoNombre)}` : esc(r.codigo)}</td><td>${color[r.semaforo] || ''} ${esc(r.semaforo)}</td><td>${esc(fechaCorta(r.fecha))}</td></tr>`; }).join('')}</tbody></table>`
-      : `<p class="vacio">${pestana === 'proceso' ? 'No hay organismos con el proceso abierto' : 'No hay procesos terminados'}${F.periodo || F.municipio || F.tipo || F.semaforo ? ' con estos filtros' : ' en este equipo'}. Use "Cargar ejemplos ficticios" para ver cómo se vería.</p>`;
+      : `<p class="vacio">${pestana === 'proceso' ? 'No hay solicitudes en proceso' : 'No hay solicitudes terminadas'}${F.periodo || F.municipio || F.tipo || F.semaforo ? ' con estos filtros' : ''}. Toque «Ver datos de ejemplo» para ver cómo funciona.</p>`;
   }
 
   /* Exportar: todas las versiones de los organismos que pasan los filtros */
@@ -150,7 +151,7 @@
       if (b.id === 'panelEjemplos') { cargarEjemplos(); pintar(); }
       if (b.id === 'panelCsv') csv();
       if (b.id === 'panelXlsx') { const t = b.textContent; b.disabled = true; b.textContent = 'Preparando…'; xlsx().catch((e) => alert('No se pudo generar el Excel. Revise su conexión.\n(' + e.message + ')')).finally(() => { b.disabled = false; b.textContent = t; }); }
-      if (b.id === 'panelBorrar' && confirm('¿Borrar los registros de prueba de este equipo?')) { localStorage.removeItem('dpcc-avances'); pintar(); }
+      if (b.id === 'panelBorrar' && confirm('¿Borrar los datos de esta vista en este equipo?')) { localStorage.removeItem('dpcc-avances'); pintar(); }
     });
   });
   window.PanelDireccion = { pintar };

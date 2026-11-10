@@ -1,6 +1,6 @@
 /* Mapa interactivo de Antioquia por subregiones y municipios.
-   Contornos: DANE, Marco Geoestadístico Nacional 2025 (js/mapa.js). Datos de contacto: bloque
-   "DATOS POR LLENAR" en js/datos.js. */
+   Contornos: DANE, Marco Geoestadístico Nacional 2025 (js/mapa.js). Datos de contacto, fotos y
+   cifras: datos/mapa.js (lo que falta no se muestra). */
 (function () {
   'use strict';
   const esc = (t) => String(t == null ? '' : t).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -10,7 +10,9 @@
     'Bajo Cauca': '#3561AB', 'Magdalena Medio': '#F28E18', 'Nordeste': '#8B4A97', 'Norte': '#018D38', 'Occidente': '#B0942B',
     'Oriente': '#0B5640', 'Suroeste': '#8BC542', 'Urabá': '#8FCAF0', 'Valle de Aburrá': '#3AF9A2'
   };
-  const dato = (v) => (v === undefined || v === null || v === '' || v === 'Dato') ? '<span class="dato">Dato</span>' : esc(v);
+  /* Un dato que falta (vacío o 'Dato' en datos/mapa.js) NO se muestra: ni el campo ni su título.
+     Si un campo no tiene dato en ningún municipio, no aparece en ninguno. Aparece solo al llenarlo. */
+  const hay = (v) => !(v === undefined || v === null || String(v).trim() === '' || v === 'Dato');
 
   let municipios = [], seleccionado = null;
 
@@ -63,9 +65,12 @@
   /* Dirección propia de cada municipio: #/mapa/santa-fe-de-antioquia */
   const slug = (m) => clave(m).toLowerCase().replace(/ /g, '-');
   const marcar = (r) => { if (window.Rutas) window.Rutas.marcar(r); };
-  const persona = (foto, alt, rol, nombre, extra) => `<div class="mapa-info__persona"><img src="${esc(foto)}" alt="${esc(alt)}" width="96" height="120" loading="lazy">
+  // Sin foto (o con la silueta sin-foto.svg) se muestra solo el nombre, sin imagen de relleno.
+  const persona = (foto, alt, rol, nombre, extra) => `<div class="mapa-info__persona${foto ? '' : ' mapa-info__persona--sin-foto'}">${foto ? `<img src="${esc(foto)}" alt="${esc(alt)}" width="96" height="120" loading="lazy">` : ''}
     <div><small>${rol}</small><b>${nombre}</b>${extra || ''}</div></div>`;
-  const cifra = (ico, txt, v) => `<li><span aria-hidden="true">${ico}</span><b>${dato(v)}</b><small>${txt}</small></li>`;
+  const fotoDe = (carpeta, archivo) => (hay(archivo) && archivo !== 'sin-foto.svg') ? `img/${carpeta}/${archivo}` : '';
+  const cifras = (lista) => { const l = lista.filter(([, , v]) => hay(v)); return l.length ? `<ul class="mapa-cifras" aria-label="Organismos comunales del municipio">${l.map(([ico, txt, v]) => `<li><span aria-hidden="true">${ico}</span><b>${esc(v)}</b><small>${txt}</small></li>`).join('')}</ul>` : ''; };
+  const fila = (dt, v) => hay(v) ? `<dt>${dt}</dt><dd>${esc(v)}</dd>` : '';
 
   function cerrar() {
     const caja = document.getElementById('mapaInfo');
@@ -92,21 +97,18 @@
       caja.innerHTML = `<button type="button" class="mapa-info__cerrar" aria-label="Cerrar">✕</button>
         <p class="ceja">${esc(x.sub)}</p><h3>${esc(x.m)}</h3>
         <div class="aviso aviso--gris">Este municipio <b>no es competencia de la Gobernación</b>. A sus organismos comunales los atiende la alcaldía.</div>
-        <dl><dt>🏛️ Entidad que lo atiende</dt><dd>${dato(f.entidad)}</dd><dt>📞 Teléfono</dt><dd>${dato(f.tel)}</dd><dt>✉️ Correo</dt><dd>${dato(f.correo)}</dd></dl>
-        ${f.web && f.web !== 'Dato' ? `<a class="btn btn--claro" href="${esc(f.web)}" target="_blank" rel="noopener">Ir a la página de la alcaldía ↗</a>` : '<p><small>Página de la alcaldía: <span class="dato">Dato</span></small></p>'}`;
+        ${[f.entidad, f.tel, f.correo].some(hay) ? `<dl>${fila('🏛️ Entidad que lo atiende', f.entidad)}${fila('📞 Teléfono', f.tel)}${fila('✉️ Correo', f.correo)}</dl>` : ''}
+        ${hay(f.web) ? `<a class="btn btn--claro" href="${esc(f.web)}" target="_blank" rel="noopener">Ir a la página de la alcaldía ↗</a>` : ''}`;
     } else {
       const pr = profesionalDe(x.m);
       const c = (window.CONTACTOS_MUNICIPIO || {})[x.m] || {};
-      const foto = 'img/profesionales/' + ((pr && (window.FOTOS_PROFESIONALES || {})[pr[0]]) || 'sin-foto.svg');
-      const fotoP = 'img/promotores/' + (c.fotoPromotor || 'sin-foto.svg');
-      const hayPromotor = c.promotor && c.promotor !== 'Dato';
+      const correo = pr && (window.CORREOS_PROFESIONALES || {})[pr[0]];
       caja.innerHTML = `<button type="button" class="mapa-info__cerrar" aria-label="Cerrar">✕</button>
         <p class="ceja">${esc(x.sub)}</p><h3>${esc(x.m)}</h3>
-        ${persona(foto, pr ? `Foto de ${pr[0]}` : '', '👤 Profesional de zona', pr ? esc(pr[0]) : dato(), `${pr ? `<small>Zona ${esc(pr[1].zona)}</small>` : ''}<small>✉️ ${dato(pr && window.CORREOS_PROFESIONALES[pr[0]])}</small>`)}
-        ${persona(fotoP, hayPromotor ? `Foto de ${c.promotor}` : '', '🤝 Promotor del municipio', dato(c.promotor), `<small>📞 ${dato(c.contacto)}</small>`)}
-        <ul class="mapa-cifras" aria-label="Organismos comunales del municipio">
-          ${cifra('🏘️', 'Juntas registradas', c.registradas)}${cifra('✅', 'Activas', c.activas)}${cifra('⏳', 'Inactivas', c.inactivas)}${cifra('🤝', 'Asocomunales', c.asocomunales)}
-        </ul>
+        ${pr ? persona(fotoDe('profesionales', (window.FOTOS_PROFESIONALES || {})[pr[0]]), `Foto de ${pr[0]}`, '👤 Profesional de zona', esc(pr[0]),
+          `<small>Zona ${esc(pr[1].zona)}</small>${hay(correo) ? `<small>✉️ <a href="mailto:${esc(correo)}">${esc(correo)}</a></small>` : ''}`) : ''}
+        ${hay(c.promotor) ? persona(fotoDe('promotores', c.fotoPromotor), `Foto de ${c.promotor}`, '🤝 Promotor del municipio', esc(c.promotor), hay(c.contacto) ? `<small>📞 ${esc(c.contacto)}</small>` : '') : ''}
+        ${cifras([['🏘️', 'Juntas registradas', c.registradas], ['✅', 'Activas', c.activas], ['⏳', 'Inactivas', c.inactivas], ['🤝', 'Asocomunales', c.asocomunales]])}
         <div class="botones"><a class="btn btn--peque" href="#/eleccion/herramienta" data-mun="${esc(x.m)}">Hacer la elección con ${esc(x.m)}</a></div>`;
     }
     caja.hidden = false;

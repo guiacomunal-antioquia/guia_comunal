@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/estilos.css?v=8">
+<link rel="stylesheet" href="css/estilos.css?v=10">
 <link rel="icon" href="img/logo-gobernacion.webp">
 </head>
 <body>
@@ -146,7 +146,6 @@
   </div></div>
   <div class="contenedor bloque">
     <div id="faqLista" class="faq"></div>
-    <p class="nota"><span class="etiqueta etiqueta--pendiente">Orden pendiente</span> El orden se ajustará con los datos reales de frecuencia de la Dirección.</p>
   </div>
 </section>
 
@@ -351,7 +350,10 @@
   </div>
 </section>
 
-<!-- ===================== ESTATUTOS ===================== -->
+<!-- ===================== ESTATUTOS (OCULTA) =====================
+     Sección sin terminar: se oculta con window.MOSTRAR.estatutos = false en js/datos.js
+     (también se quita del menú). Para mostrarla, cambie false por true. -->
+
 <section class="pantalla" data-ruta="estatutos" data-titulo="Estatutos" hidden>
   <div class="heroe heroe--interno"><div class="contenedor">
     <nav class="migas" data-migas aria-label="Ruta de navegación"></nav>
@@ -380,18 +382,20 @@
   <div class="heroe heroe--interno"><div class="contenedor">
     <nav class="migas" data-migas aria-label="Ruta de navegación"></nav>
     <div class="titulo-seccion"><h1>Seguimiento de elecciones</h1>
-    <p class="heroe__lead">Demostración de uso interno: qué organismos comunales hacen el proceso, en qué estado está su prevalidación y el historial de sus solicitudes.</p></div></div></div>
+    <p class="heroe__lead">Así consultaría la Dirección las solicitudes de elección de dignatarios: las recibidas, su estado de prevalidación, su historial de subsanaciones y su período electoral.</p></div></div></div>
   <div class="contenedor bloque">
-    <div class="aviso aviso--clave"><b>Esto es una demostración.</b> El prototipo no guarda la información en la Gobernación: esta vista solo muestra lo registrado en <b>este navegador</b>. El registro oficial es el correo radicado en MERCURIO.</div>
+    <div class="aviso aviso--clave"><b>Vista de ejemplo.</b> Los datos que aparecen aquí son de ejemplo o los registrados en este equipo, y no llegan a la Gobernación. Hoy el registro oficial de cada solicitud es el correo radicado en MERCURIO.</div>
     <div class="panel-resumen">
       <button type="button" data-pestana-panel="proceso" aria-selected="true"><b id="panelNProceso">0</b>En proceso</button>
       <button type="button" data-pestana-panel="terminado" aria-selected="false"><b id="panelNTerminado">0</b>Terminados (correo enviado)</button>
     </div>
     <div class="panel-filtros" id="panelFiltros"></div>
     <div id="panelTabla" class="tabla-registros"></div>
-    <div class="botones"><button type="button" class="btn btn--claro" id="panelEjemplos">Cargar ejemplos ficticios</button><button type="button" class="btn btn--claro" id="panelXlsx">Descargar Excel</button><button type="button" class="btn btn--claro" id="panelCsv">Descargar CSV</button><button type="button" class="btn btn--texto" id="panelBorrar">Borrar</button></div>
+    <div class="botones"><button type="button" class="btn btn--claro" id="panelEjemplos">Ver datos de ejemplo</button><button type="button" class="btn btn--claro" id="panelXlsx">Descargar Excel</button><button type="button" class="btn btn--claro" id="panelCsv">Descargar CSV</button><button type="button" class="btn btn--texto" id="panelBorrar">Borrar los datos de esta vista</button></div>
     <p class="ayuda">Las descargas incluyen todas las versiones de lo que esté filtrado.</p>
-    <div class="aviso aviso--info"><b>¿Cómo funcionaría de verdad?</b> "En proceso" llega por un reporte automático de la herramienta (ID, organismo, municipio, paso y estado, sin documentos de identidad), sin escribir al correo. "Terminados" se toma de los correos con asunto <code>[ELECCIÓN DIGNATARIOS - NUEVA v1]</code> o <code>[… - SUBSANACIÓN v2]</code> que llegan al buzón de la Dirección, con un flujo de Power Automate. Integrado con SURCO, sería una base de datos con una fila por solicitud y versión (estado, fecha y período); los períodos anteriores quedan como histórico. Detalles en <code>js/formulario.js</code> y en el LEEME.</div>
+    <!-- Notas técnicas de cómo se conectaría (Power Automate, base de datos, asuntos de correo):
+         comentario "VERSIÓN REAL" en js/formulario.js y apartado del LEEME. -->
+    <div class="aviso aviso--info"><b>¿Cómo funcionaría?</b> Con la Guía Comunal alojada en el <a href="https://opc-spcc-gobantioquia.hub.arcgis.com/" target="_blank" rel="noopener">Observatorio de Participación Ciudadana</a> de la Gobernación, cada solicitud quedaría registrada al enviarse: organismo, municipio, paso, semáforo y, si es una subsanación, su versión anterior. La Dirección podría filtrar por período, municipio, tipo de organismo y estado, y descargar el listado en Excel. Los períodos anteriores quedarían como histórico.</div>
   </div>
 </section>
 
@@ -424,12 +428,11 @@
     <a href="https://compilacionjuridica.antioquia.gov.co/compilacion/compilacion/docs/d_gobant_2022070004096_2022.htm" target="_blank" rel="noopener">Protección de datos personales</a><span>|</span>
     <a href="https://mercurio.antioquia.gov.co/mercurio/ServletPublic?operacion=9&amp;codIndice=00126&amp;idAsunto=PQRSDW&amp;indicador=1&amp;logueoPqr=S" target="_blank" rel="noopener">PQRSD</a><span>|</span>
     <a href="https://www.antioquia.gov.co/" target="_blank" rel="noopener">antioquia.gov.co</a><span>|</span>
-    <a href="#/direccion">Vista de la Dirección (demostración)</a>
+    <a href="#/direccion">Vista de la Dirección (ejemplo)</a>
   </div>
   <div class="pie__barra">
     <div class="contenedor">
       <a class="govco" href="https://www.gov.co/" target="_blank" rel="noopener">GOV.CO</a>
-      <span class="pie__nota">Prototipo presentado como propuesta de mejora</span>
     </div>
   </div>
 </footer>
@@ -451,21 +454,21 @@
 </div>
 <datalist id="catalogoComisiones"></datalist>
 
-<script src="js/iconos.js?v=8"></script>
-<script src="js/rutas.js?v=8"></script>
-<script src="js/datos.js?v=8"></script>
-<script src="datos/mapa.js?v=8"></script>
-<script src="js/videos.js?v=8"></script>
-<script src="js/contenido.js?v=8"></script>
-<script src="js/mapa.js?v=8"></script>
-<script src="js/word.js?v=8"></script>
-<script src="js/formulario.js?v=8"></script>
-<script src="js/norma.js?v=8"></script>
-<script src="js/mapa-app.js?v=8"></script>
-<script src="js/juego.js?v=8"></script>
-<script src="js/calculadora.js?v=8"></script>
-<script src="js/panel.js?v=8"></script>
-<script src="js/chatbot.js?v=8"></script>
-<script src="js/app.js?v=8"></script>
+<script src="js/iconos.js?v=10"></script>
+<script src="js/rutas.js?v=10"></script>
+<script src="js/datos.js?v=10"></script>
+<script src="datos/mapa.js?v=10"></script>
+<script src="js/videos.js?v=10"></script>
+<script src="js/contenido.js?v=10"></script>
+<script src="js/mapa.js?v=10"></script>
+<script src="js/word.js?v=10"></script>
+<script src="js/formulario.js?v=10"></script>
+<script src="js/norma.js?v=10"></script>
+<script src="js/mapa-app.js?v=10"></script>
+<script src="js/juego.js?v=10"></script>
+<script src="js/calculadora.js?v=10"></script>
+<script src="js/panel.js?v=10"></script>
+<script src="js/chatbot.js?v=10"></script>
+<script src="js/app.js?v=10"></script>
 </body>
 </html>

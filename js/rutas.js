@@ -28,7 +28,8 @@
     if (h.startsWith('/')) h = h.slice(1);
     else if (ANTES[h]) h = ANTES[h];
     else if (/^guias:g\d$/.test(h)) h = 'documentos/guias/' + h.split(':')[1];
-    else if (h && !document.querySelector(`.pantalla[data-ruta="${h.split('/')[0]}"]`)) h = '';
+    // Una dirección sin pantalla (o de una sección oculta con window.MOSTRAR) lleva al inicio
+    if (h && !document.querySelector(`.pantalla[data-ruta="${h.split('/')[0]}"]`)) h = '';
     return h.replace(/\/+$/, '') || 'inicio';
   }
   /* La pantalla de la ruta más larga que exista; lo que sobra es el parámetro */

@@ -50,8 +50,16 @@
     numero: String(n), fecha: '', hora: '',
     dir: [cand(), cand(), cand(), cand()], fis: [cand(), cand()], con: [cand(), cand(), cand()],
     com: [Object.assign({ comision: '' }, cand()), Object.assign({ comision: '' }, cand()), Object.assign({ comision: '' }, cand())],
-    del: [cand(), cand(), cand(), cand(), cand(), cand()], presentadaPor: [per()], recibidaPor: ['', '', ''], parentesco: false
+    del: [cand(), cand(), cand(), cand(), cand(), cand()], presentadaPor: [per()], recibidaPor: ['', '', ''],
+    parentescoHay: '', parentescoGrado: '', parentescoQuienes: '', parentescoAut: false
   });
+  /* Parentesco entre directivos, fiscal y conciliadores (Ley 2166, art. 38, parágrafo 3, a):
+     prohibido hasta el 4.º de consanguinidad, 2.º de afinidad, 1.º civil, y entre cónyuges o compañeros.
+     Los casos rurales los puede autorizar el organismo comunal de grado superior. */
+  const GRADOS = [['c1', '1.º de consanguinidad (padres e hijos)'], ['c2', '2.º de consanguinidad (hermanos, abuelos, nietos)'], ['c3', '3.º de consanguinidad (tíos, sobrinos)'],
+    ['c4', '4.º de consanguinidad (primos)'], ['c5', '5.º o más de consanguinidad'], ['a1', '1.º de afinidad (suegros, yernos, nueras)'], ['a2', '2.º de afinidad (cuñados)'],
+    ['a3', '3.º o más de afinidad'], ['civil', '1.º civil (adopción)'], ['conyuge', 'Esposos o compañeros permanentes']];
+  const prohibido = (g) => ['c1', 'c2', 'c3', 'c4', 'a1', 'a2', 'civil', 'conyuge'].includes(g);
   const votosBloque = () => ({ p: [], bl: '', nu: '' });
   const nuevo = () => ({
     paso: 0,
@@ -83,6 +91,8 @@
   S.adjuntos = Object.assign({ prep: [], elec: [] }, S.adjuntos);
   S.junta = Object.assign(nuevo().junta, S.junta);
   S.solicitud = Object.assign(nuevo().solicitud, S.solicitud);
+  // Borradores con la casilla anterior de parentesco (marcada = "no hay parentesco")
+  (S.planchas || []).forEach((p) => { if (p.parentescoHay === undefined) { p.parentescoHay = p.parentesco ? 'No' : ''; p.parentescoGrado = ''; p.parentescoQuienes = ''; p.parentescoAut = false; } delete p.parentesco; });
   delete S.asistentes;  // borradores de la versión anterior (listado escrito a mano)
 
   /* ======================= Tipo de organismo =======================
@@ -152,7 +162,7 @@
   const AYUDAS = {
     1: { m: 'senala', t: ['Diga si es una solicitud nueva o una subsanación, y qué tipo de organismo es.', 'Busque el ID del organismo en el certificado de SURCO.', 'El correo sirve para que la Dirección le responda.'], g: 'g1' },
     2: { m: 'lista', t: ['Copie los datos del acta de la asamblea preparatoria.', 'Entre la asamblea y la elección debe haber mínimo 30 días.', 'Escriba cómo se resolverán los empates.'], g: 'g2' },
-    3: { m: 'lupa', t: ['Son 6 personas: 3 principales y 3 suplentes.', 'No pueden ser candidatos ni dignatarios actuales.', 'Elija el tipo de documento y copie el número, los apellidos y los nombres tal como están en él.'], g: 'g2' },
+    3: { m: 'lupa', t: ['Son 6 personas: 3 principales y 3 suplentes.', 'No pueden ser candidatos ni dignatarios actuales.', 'Elija el tipo de documento y copie el número. Si la persona ya está en la solicitud, el nombre se llena solo.'], g: 'g2' },
     4: { m: 'lista', t: ['Escriba cuántos afiliados (o delegados, si es Asocomunal) hay y cuántos asistieron.', 'Tómele una foto clara al listado firmado, o escanéelo.', 'No tiene que escribir los nombres: la Dirección revisa el listado.'], g: 'g2' },
     5: { m: 'senala', t: ['Registre cada plancha como la entregaron al Tribunal.', 'Nadie puede estar en dos cargos ni en dos planchas.', 'Marque "Mujer" y "Mayor de edad" en cada candidato.'], g: 'g3' },
     6: { m: 'idea', t: ['Escriba los votos de cada bloque como quedaron en el escrutinio.', 'La página calcula el cociente y muestra quiénes quedaron elegidos.', 'Al final, adjunte la foto del listado firmado de la elección.'], g: 'g3' },
@@ -171,7 +181,7 @@
       ${op.ayuda ? `<span class="ayuda">${op.ayuda}</span>` : ''}</div>`;
   }
   function area(ruta, etiqueta, op = {}) {
-    return `<div class="campo campo--ancho"><label for="${idDe(ruta)}">${etiqueta}</label><textarea id="${idDe(ruta)}" data-k="${ruta}" ${op.ph ? `placeholder="${esc(op.ph)}"` : ''}>${esc(leerRuta(S, ruta))}</textarea></div>`;
+    return `<div class="campo campo--ancho"><label for="${idDe(ruta)}">${etiqueta}</label><textarea id="${idDe(ruta)}" data-k="${ruta}" ${op.ph ? `placeholder="${esc(op.ph)}"` : ''}>${esc(leerRuta(S, ruta))}</textarea>${op.ayuda ? `<span class="ayuda">${op.ayuda}</span>` : ''}</div>`;
   }
   function opciones(ruta, etiqueta, ops, op = {}) {
     const v = leerRuta(S, ruta);
@@ -259,7 +269,7 @@
           <li><span>🔁</span>Si es una <b>subsanación</b>: el código de la solicitud anterior</li>
         </ul>
         <div class="aviso aviso--info"><b>Importante:</b> esta herramienta hace una <b>prevalidación</b>. La revisión oficial la hace la Dirección. Un semáforo en verde no significa trámite aprobado.</div>
-        <p class="ayuda">🔒 Lo que escriba se guarda solo en este equipo, como borrador, aunque cierre la página. Para acompañarle, la Dirección recibe el ID, el nombre y el municipio del organismo y en qué paso va (sin documentos de identidad).</p>
+        <p class="ayuda">🔒 Lo que escriba se guarda como borrador solo en este equipo, aunque cierre la página. Nadie más lo ve hasta que usted lo envíe por correo.</p>
       </div>
     </div>
     ${S.registro ? `<div class="aviso aviso--info"><b>Ya envió la solicitud ${esc(S.registro.codigo)}.</b> Si la Dirección le pidió corregir algo, haga una subsanación: se conservan los datos y se crea una versión nueva.
@@ -268,7 +278,7 @@
     ${imprimirAntes(directa() ? ['prep', 'mesa'] : S.asamblea.sistemaEleccion ? ['prep', 'asamblea'] : ['prep', 'asamblea', 'mesa'])}
     <div class="ced-ejemplo">
       ${svgCedula()}
-      <div><h4>Copie los datos igual que en el documento de identidad:</h4><ol class="ced-ejemplo__lista"><li><b>Tipo de documento</b> (cédula, tarjeta de identidad, PPT…)</li><li><b>Número</b>, sin puntos</li><li><b>Apellidos</b></li><li><b>Nombres</b></li></ol>${verificar()}</div>
+      <div><h4>Copie los datos igual que en el documento de identidad:</h4><ol class="ced-ejemplo__lista"><li><b>Tipo de documento</b> (cédula, tarjeta de identidad, PPT…)</li><li><b>Número</b>, sin puntos</li><li><b>Apellidos</b></li><li><b>Nombres</b></li></ol><p class="ayuda">Si en el acta solo está el nombre completo y no sabe cuál es el apellido, cópielo como aparece en el documento de identidad. Si escribe un número que ya registró, la página llena sola el nombre.</p>${verificar()}</div>
     </div>`;
 
   P[1] = () => {
@@ -296,7 +306,7 @@
     return `
     <h3 class="sub">📅 La reunión</h3>
     <div class="fila">${inp('asamblea.actaNo', 'N.º del acta', { req: 1, modo: 'numeric' })}${inp('asamblea.lugar', 'Lugar', { req: 1 })}${inp('asamblea.fecha', 'Fecha', { req: 1, tipo: 'date' })}${inp('asamblea.hora', 'Hora de inicio', { req: 1, tipo: 'time' })}</div>
-    <div class="fila">${inp('asamblea.horaFin', 'Hora de terminación', { tipo: 'time' })}</div>
+    <div class="fila">${inp('asamblea.horaFin', 'Hora de terminación', { tipo: 'time' })}${inp('asamblea.actaAntNo', 'N.º del acta anterior', { modo: 'numeric', ayuda: 'La que se leyó en la reunión.' })}${inp('asamblea.actaAntFecha', 'Fecha del acta anterior', { tipo: 'date' })}</div>
     <p class="ayuda">El número de afiliados y de asistentes va en el paso 4, con la foto del listado firmado.</p>
     <h3 class="sub">🧑‍⚖️ Quienes dirigieron la asamblea</h3>
     ${tablaPersonas(filaPersona('asamblea.pres', 'Presidente(a)', { tel: 1 }) + filaPersona('asamblea.sec', 'Secretario(a)', { tel: 1 }), { tel: 1 })}
@@ -313,7 +323,7 @@
     <div class="fila">${inp('asamblea.limFecha', 'Fecha límite para entregar planchas', { req: 1, tipo: 'date' })}${inp('asamblea.limHora', 'Hora límite', { req: 1, tipo: 'time' })}</div>
     <div class="fila">${inp('asamblea.lugarEleccion', 'Lugar de la elección', { req: 1 })}${inp('asamblea.elecFecha', 'Fecha de la elección', { req: 1, tipo: 'date' })}${inp('asamblea.elecHora', 'Hora de la elección', { req: 1, tipo: 'time' })}</div>
     ${area('asamblea.empate', 'Si hay empate se resolverá así', { ph: 'Ej.: segunda votación inmediata; si sigue, sorteo con balotas.' })}
-    ${area('asamblea.comisiones', aso() ? 'Secretarías ejecutivas que se eligen' : 'Comisiones de trabajo que elegirán coordinador', { ph: 'Como aparecen en los estatutos' })}
+    ${area('asamblea.comisiones', aso() ? 'Secretarías ejecutivas que se eligen' : 'Comisiones de trabajo que elegirán coordinador', { ph: 'Una por línea, como aparecen en los estatutos', ayuda: 'Escriba una por línea o sepárelas con punto y coma (;).' })}
     ${area('asamblea.observaciones', 'Observaciones')}`;
   };
 
@@ -352,7 +362,14 @@
       ${pl.presentadaPor.length < 3 ? `<button type="button" class="btn btn--claro btn--peque" data-agregar="planchas.${a}.presentadaPor">+ Persona</button>` : ''}</div>
     <div class="bloque-plancha"><h4>📥 Recibida por (Tribunal)</h4>
       <div class="fila">${[0, 1, 2].map((i) => `<div class="campo"><label for="${idDe(`planchas.${a}.recibidaPor.${i}`)}">Integrante ${i + 1}</label><select id="${idDe(`planchas.${a}.recibidaPor.${i}`)}" data-k="planchas.${a}.recibidaPor.${i}">${opTG(pl.recibidaPor[i])}</select></div>`).join('')}</div></div>
-    <label class="check check--grande"><input type="checkbox" data-k="planchas.${a}.parentesco" ${pl.parentesco ? 'checked' : ''}> <span>Revisamos que entre directivos, fiscal y conciliadores <b>no hay parentesco</b> (hasta 4.º de consanguinidad, 2.º de afinidad o 1.º civil, ni esposos o compañeros).</span></label>
+    <div class="bloque-plancha"><h4>👪 Parentesco</h4>
+      ${opciones(`planchas.${a}.parentescoHay`, '¿Hay parentesco entre directivos, fiscal y conciliadores de esta plancha?', [['No', 'No hay parentesco', '✅'], ['Sí', 'Sí hay parentesco', '👪']], { req: 1 })}
+      ${pl.parentescoHay === 'Sí' ? `<div class="fila"><div class="campo"><label for="${idDe(`planchas.${a}.parentescoGrado`)}">Grado más cercano ${R}</label><select id="${idDe(`planchas.${a}.parentescoGrado`)}" data-k="planchas.${a}.parentescoGrado" data-rehacer="1">
+          <option value="">Elija</option>${GRADOS.map(([k, t]) => `<option value="${k}" ${pl.parentescoGrado === k ? 'selected' : ''}>${esc(t)}</option>`).join('')}</select>
+          <span class="ayuda">Primos = 4.º de consanguinidad. Cuñados = 2.º de afinidad.</span></div>
+        ${inp(`planchas.${a}.parentescoQuienes`, 'Entre quiénes y qué cargos', { req: 1, ancho: 1, ph: 'Ej.: tesorero y fiscal son primos' })}</div>
+        ${prohibido(pl.parentescoGrado) ? `<label class="check check--grande"><input type="checkbox" data-k="planchas.${a}.parentescoAut" ${pl.parentescoAut ? 'checked' : ''}> <span>Es un caso rural y tenemos la <b>autorización del organismo comunal de grado superior</b> (art. 38). La adjuntaremos al correo.</span></label>` : ''}` : ''}
+      <p class="ayuda">La ley no permite parentesco hasta el 4.º grado de consanguinidad, el 2.º de afinidad o el 1.º civil, ni esposos o compañeros (Ley 2166, art. 38).</p></div>
     ${S.planchas.length > 1 ? `<button type="button" class="btn btn--texto" data-borrar-plancha>Quitar ${esc(nomPl(a))}</button>` : ''}
     ${verificar()}`;
   };
@@ -375,7 +392,8 @@
     <div class="fila">${inp('votacion.actaNo', 'N.º del acta', { req: 1, modo: 'numeric' })}${inp('votacion.lugar', 'Lugar', { req: 1 })}${inp('votacion.fecha', 'Fecha', { req: 1, tipo: 'date' })}${inp('votacion.hora', 'Hora', { req: 1, tipo: 'time' })}</div>
     ${directa() ? `<div class="fila">${inp('votacion.horaInicio', 'Apertura de urnas', { tipo: 'time' })}${inp('votacion.horaCierre', 'Cierre de urnas', { tipo: 'time' })}${inp('votacion.lugarPublicacion', 'Dónde se publicaron las planchas')}</div>` : ''}
     <div class="fila">${inp('votacion.afiliadosHabiles', aso() ? 'Delegados hábiles (inscritos)' : 'Afiliados hábiles (libro cerrado)', { req: 1, tipo: 'number', min: 1, modo: 'numeric' })}${inp('votacion.votantes', directa() ? 'Personas que votaron' : aso() ? 'Delegados presentes' : 'Afiliados presentes', { req: 1, tipo: 'number', min: 0, modo: 'numeric' })}${inp('votacion.tgPresentes', 'Integrantes del Tribunal presentes', { req: 1, tipo: 'number', min: 0, modo: 'numeric' })}${inp('votacion.horaFin', 'Hora de terminación', { tipo: 'time' })}</div>
-    <h4>${directa() ? 'Presidente(a) y secretario(a) del organismo comunal que firman' : 'Presidente(a) y secretario(a) de esta asamblea'}</h4>
+    <h4>Presidente(a) y secretario(a) que firman el acta de elección</h4>
+    <p class="ayuda">${directa() ? 'Los que firman al final del acta (por lo general, los elegidos para dirigir la jornada).' : 'Los que dirigieron esta asamblea.'}</p>
     ${tablaPersonas(filaPersona('votacion.firma1', 'Presidente(a)', { tel: 1 }) + filaPersona('votacion.firma2', 'Secretario(a)', { tel: 1 }), { tel: 1 })}
     <h3 class="sub">🧮 Votos por bloque</h3>
     <p class="ayuda">Los votos en blanco sí cuentan para el cociente; los nulos no.</p>
@@ -438,7 +456,9 @@
   function comisionesEleccion() {
     const set = [];
     S.planchas.forEach((p) => p.com.forEach((c) => { const n = (c.comision || '').trim(); if (n && !set.some((x) => norm(x) === norm(n))) set.push(n); }));
-    String(S.asamblea.comisiones || '').split(/[;\n,]+/).map((x) => x.trim()).filter(Boolean).forEach((n) => { if (!set.some((x) => norm(x) === norm(n))) set.push(n.toUpperCase()); });
+    // Se separan solo con punto y coma o una por línea: los nombres pueden llevar comas
+    // ("Educación, cultura y emprendimiento"). Las que coinciden con la plancha se unen (norm quita la puntuación).
+    String(S.asamblea.comisiones || '').split(/[;\n]+/).map((x) => x.trim()).filter(Boolean).forEach((n) => { if (!set.some((x) => norm(x) === norm(n))) set.push(n.toUpperCase()); });
     while (S.votacion.coordinadores.length < set.length) S.votacion.coordinadores.push(per());
     S.votacion.coordinadores.length = Math.max(set.length, 0);
     S.votacion.coordinadores.forEach((c, i) => { c.comision = set[i]; });
@@ -610,6 +630,10 @@
     if (fA && a.fecha > hoy()) amar(2, 'fecha-futura-' + a.fecha, 'La fecha de la asamblea es posterior a hoy. Verifíquela.', 'asamblea.fecha');
     const oficial = aso() ? FECHA_ASO_2026 : window.FECHA_OFICIAL_2026;
     if (fE && a.tipoEleccion === 'Total' && a.elecFecha !== oficial) amar(2, 'fecha-oficial-' + a.elecFecha, `La fecha nacional de elección ${aso() ? 'de las Asocomunales fue el 26 de julio' : 'fue el 26 de abril'} de 2026. En otra fecha necesita autorización de la entidad de inspección, vigilancia y control.`, 'asamblea.elecFecha');
+    // Hora de terminación antes de la de inicio: casi siempre es a. m. / p. m. cambiado
+    const horaAntes = (ini, fin) => /^\d{2}:\d{2}/.test(ini || '') && /^\d{2}:\d{2}/.test(fin || '') && fin < ini;
+    if (horaAntes(a.hora, a.horaFin)) amar(2, `hora-fin-${a.hora}-${a.horaFin}`, `La reunión empezó a las ${fH(a.hora)} y terminó a las ${fH(a.horaFin)} Revise si es a. m. o p. m.`, 'asamblea.horaFin');
+    if (a.actaAntFecha && a.fecha && a.actaAntFecha >= a.fecha) amar(2, 'acta-ant-' + a.actaAntFecha, 'El acta anterior tiene una fecha igual o posterior a esta asamblea. Verifíquela.', 'asamblea.actaAntFecha');
     if (!a.empate.trim()) amar(2, 'empate', 'No escribió cómo se resolverán los empates.', 'asamblea.empate');
 
     // Paso 3: Tribunal
@@ -681,7 +705,15 @@
       });
       if (sinMayor.length) rojo(5, `${np}: marque "Mayor de edad" (obligatorio en directiva, fiscalía y conciliación): ${sinMayor.map((x) => x.n).join(', ')}.`, sinMayor[0].ruta + '.mayor');
       if (total && mujeres / total < 0.3) amar(5, `mujeres-${pi}-${mujeres}-${total}`, `${np}: ${mujeres} mujer(es) de ${total} candidatos (${Math.round(mujeres / total * 100)} %). La ley pide mínimo 30 % de los cargos para mujeres.`, r('dir.0.ced'));
-      if (!pl.parentesco) amar(5, `parentesco-${pi}`, `${np}: confirme que revisaron el parentesco (casilla al final).`, '');
+      if (!pl.parentescoHay) rojo(5, `${np}: responda si hay parentesco entre directivos, fiscal y conciliadores.`, r('parentescoHay'));
+      else if (pl.parentescoHay === 'Sí') {
+        if (!pl.parentescoGrado) rojo(5, `${np}: elija el grado de parentesco.`, r('parentescoGrado'));
+        if (!String(pl.parentescoQuienes || '').trim()) rojo(5, `${np}: escriba entre quiénes hay parentesco.`, r('parentescoQuienes'));
+        if (prohibido(pl.parentescoGrado)) {
+          if (!pl.parentescoAut) rojo(5, `${np}: la ley no permite este parentesco entre directivos, fiscal y conciliadores (art. 38). Solo vale en casos rurales con autorización del organismo de grado superior.`, r('parentescoGrado'));
+          else amar(5, `parentesco-aut-${pi}`, `${np}: hay parentesco autorizado por el grado superior. Adjunte la autorización al correo.`, r('parentescoGrado'));
+        }
+      }
       if (!pl.presentadaPor.some((x) => !vacia(x))) rojo(5, `${np}: falta "Presentada por".`, r('presentadaPor.0.ced'));
       pl.presentadaPor.forEach((x, i) => formato(x, `${np}, presentada por`, r(`presentadaPor.${i}`), 5, false));
       const rec = pl.recibidaPor.filter((x) => x !== '');
@@ -710,9 +742,14 @@
         else if (!directa() && vot < Math.floor(hab / 2) + 1) rojo(6, `En asamblea debe votar la mitad más uno (${Math.floor(hab / 2) + 1} de ${hab}). Votaron ${vot}: la elección no es válida.`, 'votacion.votantes');
         else if (directa() && vot < Math.ceil(hab * 0.3)) rojo(6, `En elección directa debe votar mínimo el 30 % (${Math.ceil(hab * 0.3)} de ${hab}). Votaron ${vot}.`, 'votacion.votantes');
       }
+      if (horaAntes(v.hora, v.horaFin)) amar(6, `hora-fin-v-${v.hora}-${v.horaFin}`, `La jornada empezó a las ${fH(v.hora)} y terminó a las ${fH(v.horaFin)} Revise si es a. m. o p. m.`, 'votacion.horaFin');
+      if (directa() && horaAntes(v.horaInicio, v.horaCierre)) amar(6, `hora-urnas-${v.horaInicio}-${v.horaCierre}`, `Las urnas se abrieron a las ${fH(v.horaInicio)} y se cerraron a las ${fH(v.horaCierre)} Revise si es a. m. o p. m.`, 'votacion.horaCierre');
+      // Afiliados de la preparatoria frente a los hábiles de la elección (el libro se pudo depurar o crecer)
+      const totA = parseInt(a.totalAfiliados, 10);
+      if (hab > 0 && totA > 0 && Math.abs(hab - totA) / totA > 0.1) amar(6, `hab-dif-${hab}-${totA}`, `En la asamblea preparatoria había ${totA} ${miembros()} y en la elección ${hab} hábiles. Si el libro se depuró o crecieron las afiliaciones, está bien: anótelo en observaciones.`, 'votacion.afiliadosHabiles');
       if (tgp >= 0 && v.tgPresentes !== '' && tgp < 2) rojo(6, 'Deben estar al menos 2 integrantes del Tribunal. Con 1 la elección no se puede hacer.', 'votacion.tgPresentes');
       if (v.fecha && a.elecFecha && v.fecha !== a.elecFecha) amar(6, 'fecha-dif-' + v.fecha, `La votación (${fF(v.fecha)}) no fue en la fecha acordada (${fF(a.elecFecha)}).`, 'votacion.fecha');
-      [['firma1', 'Presidente(a) que firma el acta'], ['firma2', 'Secretario(a) que firma el acta']].forEach(([k, d]) => { if (vacia(v[k])) rojo(6, `Falta: ${d.toLowerCase()}.`, `votacion.${k}.ced`); else formato(v[k], d, `votacion.${k}`, 6); });
+      [['firma1', 'Presidente(a) que firma el acta'], ['firma2', 'Secretario(a) que firma el acta']].forEach(([k, d]) => { if (vacia(v[k])) rojo(6, `Falta: ${d.toLowerCase()}.`, `votacion.${k}.ced`); else { formato(v[k], d, `votacion.${k}`, 6); reg(v[k], d, `votacion.${k}`, 6); } });
       BLOQUES.filter((b) => !b.comision && bloqueActivo(b.k)).forEach((b) => {
         const vb = v.votos[b.k];
         const faltan = S.planchas.some((_, i) => vb.p[i] === undefined || vb.p[i] === '');
@@ -731,10 +768,12 @@
         const vistos = {};
         comp.cargos.filter((c) => c.k === 'con' && c.persona).forEach((c) => { const o = norm(c.persona.org); if (o && vistos[o]) rojo(6, `Los conciliadores elegidos ${nombre(vistos[o])} y ${nombre(c.persona)} son delegados de la misma junta. Deben ser de juntas distintas (art. 38).`, ''); else if (o) vistos[o] = c.persona; });
       }
-      v.coordinadores.forEach((c, i) => { if (vacia(c)) rojo(6, aso() ? `Falta la persona elegida para la secretaría ${c.comision}.` : `Falta el coordinador elegido por la comisión ${c.comision}.`, `votacion.coordinadores.${i}.ced`); else formato(c, `${aso() ? 'Secretaría' : 'Coordinador(a)'} ${c.comision}`, `votacion.coordinadores.${i}`, 6); });
+      v.coordinadores.forEach((c, i) => { if (vacia(c)) rojo(6, aso() ? `Falta la persona elegida para la secretaría ${c.comision}.` : `Falta el coordinador elegido por la comisión ${c.comision}.`, `votacion.coordinadores.${i}.ced`); else { formato(c, `${aso() ? 'Secretaría' : 'Coordinador(a)'} ${c.comision}`, `votacion.coordinadores.${i}`, 6); reg(c, `${aso() ? 'Secretaría' : 'Coordinador(a)'} ${c.comision} (votación)`, `votacion.coordinadores.${i}`, 6); } });
       const elegidas = comp.cargos.filter((c) => c.persona);
       const muj = elegidas.filter((c) => c.persona.mujer).length;
       if (elegidas.length && muj / elegidas.length < 0.3) amar(6, `cuota-final-${muj}-${elegidas.length}`, `Entre los dignatarios elegidos hay ${muj} mujeres de ${elegidas.length} cargos. La ley pide mínimo 30 % (art. 34).`, '');
+      // La tabla de elegidos sale de las planchas: hay que compararla con el acta firmada (errores de copia entre documentos)
+      if (elegidas.length) amar(6, 'compara-acta', 'Compare los dignatarios elegidos de esta tabla con el acta de elección firmada: nombres y números de documento deben ser iguales en los dos.', '');
       if (!S.adjuntos.elec.length) adj(6, 'Falta adjuntar la foto del listado de asistencia firmado de la elección.', 'elec');
       pesado('elec', 6);
     }
@@ -945,8 +984,11 @@ ${comp.cargos.map((c) => fila(c.cargo, c.persona ? fl(c.persona) : '')).join('')
      "Cuando llega un correo nuevo (V3)" en el buzón compartido, filtrado por "[ELECCIÓN DIGNATARIOS" (conectores
      estándar de Microsoft 365), puede leer el tipo y la versión entre corchetes, separar el resto con split(' - ') y agregar una fila a la misma
      Lista o Excel, sin trabajo extra para el radicador; el correo sigue su radicación normal en MERCURIO. */
-  /* VERSIÓN REAL INTEGRADA CON SURCO (cómo se guardaría la información en la Gobernación):
-     una base de datos con UNA FILA POR SOLICITUD Y VERSIÓN, con estas columnas:
+  /* VERSIÓN REAL (cómo se guardaría la información en la Gobernación). La propuesta final plantea
+     alojar la Guía Comunal en el Observatorio de Participación Ciudadana (OPC,
+     https://opc-spcc-gobantioquia.hub.arcgis.com/, ArcGIS Hub). Allí, cada envío se guardaría en
+     una base de datos de la Gobernación (por ejemplo, una capa o tabla de ArcGIS Online alimentada
+     por la herramienta o por Power Automate) con UNA FILA POR SOLICITUD Y VERSIÓN, con estas columnas:
        código (DPCC-EL-…-vN), código raíz, versión, tipo de solicitud (nueva/subsanación),
        ID y nombre del organismo, tipo de organismo (JAC/JVC/Asocomunal), municipio, subregión,
        período electoral (2026-2030…), estado del semáforo, estado del trámite (en proceso,
@@ -954,7 +996,8 @@ ${comp.cargos.map((c) => fila(c.cargo, c.persona ? fl(c.persona) : '')).join('')
      - Cada envío AGREGA una fila (nunca borra la anterior); la versión más alta de un código raíz es
        la vigente y las demás quedan como historial de subsanaciones.
      - Al recibir cada envío (correo radicado en MERCURIO o la conexión "CONECTAR AQUÍ") se actualiza
-       el estado; cuando la Dirección aprueba, SURCO actualiza los dignatarios del organismo.
+       el estado; cuando la Dirección aprueba, los dignatarios se inscriben en SURCO como hoy (SURCO
+       sigue siendo el sistema de registro de la Dirección; la página solo lo consulta).
      - Al cambiar de período, las filas del período anterior quedan como HISTÓRICO de solo lectura y
        las nuevas solicitudes se guardan con el período nuevo.
      HOY (prototipo): esto solo se guarda en el navegador de quien usa la herramienta ("dpcc-avances");
@@ -1019,6 +1062,29 @@ ${comp.cargos.map((c) => fila(c.cargo, c.persona ? fl(c.persona) : '')).join('')
       </div>
       <div class="imprimible" id="fImprimible">${resumenImprimible()}</div>`;
     marcarErrores();
+  }
+  /* Autollenado: al escribir un número de documento que ya está en la solicitud (por ejemplo, quien
+     preside la asamblea y luego recibe la plancha), se copian el tipo, los apellidos y los nombres.
+     Solo si la fila tiene vacíos los apellidos y los nombres; la persona puede corregirlos. */
+  function personasConocidas() {
+    const out = [];
+    const recorrer = (o, ruta) => {
+      if (!o || typeof o !== 'object') return;
+      if ('ced' in o && 'ape' in o && 'nom' in o) out.push({ p: o, ruta });
+      Object.keys(o).forEach((k) => { if (o[k] && typeof o[k] === 'object') recorrer(o[k], ruta ? `${ruta}.${k}` : k); });
+    };
+    recorrer(S, '');
+    return out;
+  }
+  function autollenar(rutaCed) {
+    const base = rutaCed.replace(/\.ced$/, ''), p = leerRuta(S, base);
+    if (!p || !numDoc(p) || (p.ape || '').trim() || (p.nom || '').trim()) return;
+    const otra = personasConocidas().find((x) => x.p !== p && numDoc(x.p) === numDoc(p) && (x.p.ape || '').trim() && (x.p.nom || '').trim());
+    if (!otra) return;
+    p.ape = otra.p.ape; p.nom = otra.p.nom;
+    if (tdoc(p) === 'CC') p.tdoc = tdoc(otra.p);
+    ['tdoc', 'ape', 'nom'].forEach((k) => { const e = document.getElementById(idDe(`${base}.${k}`)); if (e) e.value = p[k]; });
+    aviso(`Se llenó con los datos de ${nombre(p)}. Revíselos.`);
   }
   function marcarErrores() {
     cont.querySelectorAll('.con-error').forEach((e) => e.classList.remove('con-error'));
@@ -1119,6 +1185,7 @@ ${comp.cargos.map((c) => fila(c.cargo, c.persona ? fl(c.persona) : '')).join('')
       if (!el.dataset.k) return;
       ponerRuta(S, el.dataset.k, el.type === 'checkbox' ? el.checked : el.value);
       if (el.dataset.k === 'junta.subregion') S.junta.municipio = '';
+      if (/\.ced$/.test(el.dataset.k)) autollenar(el.dataset.k);
       if (el.dataset.k === 'junta.tipo' && aso() && directa()) { S.asamblea.sistemaEleccion = 'En asamblea'; aviso('La Asocomunal elige en asamblea de delegados: se cambió "Cómo se vota".'); }
       guardarS();
       if (el.type === 'radio' || el.dataset.rehacer || el.dataset.k === 'autoriza') pintar(); else refrescarEstado();

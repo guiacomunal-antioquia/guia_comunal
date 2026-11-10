@@ -18,7 +18,7 @@ window.KB = [
 "Copia o constancia de la solicitud si hubo negativa."
 ],
 "problema": "Si se niegan a inscribirte, no te quedes solo con una respuesta verbal. Pide que quede constancia de tu solicitud. El modelo estatutario señala que la negativa debe fundarse en una justa causa y ser resuelta por la Comisión de Convivencia y Conciliación dentro del procedimiento correspondiente.",
-"f": "Ley 2166 de 2021 y estatutos de la organización. Modelo de Estatutos 2024 aportado: arts. 9 a 12.",
+"f": "Ley 2166 de 2021 y estatutos de la organización. Modelo de Estatutos 2024: arts. 9 a 12.",
 "links": [
 [
 "Consultar afiliación en SURCO",
@@ -48,7 +48,7 @@ window.KB = [
 "Estatutos de la JAC."
 ],
 "problema": "Según el modelo de estatutos, si no existe pronunciamiento dentro del término allí previsto, puede operar la inscripción automática. Como los estatutos particulares pueden variar, el bot recomienda revisar los estatutos vigentes de tu JAC antes de aplicar ese efecto a un caso concreto.",
-"f": "Ley 2166 de 2021. Modelo de Estatutos 2024 aportado, reglas de afiliación y Comisión de Convivencia y Conciliación.",
+"f": "Ley 2166 de 2021. Modelo de Estatutos 2024, reglas de afiliación y Comisión de Convivencia y Conciliación.",
 "links": [],
 "municipio": true
 },
@@ -66,7 +66,7 @@ window.KB = [
 ],
 "docs": [],
 "problema": "Si consideras que te están impidiendo ejercer un derecho comunal, identifica primero si se trata de un conflicto interno, una decisión impugnable o una posible irregularidad que requiera IVC; el bot puede orientarte por esas rutas.",
-"f": "Ley 2166 de 2021 y Modelo de Estatutos 2024 aportado, arts. 12 y 13.",
+"f": "Ley 2166 de 2021 y Modelo de Estatutos 2024, arts. 12 y 13.",
 "links": [],
 "municipio": false
 },
@@ -84,7 +84,7 @@ window.KB = [
 ],
 "docs": [],
 "problema": "El modelo de estatutos contempla reglas generales de quórum y reglas especiales para decisiones como reforma de estatutos. Para elecciones 2026, la guía de elecciones 2026 indica mitad más uno en elección por asamblea y mínimo 30% en elección directa.",
-"f": "Ley 2166 de 2021; estatutos de cada organismo; Modelo de Estatutos 2024 aportado, arts. 18 a 28.",
+"f": "Ley 2166 de 2021; estatutos de cada organismo; Modelo de Estatutos 2024, arts. 18 a 28.",
 "links": [],
 "municipio": false
 },
@@ -154,7 +154,7 @@ window.KB = [
 "c": "elecciones",
 "q": "Inscribir una plancha o lista",
 "v": "plancha | formato plancha | inscribir candidatos | postulacion planchas | lista candidatos | formato candidatos",
-"a": "La plancha o lista debe entregarse al Tribunal de Garantías dentro del plazo definido por la Asamblea Preparatoria o por los estatutos. El formato aportado organiza la postulación por bloques.",
+"a": "La plancha o lista debe entregarse al Tribunal de Garantías dentro del plazo definido por la Asamblea Preparatoria o por los estatutos. El formato oficial organiza la postulación por bloques.",
 "pasos": [
 "Diligencia JAC/JVC, municipio, número de plancha, fecha y hora.",
 "Completa los cargos y datos de identidad sin enmendaduras ni inconsistencias.",
@@ -225,7 +225,7 @@ window.KB = [
 ],
 "docs": [],
 "problema": "El modelo de estatutos prevé que, si una renuncia escrita no recibe pronunciamiento dentro de 30 días calendario, se entiende aceptada; debe verificarse que los estatutos vigentes de la JAC contengan esa regla.",
-"f": "Modelo de Estatutos 2024 aportado, art. 35 y reglas de vacancias.",
+"f": "Modelo de Estatutos 2024, art. 35 y reglas de vacancias.",
 "links": [],
 "municipio": true
 },
@@ -265,7 +265,7 @@ window.KB = [
 ],
 "docs": [],
 "problema": "",
-"f": "Canal institucional SURCO suministrado para el proyecto.",
+"f": "Consulta pública de SURCO, Gobernación de Antioquia.",
 "links": [
 [
 "Consultar certificados en SURCO",
@@ -295,7 +295,7 @@ window.KB = [
 "Otros soportes que solicite la autoridad competente."
 ],
 "problema": "Para asesoría en municipios atendidos por la Gobernación puedes escribir a organismoscomunales@antioquia.gov.co. Antes de radicar, el bot debe verificar tu municipio porque ocho municipios cuentan con ruta municipal propia de IVC.",
-"f": "Decreto 1501 de 2023, art. 2.3.2.1.1.1, e insumos institucionales aportados.",
+"f": "Decreto 1501 de 2023, art. 2.3.2.1.1.1, y documentos institucionales.",
 "links": [],
 "municipio": true
 },
@@ -319,7 +319,7 @@ window.KB = [
 "Demás anexos exigidos por la autoridad."
 ],
 "problema": "",
-"f": "Ley 2166 de 2021; estatutos; formato institucional de reforma aportado.",
+"f": "Ley 2166 de 2021; estatutos; formato institucional de reforma.",
 "links": [],
 "municipio": true
 },
@@ -328,7 +328,7 @@ window.KB = [
 "c": "tramites",
 "q": "Registrar o reemplazar libros comunales",
 "v": "registro libros | registrar libro afiliados | libro de actas | perdi libro | reemplazar libro | libros comunales",
-"a": "Los libros reglamentarios deben registrarse ante la entidad que ejerce IVC. El formato institucional aportado contempla actas de Asamblea, Junta Directiva/dignatarios, Convivencia y Conciliación, afiliados/delegados, tesorería, inventarios y otros.",
+"a": "Los libros reglamentarios deben registrarse ante la entidad que ejerce IVC. El formato institucional contempla actas de Asamblea, Junta Directiva/dignatarios, Convivencia y Conciliación, afiliados/delegados, tesorería, inventarios y otros.",
 "pasos": [
 "Identifica qué libro necesitas registrar o reemplazar.",
 "Define el motivo: primer registro, agotamiento, deterioro, pérdida/hurto, retención u otro.",
@@ -337,7 +337,7 @@ window.KB = [
 ],
 "docs": [],
 "problema": "Para reemplazo por pérdida/hurto, deterioro, retención o agotamiento pueden exigirse soportes específicos. No deseches el libro anterior o evidencia sin revisar primero el requisito aplicable.",
-"f": "Formato institucional de registro de libros aportado y Modelo de Estatutos 2024, arts. 102 a 109.",
+"f": "Formato institucional de registro de libros y Modelo de Estatutos 2024, arts. 102 a 109.",
 "links": [],
 "municipio": true
 },
@@ -379,8 +379,8 @@ window.KB = [
 "Pruebas de los hechos.",
 "Identificación y datos de notificación de demandantes/demandados."
 ],
-"problema": "El Modelo de Estatutos 2024 aportado exige, para la impugnación electoral allí regulada, al menos cinco afiliados inscritos y activos que hayan asistido/presenciado la elección y fija 10 días hábiles siguientes a la elección. Como los estatutos particulares son determinantes, revisa los de tu organización antes de asumir que esos requisitos aplican idénticamente a tu caso.",
-"f": "Ley 2166 de 2021; Decreto 1501 de 2023; Modelo de Estatutos 2024 aportado, arts. 89 a 94.",
+"problema": "El Modelo de Estatutos 2024 exige, para la impugnación electoral allí regulada, al menos cinco afiliados inscritos y activos que hayan asistido/presenciado la elección y fija 10 días hábiles siguientes a la elección. Como los estatutos particulares son determinantes, revisa los de tu organización antes de asumir que esos requisitos aplican idénticamente a tu caso.",
+"f": "Ley 2166 de 2021; Decreto 1501 de 2023; Modelo de Estatutos 2024, arts. 89 a 94.",
 "links": [],
 "municipio": true
 },
@@ -403,7 +403,7 @@ window.KB = [
 "Relato cronológico."
 ],
 "problema": "",
-"f": "Funciones de inspección, vigilancia y control descritas en los insumos institucionales; Ley 2166 de 2021 y Decreto 1501 de 2023.",
+"f": "Funciones de inspección, vigilancia y control descritas en los documentos institucionales; Ley 2166 de 2021 y Decreto 1501 de 2023.",
 "links": [],
 "municipio": true
 },
@@ -420,7 +420,7 @@ window.KB = [
 ],
 "docs": [],
 "problema": "",
-"f": "Página institucional aportada para el proyecto.",
+"f": "Página de la Dirección de Participación Comunitaria y Ciudadana.",
 "links": [
 [
 "Dirección de Participación Comunitaria y Ciudadana",
@@ -442,7 +442,7 @@ window.KB = [
 "pasos": [],
 "docs": [],
 "problema": "",
-"f": "Portal institucional suministrado para el proyecto.",
+"f": "Observatorio de Participación Ciudadana, Gobernación de Antioquia.",
 "links": [
 [
 "Consultar indicadores",
@@ -463,7 +463,7 @@ window.KB = [
 ],
 "docs": [],
 "problema": "",
-"f": "Documentos aportados al proyecto del chatbot.",
+"f": "Documentos institucionales de la Dirección.",
 "links": [
 [
 "📘 Cartilla ABC Comunal",
@@ -497,7 +497,7 @@ window.KB = [
 ],
 "docs": [],
 "problema": "",
-"f": "Ley 2166 de 2021 y Modelo de Estatutos 2024 aportado.",
+"f": "Ley 2166 de 2021 y Modelo de Estatutos 2024.",
 "links": [],
 "municipio": false
 },

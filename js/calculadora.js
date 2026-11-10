@@ -131,7 +131,7 @@
       <ol class="calc__cargos">${sillas.map((i, k) => { const n = quien(i, sillas.slice(0, k).filter((x) => x === i).length);
         return `<li><span>${esc(nombres[k] || `Cargo ${k + 1}`)}</span><b><i class="calc__marca" style="--c:${color(i)}"></i>${n ? `<span class="calc__quien">${esc(n)}</span> · ` : ''}${nombre(i)}</b></li>`; }).join('')}</ol>
       ${hayNombres() ? '<p class="nota">Cada plancha ocupa sus cargos con sus candidatos en el orden en que los escribió.</p>' : ''}
-      <p class="nota">Orden tentativo: primero la plancha con más cargos. <span class="etiqueta etiqueta--pendiente">Por validar con la Dirección</span> Si sus estatutos dicen otra cosa, mandan los estatutos.</p>
+      <p class="nota">Orden tentativo: primero la plancha con más cargos. Si sus estatutos dicen otra cosa, se aplican los estatutos.</p>
       ${imprimir}</div>`;
   }
 

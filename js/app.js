@@ -7,6 +7,15 @@
   const esc = (t) => String(t == null ? '' : t).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
   const pref = { leer: (k, d) => { try { const v = localStorage.getItem(k); return v === null ? d : v; } catch (e) { return d; } }, poner: (k, v) => { try { localStorage.setItem(k, v); } catch (e) { /* nada */ } } };
 
+  /* ---------- Secciones ocultas (window.MOSTRAR en js/datos.js) ----------
+     Se quitan del menú y de todos los enlaces; la pantalla pierde su dirección, así que
+     #/estatutos lleva al inicio. Basta con poner true para que vuelvan. */
+  Object.entries(window.MOSTRAR || {}).forEach(([ruta, ver]) => {
+    if (ver) return;
+    $$(`a[href="#/${ruta}"], a[href^="#/${ruta}/"]`).forEach((a) => { (a.closest('li') || a).remove(); });
+    $$(`.pantalla[data-ruta="${ruta}"], .pantalla[data-ruta^="${ruta}/"]`).forEach((s) => { s.dataset.rutaOculta = s.dataset.ruta; s.removeAttribute('data-ruta'); s.hidden = true; });
+  });
+
   /* ---------- Menú del celular ---------- */
   $('.menu-btn').addEventListener('click', (ev) => { const ab = $('#menu').classList.toggle('abierto'); ev.currentTarget.setAttribute('aria-expanded', String(ab)); });
   // Compatibilidad: el asistente y otros módulos piden ir a una pantalla con window.irA('#…')
@@ -29,7 +38,9 @@
     if (!pista || !items.length) return;
     // Solo se descarga la foto visible y la siguiente (las ocultas tienen loading="lazy").
     const peque = (src) => src.replace(/\.webp$/, '-640.webp');
-    pista.innerHTML = items.map((x, i) => `<figure class="carrusel__item" ${i ? 'hidden' : ''}><img src="${esc(x.img)}" srcset="${esc(peque(x.img))} 640w, ${esc(x.img)} 1280w" sizes="(max-width: 700px) 100vw, 1100px" alt="${esc(x.alt || x.texto || '')}" ${i ? 'loading="lazy"' : ''}>${x.texto ? `<figcaption>${esc(x.texto)}</figcaption>` : ''}</figure>`).join('');
+    // Encuadre propio de cada foto (foco y focoCel en js/datos.js) para que no se corten los rostros
+    const foco = (x) => [x.foco ? `--foco:${x.foco}` : '', x.focoCel ? `--foco-cel:${x.focoCel}` : ''].filter(Boolean).join(';');
+    pista.innerHTML = items.map((x, i) => `<figure class="carrusel__item" ${i ? 'hidden' : ''} style="${esc(foco(x))}"><img src="${esc(x.img)}" srcset="${esc(peque(x.img))} 640w, ${esc(x.img)} 1280w" sizes="(max-width: 700px) 100vw, 1100px" alt="${esc(x.alt || x.texto || '')}" ${i ? 'loading="lazy"' : ''}>${x.texto ? `<figcaption>${esc(x.texto)}</figcaption>` : ''}</figure>`).join('');
     puntos.innerHTML = `<span aria-live="polite">1 / ${items.length}</span>`;
     let actual = 0, t;
     const ir = (n) => {
@@ -47,17 +58,28 @@
 
   /* ---------- Videos: cada espacio lee js/videos.js ---------- */
   function idYouTube(url) { const m = String(url).match(/(?:youtu\.be\/|v=|shorts\/|embed\/)([\w-]{11})/); return m ? m[1] : ''; }
+  /* Un video sin enlace (url vacía en js/videos.js) no se muestra: se oculta su espacio y, si era el
+     único de un desplegable "🎬 …", también el desplegable. Aparece solo cuando se llena su url. */
+  const tieneVideo = (k) => !!((window.VIDEOS || {})[k] || {}).url;
   function pintarVideo(el) {
     const v = (window.VIDEOS || {})[el.dataset.video];
-    if (!v) return;
-    if (!v.url) {
-      el.innerHTML = `<div class="video__pronto"><img src="img/mascota/celular.webp" alt="" width="70" height="107"><div><small>🎬 Video${v.corto ? ' corto' : ''}</small><b>${esc(v.titulo)}</b><span class="etiqueta etiqueta--pronto">Próximamente</span></div></div>`;
+    const caja = el.closest('details.mas-info');
+    if (!v || !v.url) {
+      el.hidden = true;
+      el.innerHTML = '';
+      if (caja && !caja.querySelector('[data-video]:not([hidden])')) caja.hidden = true;
       return;
     }
-    el.innerHTML = `<button type="button" class="video__play"><span class="video__icono" aria-hidden="true">▶</span><b>${esc(v.titulo)}</b><small>Toque para ver</small></button>`;
+    el.hidden = false;
+    if (caja) caja.hidden = false;
+    const yt = idYouTube(v.url);
+    // Shorts (verticales): marco 9:16. La miniatura se descarga solo cuando el espacio entra en pantalla
+    // y el reproductor de YouTube solo cuando la persona toca ▶.
+    const vertical = v.vertical || /\/shorts\//.test(v.url);
+    el.classList.toggle('video--vertical', vertical);
+    el.innerHTML = `<button type="button" class="video__play">${yt && vertical ? `<img class="video__miniatura" src="https://i.ytimg.com/vi/${yt}/hqdefault.jpg" alt="" loading="lazy" width="480" height="360">` : ''}<span class="video__icono" aria-hidden="true">▶</span><span class="video__titulo"><b>${esc(v.titulo)}</b><small>Toque para ver</small></span></button>`;
     el.querySelector('button').addEventListener('click', () => {
-      const yt = idYouTube(v.url);
-      el.innerHTML = yt ? `<iframe src="https://www.youtube-nocookie.com/embed/${yt}?autoplay=1&rel=0" title="${esc(v.titulo)}" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>`
+      el.innerHTML = yt ? `<iframe src="https://www.youtube-nocookie.com/embed/${yt}?autoplay=1&rel=0&playsinline=1" title="${esc(v.titulo)}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>`
         : `<video controls autoplay playsinline src="${esc(v.url)}" title="${esc(v.titulo)}"></video>`;
     });
   }
@@ -70,14 +92,15 @@
   function detalle(i) {
     const x = LT[i];
     $$('#lineaTiempo button').forEach((b) => b.setAttribute('aria-pressed', String(+b.dataset.etapa === i)));
-    $('#lineaDetalle').innerHTML = `<div class="detalle">
+    $('#lineaDetalle').innerHTML = `<div class="detalle${tieneVideo(x.video) ? '' : ' detalle--sin-video'}">
       <div class="detalle__col"><h3>${x.icono} ${esc(x.titulo)}</h3><p class="detalle__cuando">📅 ${esc(x.cuando)}</p>
         <p class="detalle__tit">👤 Quién</p><div class="chips">${x.quien.map((q) => `<span>${esc(q)}</span>`).join('')}</div>
         <p class="detalle__tit">✅ Qué hace</p><ul class="lista-check">${x.hace.map((h) => `<li>${esc(h)}</li>`).join('')}</ul>
         <div class="ojo">⚠️ ${esc(x.ojo)}</div>
         <div class="botones">${x.herramienta ? `<a class="btn" href="#/eleccion/herramienta/paso-${PASO_FORM[x.herramienta]}">✍️ Hacerlo en la herramienta</a>` : ''}<a class="btn btn--texto" href="#/documentos/guias/${x.guia}">¿Cómo se usa?</a></div></div>
-      <div class="video" data-video="${x.video}"></div></div>`;
-    pintarVideo($('#lineaDetalle [data-video]'));
+      ${tieneVideo(x.video) ? `<div class="video" data-video="${x.video}"></div>` : ''}</div>`;
+    const vd = $('#lineaDetalle [data-video]');
+    if (vd) pintarVideo(vd);
   }
   $('#lineaTiempo').addEventListener('click', (ev) => {
     const b = ev.target.closest('[data-etapa]');

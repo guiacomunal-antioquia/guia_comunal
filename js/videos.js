@@ -8,15 +8,17 @@
         - Enlace de YouTube, por ejemplo: 'https://www.youtube.com/watch?v=XXXXXXXXXXX'
           (también sirve el enlace corto youtu.be o el de Shorts)
         - Archivo propio dentro de la carpeta media/, por ejemplo: 'media/video-1.mp4'
-   3. Guarde el archivo. El aviso "Próximamente" desaparece y se muestra el video.
-   Mientras "url" esté vacío ('') se ve el título con el aviso "Próximamente".
-   Los videos solo se cargan cuando la persona pulsa "Ver", para ahorrar datos.
+   3. Guarde el archivo. El espacio del video aparece solo en la página.
+   Mientras "url" esté vacío ('') el espacio está OCULTO (no se ve nada, ni el título).
+   Los enlaces de Shorts (youtube.com/shorts/…) se muestran en un marco vertical 9:16.
+   Los videos solo se cargan cuando la persona pulsa ▶, para ahorrar datos.
    ============================================================================ */
 window.VIDEOS = {
-  // Videos institucionales (en producción)
-  'v1': { titulo: '¿Qué es la acción comunal?', url: '' },
-  'v2': { titulo: '¿Quiénes conforman la acción comunal?', url: '' },
-  'v3': { titulo: '¿Qué hace la Gobernación de Antioquia por la acción comunal?', url: '' },
+  // Videos institucionales (YouTube Shorts, verticales)
+  'v1': { titulo: '¿Qué es la acción comunal?', url: 'https://youtube.com/shorts/XHZtLvXftZo' },
+  'v2': { titulo: '¿Quiénes conforman la acción comunal?', url: 'https://youtube.com/shorts/Wm6wAEs2C4Q' },
+  'v3': { titulo: '¿Qué hace la Gobernación de Antioquia por la acción comunal?', url: 'https://youtube.com/shorts/PhsLYbu76EU' },
+  // Aún sin video (ocultos hasta llenar url)
   'v4': { titulo: '¿En qué municipios está presente el acompañamiento?', url: '' },
   'v5': { titulo: '¿Dónde consultar información oficial?', url: '' },
 

@@ -5,10 +5,11 @@
 
    Reglas sencillas:
    - Cambie solo el texto que está entre comillas simples: 'así'.
-   - Donde dice 'Dato', escriba la información. Lo que quede como 'Dato' se ve en la página como "Dato".
+   - Donde dice 'Dato', escriba la información. Lo que quede como 'Dato' NO se muestra en la página
+     (se oculta el campo); aparece solo cuando tenga la información. Sin foto se muestra solo el nombre.
    - Los números de juntas pueden ir sin comillas (120) o con comillas ('120').
    - Fotos: guarde la foto en la carpeta indicada (rectangular 4:5, por ejemplo 320 × 400 px,
-     de la cabeza a la cintura) y escriba aquí el nombre del archivo. Sin foto se ve una silueta.
+     de la cabeza a la cintura) y escriba aquí el nombre del archivo. Sin foto ('sin-foto.svg') se ve solo el nombre.
    - Solo información pública: nombres y contactos institucionales y estadísticas generales.
      Nunca cédulas ni datos personales de afiliados.
 

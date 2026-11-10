@@ -17,6 +17,15 @@ window.MUNICIPIOS = {
   'Valle de Aburrá': ['Barbosa', 'Girardota', 'La Estrella']
 };
 
+/* ===================================================================================
+   SECCIONES QUE AÚN NO ESTÁN LISTAS (ocultas). Para mostrar una, cambie false por true:
+   aparece en el menú y su dirección vuelve a funcionar. Mientras esté en false no se ve en
+   ningún lado y su dirección (#/estatutos) lleva al inicio. No se borra nada.
+   =================================================================================== */
+window.MOSTRAR = {
+  estatutos: false   // Reforma de estatutos: falta la guía, los formatos y la herramienta
+};
+
 /* Los datos del mapa (profesionales, fotos, correos, promotores, número de juntas y municipios
    que atiende su alcaldía) están en datos/mapa.js, para actualizarlos sin tocar el código. */
 
@@ -70,29 +79,33 @@ window.FECHA_OFICIAL_2026 = '2026-04-26';
 /* Carrusel del inicio. Cada foto tiene dos tamaños en img/carrusel/: dpcc-NN.webp (1280 px)
    y dpcc-NN-640.webp (640 px, para celular). Para regenerarlos desde las fotos originales:
    python _mantenimiento/build_imagenes.py "<carpeta Propuesta de Mejora>".
-   alt: lo que se ve (lo lee el lector de pantalla). texto: frase opcional sobre la foto. */
+   alt: lo que se ve (lo lee el lector de pantalla). texto: frase opcional sobre la foto.
+   foco: punto de la foto que siempre debe verse ('horizontal vertical', en %). En computador el
+     carrusel es muy ancho (12:5) y se recorta arriba y abajo; en el celular (4:3), a los lados.
+     Sin foco se usa 'center 35%'. 0% = borde de arriba (o izquierdo), 100% = borde de abajo (o derecho).
+     focoCel (opcional): otro punto solo para el celular. */
 window.CARRUSEL = [
-  { n: 6, alt: 'Foto de grupo de un encuentro comunal', texto: 'Juntas que construyen territorio' },
-  { n: 7, alt: 'Pareja de líderes comunales con su certificado', texto: 'Acompañamiento en los municipios de Antioquia' },
-  { n: 4, alt: 'Entrega de certificado a una lideresa comunal', texto: 'Elecciones transparentes y participativas' },
+  { n: 6, alt: 'Foto de grupo de un encuentro comunal', texto: 'Juntas que construyen territorio', foco: 'center 55%' },
+  { n: 7, alt: 'Pareja de líderes comunales con su certificado', texto: 'Acompañamiento en los municipios de Antioquia', foco: 'center 10%' },
+  { n: 4, alt: 'Entrega de certificado a una lideresa comunal', texto: 'Elecciones transparentes y participativas', foco: 'center 5%' },
   { n: 2, alt: 'Líderes comunales en un auditorio' },
-  { n: 9, alt: 'Entrega de certificado a un líder comunal' },
+  { n: 9, alt: 'Entrega de certificado a un líder comunal', foco: 'center 20%' },
   { n: 15, alt: 'Mesa de trabajo con líderes comunales' },
   { n: 5, alt: 'Líderes comunales con sus certificados' },
   { n: 23, alt: 'Auditorio lleno en un encuentro comunal' },
   { n: 19, alt: 'Líderes comunales reciben su certificado' },
   { n: 11, alt: 'Capacitación a líderes comunales' },
   { n: 20, alt: 'Una lideresa comunal recibe su certificado' },
-  { n: 13, alt: 'Entrega de certificado en un concejo municipal' },
+  { n: 13, alt: 'Entrega de certificado en un concejo municipal', foco: 'center 15%' },
   { n: 16, alt: 'Asesoría a juntas en una mesa de trabajo' },
   { n: 21, alt: 'Grupo de líderes comunales celebra con sus certificados' },
   { n: 3, alt: 'Encuentro comunal en un recinto' },
   { n: 8, alt: 'Entrega de certificados en un salón comunal' },
   { n: 17, alt: 'Atención a una lideresa comunal' },
-  { n: 22, alt: 'Funcionario de la Dirección habla con líderes comunales' },
+  { n: 22, alt: 'Funcionario de la Dirección habla con líderes comunales', foco: 'center 0%' },
   { n: 10, alt: 'Dignatarios comunales con funcionarios de la Gobernación' },
   { n: 14, alt: 'Líderes comunales y funcionarias en un concejo municipal' },
-  { n: 18, alt: 'Entrega de certificado a un líder comunal' },
+  { n: 18, alt: 'Entrega de certificado a un líder comunal', foco: 'center 5%' },
   { n: 12, alt: 'Asistentes a una jornada comunal' },
   { n: 24, alt: 'Funcionaria orienta a líderes comunales' },
   { n: 1, alt: 'Foto de grupo de líderes comunales en un recinto' }
