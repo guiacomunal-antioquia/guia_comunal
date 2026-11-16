@@ -10,9 +10,13 @@
     'Bajo Cauca': '#3561AB', 'Magdalena Medio': '#F28E18', 'Nordeste': '#8B4A97', 'Norte': '#018D38', 'Occidente': '#B0942B',
     'Oriente': '#0B5640', 'Suroeste': '#8BC542', 'Urabá': '#8FCAF0', 'Valle de Aburrá': '#3AF9A2'
   };
-  /* Un dato que falta (vacío o 'Dato' en datos/mapa.js) NO se muestra: ni el campo ni su título.
-     Si un campo no tiene dato en ningún municipio, no aparece en ninguno. Aparece solo al llenarlo. */
+  /* Un dato que falta (vacío o 'Dato' en datos/mapa.js):
+     - con MOSTRAR.camposMapaVacios = true (js/datos.js) el campo se ve con "En actualización"
+       (y la silueta si no hay foto), para mostrar todo lo que llevará el recuadro;
+     - con false, el campo no se muestra y aparece solo al llenarlo. */
   const hay = (v) => !(v === undefined || v === null || String(v).trim() === '' || v === 'Dato');
+  const vacios = () => !!(window.MOSTRAR || {}).camposMapaVacios;
+  const EN_ACT = '<span class="en-actualizacion">En actualización</span>';
 
   let municipios = [], seleccionado = null;
 
@@ -68,9 +72,14 @@
   // Sin foto (o con la silueta sin-foto.svg) se muestra solo el nombre, sin imagen de relleno.
   const persona = (foto, alt, rol, nombre, extra) => `<div class="mapa-info__persona${foto ? '' : ' mapa-info__persona--sin-foto'}">${foto ? `<img src="${esc(foto)}" alt="${esc(alt)}" width="96" height="120" loading="lazy">` : ''}
     <div><small>${rol}</small><b>${nombre}</b>${extra || ''}</div></div>`;
-  const fotoDe = (carpeta, archivo) => (hay(archivo) && archivo !== 'sin-foto.svg') ? `img/${carpeta}/${archivo}` : '';
-  const cifras = (lista) => { const l = lista.filter(([, , v]) => hay(v)); return l.length ? `<ul class="mapa-cifras" aria-label="Organismos comunales del municipio">${l.map(([ico, txt, v]) => `<li><span aria-hidden="true">${ico}</span><b>${esc(v)}</b><small>${txt}</small></li>`).join('')}</ul>` : ''; };
-  const fila = (dt, v) => hay(v) ? `<dt>${dt}</dt><dd>${esc(v)}</dd>` : '';
+  const fotoDe = (carpeta, archivo) => (hay(archivo) && archivo !== 'sin-foto.svg') ? `img/${carpeta}/${archivo}` : (vacios() ? `img/${carpeta}/sin-foto.svg` : '');
+  const cifras = (lista) => {
+    const l = vacios() ? lista : lista.filter(([, , v]) => hay(v));
+    if (!l.length) return '';
+    const falta = l.some(([, , v]) => !hay(v));
+    return `<ul class="mapa-cifras" aria-label="Organismos comunales del municipio">${l.map(([ico, txt, v]) => `<li><span aria-hidden="true">${ico}</span><b>${hay(v) ? esc(v) : '—'}</b><small>${txt}</small></li>`).join('')}</ul>${falta ? '<p class="mapa-nota">Cifras en actualización.</p>' : ''}`;
+  };
+  const fila = (dt, v) => hay(v) ? `<dt>${dt}</dt><dd>${esc(v)}</dd>` : (vacios() ? `<dt>${dt}</dt><dd>${EN_ACT}</dd>` : '');
 
   function cerrar() {
     const caja = document.getElementById('mapaInfo');
@@ -106,8 +115,9 @@
       caja.innerHTML = `<button type="button" class="mapa-info__cerrar" aria-label="Cerrar">✕</button>
         <p class="ceja">${esc(x.sub)}</p><h3>${esc(x.m)}</h3>
         ${pr ? persona(fotoDe('profesionales', (window.FOTOS_PROFESIONALES || {})[pr[0]]), `Foto de ${pr[0]}`, '👤 Profesional de zona', esc(pr[0]),
-          `<small>Zona ${esc(pr[1].zona)}</small>${hay(correo) ? `<small>✉️ <a href="mailto:${esc(correo)}">${esc(correo)}</a></small>` : ''}`) : ''}
-        ${hay(c.promotor) ? persona(fotoDe('promotores', c.fotoPromotor), `Foto de ${c.promotor}`, '🤝 Promotor del municipio', esc(c.promotor), hay(c.contacto) ? `<small>📞 ${esc(c.contacto)}</small>` : '') : ''}
+          `<small>Zona ${esc(pr[1].zona)}</small>${hay(correo) ? `<small>✉️ <a href="mailto:${esc(correo)}">${esc(correo)}</a></small>` : (vacios() ? `<small>✉️ Correo: ${EN_ACT}</small>` : '')}`) : ''}
+        ${hay(c.promotor) || vacios() ? persona(fotoDe('promotores', c.fotoPromotor), hay(c.promotor) ? `Foto de ${c.promotor}` : '', '🤝 Promotor del municipio', hay(c.promotor) ? esc(c.promotor) : EN_ACT,
+          hay(c.contacto) ? `<small>📞 ${esc(c.contacto)}</small>` : (vacios() ? `<small>📞 Contacto: ${EN_ACT}</small>` : '')) : ''}
         ${cifras([['🏘️', 'Juntas registradas', c.registradas], ['✅', 'Activas', c.activas], ['⏳', 'Inactivas', c.inactivas], ['🤝', 'Asocomunales', c.asocomunales]])}
         <div class="botones"><a class="btn btn--peque" href="#/eleccion/herramienta" data-mun="${esc(x.m)}">Hacer la elección con ${esc(x.m)}</a></div>`;
     }

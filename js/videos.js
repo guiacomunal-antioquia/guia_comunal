@@ -31,6 +31,9 @@ window.VIDEOS = {
   'proc-escrutinio': { titulo: 'Cómo se reparten los cargos', url: '', corto: true },
   'proc-registro':   { titulo: 'Cómo enviar los documentos a la Dirección', url: '', corto: true },
 
-  // Video existente sobre el proceso de elección (archivo local)
-  'eleccion': { titulo: 'El proceso de elección paso a paso', url: 'media/video-proceso-eleccion.mp4' }
+  // Video existente sobre el proceso de elección (archivo local, vertical 720 × 1280).
+  // Debe ir en H.264 (MP4): el original venía en HEVC/H.265, que Chrome y Edge muestran en negro
+  // (solo se oía). El original quedó fuera del repositorio, en "Videos originales". "?v=2" obliga
+  // a los navegadores a descargar el archivo nuevo.
+  'eleccion': { titulo: 'El proceso de elección paso a paso', url: 'media/video-proceso-eleccion.mp4?v=2', vertical: true }
 };

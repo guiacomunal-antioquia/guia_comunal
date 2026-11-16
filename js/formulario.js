@@ -534,6 +534,8 @@
     const np = S.planchas.length;
     const det = Object.entries(comp.detalle).filter(([, r]) => r && np > 1).map(([k, r]) => {
       const b = BLOQUES.find((x) => x.k === k);
+      // Fiscalía: sin cociente (Manual, p. 49); la plancha con más votos gana fiscal y suplente
+      if (k === 'fis') return `<div class="calculo"><b>${b.icono} ${esc(b.titulo)}</b>: votos válidos ${r.validos} · sin cociente: la plancha con más votos gana el fiscal y su suplente · ${S.planchas.map((p, i) => `${esc(nomPl(i))}: ${r.votos[i]} votos`).join(' · ')}${r.empate ? ' · <span class="txt-amarillo">empate</span>' : ''}</div>`;
       return `<div class="calculo"><b>${b.icono} ${esc(b.titulo)}</b>: votos válidos ${r.validos} (incluye ${r.bl} en blanco)${r.cuo != null ? ` · cociente ${Math.round(r.cuo * 100) / 100}` : ''} · ${S.planchas.map((p, i) => `${esc(nomPl(i))}: ${r.votos[i]} votos → <b>${r.asign[i]}</b>`).join(' · ')}${r.empate ? ' · <span class="txt-amarillo">empate en residuos</span>' : ''}</div>`;
     }).join('');
     const filas = comp.cargos.map((c, i) => {
@@ -576,7 +578,7 @@
         else largo(5, 15, 'pa');
       } else amar(paso, 'otro-doc-' + n, `${donde}: documento "Otro" (${n}). La Dirección verificará este documento.`, R);
       if (t === 'TI' && n) {
-        if (cargoMayor) rojo(paso, `${donde}: tiene tarjeta de identidad (menor de edad). Presidente, vicepresidente, tesorero, secretario, fiscal y conciliadores deben ser mayores de edad (Ley 2166, art. 38, y Manual Comunal).`, R);
+        if (cargoMayor) rojo(paso, `${donde}: tiene tarjeta de identidad (menor de edad). Presidente, vicepresidente, tesorero, secretario, fiscal y conciliadores deben ser mayores de edad (Ley 2166, art. 38, y Manual Comunal). Cambie al candidato por una persona mayor de edad o, si el documento está mal, corrija el tipo de documento.`, R);
         else amar(paso, 'menor-' + n, `${donde}: tiene tarjeta de identidad. Confirme que tiene más de 14 años (requisito para estar afiliado, art. 20).`, R);
       }
       if (!(p.ape || '').trim()) rojo(paso, `${donde}: faltan los apellidos.`, ruta + '.ape');
@@ -762,7 +764,7 @@
         }
       });
       const comp = componer();
-      Object.entries(comp.detalle).forEach(([k, r]) => { if (r && r.empate) amar(6, 'empate-' + k, `${BLOQUES.find((b) => b.k === k).titulo}: hay empate en los residuos. Aplique el criterio acordado y ajuste la plancha del cargo.`, ''); });
+      Object.entries(comp.detalle).forEach(([k, r]) => { if (r && r.empate) amar(6, 'empate-' + k, `${BLOQUES.find((b) => b.k === k).titulo}: hay empate${k === 'fis' ? ' entre las planchas con más votos' : ' en los residuos'}. Aplique el criterio acordado y ajuste la plancha del cargo.`, ''); });
       comp.cargos.forEach((c) => { if (!c.persona) rojo(6, `Dignatarios elegidos: falta la persona para ${c.cargo}.`, ''); });
       if (aso()) {
         const vistos = {};

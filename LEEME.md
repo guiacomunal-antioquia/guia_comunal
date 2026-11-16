@@ -1,4 +1,4 @@
-# Guía Comunal DPCC — prototipo (versión 10)
+﻿# Guía Comunal DPCC — prototipo (versión 12)
 
 Sitio estático (HTML, CSS y JavaScript, sin programas que instalar). Se publica en **GitHub Pages** desde esta carpeta (`guia_comunal`, conectada al repositorio). Para verlo en el computador, abra `index.html` o sírvala con `python -m http.server 8767`. El `index.html` solo no basta: necesita las carpetas que lo acompañan.
 
@@ -27,7 +27,7 @@ Ejemplo de una línea llena:
 ```
 'Urrao': { promotor: 'Nombre Apellido', fotoPromotor: 'urrao.webp', contacto: '300 000 0000', registradas: 120, activas: 98, inactivas: 22, asocomunales: 1 },
 ```
-Lo que quede como `'Dato'` **no se muestra** en la página: se oculta ese campo en ese municipio, y aparece solo cuando se escribe el dato. Solo información pública: nunca cédulas ni datos de afiliados.
+Lo que quede como `'Dato'` se ve en la página como *En actualización* (o «—» en las cifras) mientras `MOSTRAR.camposMapaVacios` sea `true` en `js/datos.js`; con `false` ese campo se oculta y aparece solo cuando se escribe el dato. Solo información pública: nunca cédulas ni datos de afiliados.
 **En el futuro** estos datos vendrían directamente de **SURCO**; el archivo lo explica al comienzo.
 
 ### 2. Fotos
@@ -36,7 +36,7 @@ Lo que quede como `'Dato'` **no se muestra** en la página: se oculta ese campo 
 | Profesionales de zona | `img/profesionales/` | `FOTOS_PROFESIONALES` en `datos/mapa.js` |
 | Promotores | `img/promotores/` | `fotoPromotor` de cada municipio en `datos/mapa.js` |
 
-Formato: rectangular 4:5 (por ejemplo 320 × 400 px), de la cabeza a la cintura, en `.webp` o `.jpg`. Sin foto (`'sin-foto.svg'`) se muestra solo el nombre, sin imagen.
+Formato: rectangular 4:5 (por ejemplo 320 × 400 px), de la cabeza a la cintura, en `.webp` o `.jpg`. Sin foto (`'sin-foto.svg'`) se ve una silueta (o solo el nombre, si `MOSTRAR.camposMapaVacios` es `false`).
 Faltan fotos de: David Ramírez, Ana Machado, Sandra Arias, Mónica Caro y todos los promotores.
 
 ### 3. Formatos en Word (para descargar en blanco) → carpeta `descargas/`
@@ -72,7 +72,7 @@ Cartilla, afiche y circular. Para reemplazar uno, use el mismo nombre de archivo
 | Menú | Pantallas | Dirección para compartir |
 |---|---|---|
 | Inicio | Carrusel y 6 accesos | `index.html#/inicio` |
-| Elecciones | Etapas · Registrar la elección (herramienta para JAC, JVC y Asocomunales) · Calculadora del cociente (con nombres opcionales) · Causas de devolución · Después de la elección | `#/eleccion`, `#/eleccion/etapas`, `#/eleccion/herramienta`, `#/eleccion/calculadora`, `#/eleccion/devoluciones`, `#/eleccion/despues` |
+| Elecciones | Etapas · Registrar la elección (herramienta para JAC, JVC y Asocomunales) · Calculadora del cociente (planchas en tarjetas, candidatos opcionales y resultado con nombres) · Causas de devolución · Después de la elección | `#/eleccion`, `#/eleccion/etapas`, `#/eleccion/herramienta`, `#/eleccion/calculadora`, `#/eleccion/devoluciones`, `#/eleccion/despues` |
 | Mapa | Un solo mapa; cada municipio tiene su dirección | `#/mapa`, `#/mapa/urrao` |
 | Formatos y guías | Formatos en Word · Guías · Consultas oficiales | `#/documentos/formatos`, `#/documentos/guias`, `#/documentos/consulta` |
 | Aprenda | La acción comunal · Preguntas de repaso · Glosario | `#/aprenda/accion-comunal`, `#/aprenda/juego`, `#/aprenda/glosario` |
@@ -93,14 +93,21 @@ Nada se borró: cada elemento se vuelve a mostrar cambiando un ajuste o agregand
 | Video «¿Dónde consultar información oficial?» (`v5`) y su desplegable | Formatos y guías › Consultas oficiales | El video | Llenar su `url` en `js/videos.js` |
 | 7 videos cortos por proceso (`proc-libro`, `proc-asamblea`, `proc-tribunal`, `proc-planchas`, `proc-votacion`, `proc-escrutinio`, `proc-registro`) | Guías (desplegable «Videos cortos por etapa») y el detalle de cada etapa en Elecciones › Etapas | Los videos | Llenar la `url` de cada uno en `js/videos.js`; el desplegable aparece con el primero que tenga enlace |
 | Sección **Reforma de estatutos** («Próximamente») y su botón del menú | Menú principal, en la pantalla `#/estatutos` | Guía, formatos y herramienta de reforma (hoy solo tiene 4 requisitos básicos) | `MOSTRAR.estatutos = true` en `js/datos.js` (vuelven el botón del menú y la dirección) |
-| Correo del profesional de zona | Recuadro de cada municipio en el mapa | Falta en los 10 profesionales | Escribir el correo en `CORREOS_PROFESIONALES` (`datos/mapa.js`) |
-| Foto de David Ramírez, Ana Machado, Sandra Arias y Mónica Caro (antes, silueta gris) | Recuadro del mapa | Las fotos | Guardar la foto en `img/profesionales/` y escribir su nombre en `FOTOS_PROFESIONALES` |
-| Promotor del municipio (foto, nombre y contacto) | Recuadro del mapa | Falta en los 117 municipios | Llenar `promotor`, `contacto` y `fotoPromotor` en `CONTACTOS_MUNICIPIO`; aparece en ese municipio |
-| Cifras de organismos (juntas registradas, activas, inactivas y Asocomunales) | Recuadro del mapa | Faltan en los 117 municipios | Llenar `registradas`, `activas`, `inactivas` y `asocomunales`; cada cifra aparece al tener su dato |
-| Correo de la alcaldía de Medellín | Recuadro de Medellín | El correo | Escribirlo en `MUNICIPIOS_PROPIOS` |
 | Nota «Orden pendiente» | Elecciones › Causas de devolución | Datos de frecuencia de la Dirección | Se quitó el texto; si se reordena, basta con cambiar el orden en `js/contenido.js` |
 | Etiqueta «Por validar con la Dirección» | Calculadora, orden de cargos | Validación de la Dirección | Se quitó la etiqueta; el texto dice que mandan los estatutos |
 | Nota «Prototipo presentado como propuesta de mejora» | Franja inferior del pie de página | — | Se quitó (era para los evaluadores, no para el público) |
+
+**Campos del mapa sin dato (se muestran para la presentación ante los jurados).** El correo del profesional, la silueta de quien no tiene foto, el promotor (foto, nombre y contacto), las cifras de organismos y el correo de Medellín **se ven** aunque falte el dato, con el aviso *En actualización* (las cifras muestran «—» y la nota «Cifras en actualización»). Así se ve todo lo que llevará el recuadro. Se controla con `MOSTRAR.camposMapaVacios` en `js/datos.js`: `true` = se muestran (actual); `false` = solo se ve lo que tiene dato. Cada dato que se llene en `datos/mapa.js` reemplaza el aviso.
+
+**Video del proceso de elección** (`media/video-proceso-eleccion.mp4`): debe estar en **H.264 (MP4)**. El original venía en HEVC/H.265 y en Chrome y Edge se oía pero se veía en negro; se convirtió a H.264 (720 × 1280, vertical) y el original quedó fuera del repositorio, en la carpeta `Videos originales`. Si se reemplaza, use H.264 y suba el `?v=` de su `url` en `js/videos.js`.
+
+## Calculadora del cociente (`js/calculadora.js`)
+- **Bloques:** Directiva (4), Fiscalía (fiscal y suplente), Conciliación (3), Delegados (3 con sus suplentes) y Otro número.
+- **Planchas en tarjetas:** cada una con sus votos y, opcionalmente, sus candidatos como en el formato de postulación por planchas (cargo, nombres y apellidos, tipo y número de documento). «+ Agregar otra plancha» (hasta 8) y «Quitar». Votos y candidatos se guardan por bloque mientras la página esté abierta (no se guardan en el equipo).
+- **Resultado primero:** tabla Cargo · Queda elegido(a) · Documento · Plancha; sin nombres dice «Candidato(a) a … de la Plancha N». El paso a paso queda en «¿Cómo se calculó?». En el celular cada cargo es una tarjeta.
+- **Reglas:** cociente y mayor residuo solo en Directiva, Conciliación y Delegados (Manual Comunal, p. 49). **Fiscalía sin cociente: el fiscal arrastra a su suplente** (la plancha con más votos gana los dos). Delegados: cada puesto es delegado + suplente. Plancha única: mitad más uno.
+- **Quién ocupa cada cargo** (igual que la herramienta de registro): primero la plancha con más cargos, y cada cargo es para la persona que esa plancha postuló a ese cargo. **Por confirmar con la Dirección.**
+- **Avisos:** tarjeta de identidad en Directiva, Fiscalía o Conciliación (menor de edad, rojo); documento repetido; empate.
 
 ## Solicitudes, subsanaciones y períodos electorales
 - **Tipo de organismo** (paso 1): JAC, JVC o Asocomunal. Con Asocomunal la herramienta pide delegados en vez de afiliados, solo asamblea de delegados, secretarías ejecutivas, delegados a la Federación y conciliadores de juntas distintas (Ley 2166, art. 21, 34, 38 y 41). **Por confirmar con la Dirección:** el quórum de la Asocomunal y qué formatos Word usa.
@@ -123,7 +130,7 @@ Nada se borró: cada elemento se vuelve a mostrar cambiando un ajuste o agregand
 - Tipografía: solo **Poppins**. Colores del Manual de Identidad Visual y grises de antioquia.gov.co (variables al inicio de `css/estilos.css`).
 - Íconos de línea de un solo estilo (`js/iconos.js`); los emojis del contenido se cambian solos por el ícono equivalente.
 - Logo oficial: `img/logo-gobernacion.webp`.
-- Cada vez que se cambie un archivo CSS o JS, suba el número `?v=` en `index.html` (va en `v=10`) para que los navegadores no usen la versión vieja guardada.
+- Cada vez que se cambie un archivo CSS o JS, suba el número `?v=` en `index.html` (va en `v=12`) para que los navegadores no usen la versión vieja guardada.
 
 ## Conexión con la Dirección (Microsoft institucional)
 - **Terminados:** la herramienta abre el correo a organismoscomunales@antioquia.gov.co con el asunto `[ELECCIÓN DIGNATARIOS - NUEVA v1] ID - Organismo - Municipio - Estado` o `[ELECCIÓN DIGNATARIOS - SUBSANACIÓN v2] …`. Un flujo de Power Automate ("Cuando llega un correo nuevo" en el buzón, filtrado por ese asunto) puede llevarlo a una Lista de SharePoint o a un Excel.

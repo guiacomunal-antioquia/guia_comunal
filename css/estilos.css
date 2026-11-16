@@ -466,7 +466,7 @@ body.chat-abierto .chat-flotante { display: none; }
 .video[hidden], .mas-info[hidden] { display: none; }
 /* Shorts: marco vertical 9:16, sin deformar ni recortar el video */
 .video--vertical { width: 100%; max-width: 300px; aspect-ratio: 9 / 16; margin-inline: auto; min-height: 0; border: 0; background: var(--verde-osc); }
-.video--vertical iframe { width: 100%; height: 100%; aspect-ratio: auto; }
+.video--vertical iframe, .video--vertical video { width: 100%; height: 100%; aspect-ratio: auto; object-fit: contain; }
 .video--vertical .video__play { position: relative; height: 100%; min-height: 0; padding: 0; justify-content: center; }
 .video__miniatura { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
 .video--vertical .video__icono { position: relative; }
@@ -474,6 +474,47 @@ body.chat-abierto .chat-flotante { display: none; }
 .video__titulo { display: flex; flex-direction: column; align-items: center; gap: 4px; }
 .video__titulo small { font-weight: 400; }
 .detalle--sin-video { grid-template-columns: 1fr; }
+
+/* ===== Versión 12: calculadora con planchas en tarjetas, candidatos y resultado con nombres ===== */
+.calc__datos > .campo--ancho { margin-bottom: 18px; }
+.calc__n { display: inline-grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: var(--verde-osc); color: #fff; font-size: .8125rem; margin-right: 6px; }
+.calc__otros { max-width: 260px; margin-top: 10px; }
+.calc__regla { margin-top: 10px; }
+.calc-planchas { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 460px), 1fr)); gap: 12px; margin: 8px 0 4px; }
+.calc-pl { background: #fff; border: 1px solid var(--linea); border-top: 5px solid var(--c); border-radius: var(--radio); padding: 12px 14px; min-width: 0; }
+.calc-pl__cab { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.calc-pl__cab h3 { margin: 0; font-size: 1.0625rem; }
+.calc-pl__votos { max-width: 220px; margin-top: 8px; }
+.calc-pl__votos input { font-size: 1.25rem; font-weight: 600; border-left: 6px solid var(--c); }
+.calc-pl__cand { margin-top: 10px; }
+.calc-pl__cand > summary { cursor: pointer; font-weight: 600; color: var(--verde-osc); min-height: 32px; padding: 4px 0; }
+.calc-pl__cand > summary small { color: var(--tenue); font-weight: 400; }
+.calc-cand { display: grid; grid-template-columns: 8rem minmax(0, 1fr) minmax(0, 13.5rem); gap: 6px; align-items: center; padding: 5px 0; border-bottom: 1px solid var(--linea); }
+.calc-cand--cab { font-size: .75rem; font-weight: 600; color: var(--tenue); border-bottom: 2px solid var(--linea); }
+.calc-cand__cargo { font-size: .8125rem; font-weight: 600; color: var(--tinta); line-height: 1.2; }
+.calc-cand input, .calc-cand select { width: 100%; min-height: 38px; padding: 4px 8px; min-width: 0; }
+.calc-cand__doc { display: grid; grid-template-columns: 4.6rem minmax(0, 1fr); gap: 4px; }
+.calc-cand__doc select { padding: 4px 2px; }
+.calc__res-tit { margin: 0 0 10px; font-size: 1.25rem; color: var(--verde-osc); }
+.calc__resumen { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 10px; }
+.calc__chip { display: inline-block; background: var(--c); color: #fff; font-weight: 600; font-size: .8125rem; border-radius: var(--pildora); padding: 2px 10px; white-space: nowrap; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+.calc__tabla td { vertical-align: middle; }
+.calc__tabla td b { color: var(--tinta); }
+.calc__sin-nombre { color: var(--tenue); font-style: italic; }
+.calc__como { margin-top: 14px; }
+.calc__como .reparto { margin-top: 18px; }
+@media (max-width: 760px) {
+  .calc-cand { grid-template-columns: 1fr; gap: 4px; padding: 8px 0; }
+  .calc-cand--cab { display: none; }
+  .calc-pl__votos { max-width: none; }
+  /* Resultado en tarjetas: cargo arriba, persona, documento y plancha, sin deslizar de lado */
+  .calc__tabla thead { display: none; }
+  .calc__tabla, .calc__tabla tbody, .calc__tabla tr, .calc__tabla td { display: block; width: 100%; }
+  .calc__tabla tr { border: 1px solid var(--linea); border-left: 5px solid var(--c, var(--verde-osc)); border-radius: var(--radio); padding: 8px 12px; margin-bottom: 8px; background: #fff; }
+  .calc__tabla.tabla-comp td, .calc__tabla.tabla-comp tr:last-child td { border: 0; padding: 2px 0; background: none; }
+  .calc__tabla td:first-child { font-size: .8125rem; color: var(--tenue); font-weight: 600; }
+  .calc__tabla td:empty { display: none; }
+}
 
 /* Línea de tiempo de la elección */
 .linea { list-style: none; margin: 22px 0 0; padding: 0; display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; position: relative; }
@@ -905,6 +946,9 @@ a.descarga small { display: block; color: var(--tenue); font-weight: 400; }
 .mapa-info__persona img { width: 96px; height: 120px; }
 .mapa-info__persona small { word-break: break-word; }
 .mapa-info__persona.mapa-info__persona--sin-foto { grid-template-columns: 1fr; }
+.en-actualizacion { color: var(--tenue); font-style: italic; font-weight: 400; }
+.mapa-info__persona b .en-actualizacion { font-size: .9375rem; }
+.mapa-nota { margin: -4px 0 12px; font-size: .75rem; color: var(--tenue); }
 .mapa-cifras { list-style: none; display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin: 12px 0; padding: 0; }
 .mapa-cifras li { background: var(--fondo); border-radius: var(--radio); padding: 8px 10px; display: grid; grid-template-columns: auto 1fr; column-gap: 8px; align-items: center; }
 .mapa-cifras li > span { grid-row: span 2; color: var(--verde); font-size: 1.25rem; }
