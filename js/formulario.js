@@ -727,7 +727,7 @@
       else if (rec.length < 3) amar(5, `rec-${pi}-${rec.length}`, `${np}: la recibieron ${rec.length} del Tribunal. El formato tiene espacio para 3.`, r(`recibidaPor.${rec.length}`));
     });
     Object.values(usos).forEach((u) => { if (u.length > 1) rojo(5, `${u[0].n} aparece ${u.length} veces (${u.map((x) => x.d).join(' y ')}). Nadie puede estar en dos cargos ni en dos planchas.`, u[1].ruta + '.ced'); });
-    amar(5, 'comisiones-estatutos', aso() ? 'Confirme que las secretarías ejecutivas están en los estatutos de la Asocomunal.' : `Confirme que las comisiones de trabajo están en los estatutos de la ${sigla()}.`, '');
+    amar(5, 'comisiones-estatutos', aso() ? 'Confirme que las secretarías ejecutivas están en los estatutos de la Asocomunal.' : `Confirme que las comisiones de trabajo están en los estatutos de su ${sigla()}.`, '');
     if (aso()) amar(5, 'aso-delegados', 'Confirme que todos los candidatos son delegados debidamente certificados de juntas afiliadas a la Asocomunal (Ley 2166, art. 38).', '');
 
     // Paso 6: Votación

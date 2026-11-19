@@ -123,6 +123,8 @@
 
   /* ---------- Guías corregidas y videos cortos ---------- */
   const GUIAS = [
+    // Guía de uso de toda la página (v20); se genera con _mantenimiento/guia-uso/
+    ['uso', 'Para empezar', 'Cómo usar la Guía Comunal', '🧭', 'Cada parte de la página, qué hace y cómo se usa.'],
     ['g1', 'Guía 1', 'Antes de empezar y el documento de identidad', '🪪', 'Qué tener a la mano y cómo copiar bien los datos.'],
     ['g2', 'Guía 2', 'Asamblea, Tribunal y asistencia', '⚖️', 'Pasos 1 a 4 de la herramienta.'],
     ['g3', 'Guía 3', 'Planchas, votación y escrutinio', '🗳️', 'Una o varias planchas, cociente y dignatarios elegidos.'],

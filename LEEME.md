@@ -1,4 +1,4 @@
-﻿# Guía Comunal DPCC — prototipo (versión 19)
+# Guía Comunal DPCC — prototipo (versión 20)
 
 Sitio estático (HTML, CSS y JavaScript, sin programas que instalar). Se publica en **GitHub Pages** desde esta carpeta (`guia_comunal`, conectada al repositorio). Para verlo en el computador, abra `index.html` o sírvala con `python -m http.server 8767`. El `index.html` solo no basta: necesita las carpetas que lo acompañan.
 
@@ -46,7 +46,7 @@ Faltan fotos de: David Ramírez, Ana Machado, Sandra Arias, Mónica Caro y todos
 - **Ojo:** los Word que la herramienta **llena sola** (actas del Tribunal y de la elección, planchas y listas) salen de una copia con marcadores, no de `descargas/`. Si cambia el formato oficial de una de esas actas, hay que regenerar esa copia (ver "Regenerar" al final). Mientras tanto la herramienta sigue llenando la versión anterior.
 
 ### 4. Guías → carpeta `guias/`
-- **Reemplazar una guía:** guarde el nuevo PDF en `guias/` con el mismo nombre (`g1.pdf`, `g2.pdf`, `g3.pdf` o `g4.pdf`). El botón "Ver" abre `g1.html`…; si solo tiene el PDF, puede reemplazar también el `.html` o pedir que el botón "Ver" abra el PDF.
+- **Reemplazar una guía:** guarde el nuevo PDF en `guias/` con el mismo nombre (`g1.pdf`, `g2.pdf`, `g3.pdf`, `g4.pdf` o `uso.pdf`). El botón "Ver" abre `g1.html`…; si solo tiene el PDF, puede reemplazar también el `.html` o pedir que el botón "Ver" abra el PDF.
 - **Cambiar títulos o descripciones** de las tarjetas: lista `GUIAS` en `js/app.js`.
 - Las guías actuales se generan con un script (ver "Regenerar"); así se actualizan solas las capturas cuando cambia la herramienta.
 
@@ -179,6 +179,16 @@ python _mantenimiento/build_kb.py "../Chatbot/Base_Conocimiento_Chatbot_Particip
 python _mantenimiento/build_templates.py "../Formatos proceso de elección" .
 python _mantenimiento/build_guias.py guias      (y luego _mantenimiento/capturas.ps1 y guias_pdf.ps1, con la página servida en el puerto 8767)
 ```
+
+### Guía de uso de la página («Cómo usar la Guía Comunal», versión 20)
+`guias/uso.html` y `guias/uso.pdf`: explica cada sección de la página con capturas y números naranjas, más preguntas frecuentes. Es la primera tarjeta de *Formatos y guías › Guías* («Para empezar») y tiene enlace en «¿Necesita ayuda?» del inicio y en el pie. No se numera como guía 5 para no cambiar las guías 1 a 4. Si la página cambia, se rehace así (página servida en el puerto 8767):
+```
+1. Editar _mantenimiento/guia-uso/contenido.json   (textos, pantallas y partes señaladas)
+2. _mantenimiento/guia-uso/capturas.ps1             (imágenes guias/img/uso-*.png; -Solo id para una)
+3. python _mantenimiento/guia-uso/build_guia_uso.py (escribe guias/uso.html y reduce el peso de las imágenes)
+4. _mantenimiento/guias_pdf.ps1 -Solo uso           (guias/uso.pdf y copia en Guías/Corregidas)
+```
+`guias/uso.html` se genera: no se edita a mano. `_mantenimiento/guia-uso/captura.html` muestra en el título de la pestaña «FALTAN: …» si una parte señalada ya no existe en la página. Las capturas usan solo datos ficticios.
 
 ### Documento de presentación ("Cómo funciona la página", PDF y Word)
 Está en la carpeta `Presentación`, junto a esta. Si la página cambia, se puede rehacer con capturas nuevas:

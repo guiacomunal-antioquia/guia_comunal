@@ -15,6 +15,15 @@
 .ico{width:1.2em;height:1.2em;vertical-align:-.22em}.ico-envoltura{display:inline-flex}.tarjeta span{color:#018d38}.paso h2 .ico,.norma .ico{color:#018d38}.portada .ico{color:#fff}
 .punto{display:inline-block;width:.8em;height:.8em;border-radius:50%;vertical-align:-.05em}.punto--verde{background:#018d38}.punto--amarillo{background:#f28e18}.punto--rojo{background:#dc3545}
 .norma{border-left:5px solid #0b5640;background:#f8f9fa;border-radius:0 12px 12px 0;padding:10px 14px;margin-top:10px}.norma>b{color:#0b5640;font-size:13px;letter-spacing:.04em;text-transform:uppercase}.norma p{margin:4px 0 0;font-size:14px}.fuente{display:inline-block;background:#fff;color:#0b5640;border-radius:6px;padding:0 6px;font-size:12px;font-weight:600}
+/* Guía de uso (uso.html): números naranjas como los marcadores de las capturas, índice y preguntas */
+.intro{margin:-6px 0 14px;color:#495057}.pantalla-uso{border-top:1px solid #dee2e6;padding-top:14px;margin-top:14px}.pantalla-uso:first-of-type{border-top:0;padding-top:0;margin-top:0}
+.pantalla-uso h2+.intro+h3,.pantalla-uso h3{margin:0 0 10px;font-size:17px;color:#212529}.puntos--naranja li::before{background:#f28e18;color:#212529}
+.paso__grid>*{min-width:0}.ojo p,.pregunta p,.chequeo li{min-width:0;overflow-wrap:anywhere}.paso__grid>a{display:block}.paso__grid--celular{grid-template-columns:1fr}.paso__grid--celular .captura{max-width:760px}
+.indice__lista{columns:2;gap:24px;margin:0;padding-left:22px}.indice__lista li{padding:3px 0;break-inside:avoid}.indice__lista a{color:#0b5640;font-weight:600}
+.nota-guia{margin:12px 0 0;font-size:14px;color:#495057}
+.pregunta{border:1px solid #dee2e6;border-radius:7px;margin:0 0 8px;padding:0 14px}.pregunta summary{cursor:pointer;font-weight:600;color:#0b5640;padding:12px 0;min-height:44px}.pregunta p{margin:0 0 12px}
+@media(max-width:760px){.indice__lista{columns:1}}
+@media print{.pantalla-uso{break-inside:avoid}.paso__grid.paso__grid--celular{grid-template-columns:1.7fr 1fr}.puntos--naranja li::before{-webkit-print-color-adjust:exact;print-color-adjust:exact}.pregunta{break-inside:avoid}}
 footer{text-align:center;font-size:12px;color:#6c757d;padding:10px 0 24px}
 @media(max-width:760px){.paso__grid{grid-template-columns:1fr}.portada{padding:20px}.portada h1{font-size:24px}.mascota{width:80px}}
 @media print{.cerrar-guia{display:none}@page{size:letter;margin:12mm}body{background:#fff}main{padding:10px 0}.paso{break-inside:auto;padding:14px 16px}.paso h2{break-after:avoid}.paso__grid{grid-template-columns:1fr 1fr;gap:14px}.captura{max-height:115mm;width:auto;max-width:100%;break-inside:avoid}.puntos li{font-size:14px}.portada{padding:18px 24px}.portada{-webkit-print-color-adjust:exact;print-color-adjust:exact}.paso{border-color:#bbb}.puntos li::before,.tarjeta,.ojo,.portada .num{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
