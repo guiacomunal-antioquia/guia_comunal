@@ -117,7 +117,8 @@
         ${pr ? persona(fotoDe('profesionales', (window.FOTOS_PROFESIONALES || {})[pr[0]]), `Foto de ${pr[0]}`, '👤 Profesional de zona', esc(pr[0]),
           `<small>Zona ${esc(pr[1].zona)}</small>${hay(correo) ? `<small>✉️ <a href="mailto:${esc(correo)}">${esc(correo)}</a></small>` : (vacios() ? `<small>✉️ Correo: ${EN_ACT}</small>` : '')}`) : ''}
         ${hay(c.promotor) || vacios() ? persona(fotoDe('promotores', c.fotoPromotor), hay(c.promotor) ? `Foto de ${c.promotor}` : '', '🤝 Promotor del municipio', hay(c.promotor) ? esc(c.promotor) : EN_ACT,
-          hay(c.contacto) ? `<small>📞 ${esc(c.contacto)}</small>` : (vacios() ? `<small>📞 Contacto: ${EN_ACT}</small>` : '')) : ''}
+          // contacto puede ser un correo (✉️, enlace) o un teléfono (📞)
+          hay(c.contacto) ? (/@/.test(c.contacto) ? `<small>✉️ <a href="mailto:${esc(c.contacto)}">${esc(c.contacto)}</a></small>` : `<small>📞 ${esc(c.contacto)}</small>`) : (vacios() ? `<small>✉️ Contacto: ${EN_ACT}</small>` : '')) : ''}
         ${cifras([['🏘️', 'Juntas registradas', c.registradas], ['✅', 'Activas', c.activas], ['⏳', 'Inactivas', c.inactivas], ['🤝', 'Asocomunales', c.asocomunales]])}
         <div class="botones"><a class="btn btn--peque" href="#/eleccion/herramienta" data-mun="${esc(x.m)}">Hacer la elección con ${esc(x.m)}</a></div>`;
     }

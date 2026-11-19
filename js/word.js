@@ -8,6 +8,10 @@
    JSZip y las plantillas solo se descargan la primera vez que alguien genera un documento. */
 (function () {
   const JSZIP_URL = 'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js';
+  // Las plantillas llevan el mismo ?v= que este archivo (index.html), para que al cambiarlas
+  // los navegadores no sigan usando la copia vieja guardada.
+  const VERSION = ((document.currentScript && document.currentScript.src) || '').split('?v=')[1] || '';
+  const PLANTILLAS_URL = 'js/plantillas.js' + (VERSION ? '?v=' + VERSION : '');
   const cargados = {};
 
   function cargarScript(src) {
@@ -71,7 +75,7 @@
 
   async function generarWord(plantilla, datos, nombreArchivo) {
     await cargarScript(JSZIP_URL);
-    if (!window.PLANTILLAS) await cargarScript('js/plantillas.js');
+    if (!window.PLANTILLAS) await cargarScript(PLANTILLAS_URL);
     const zip = await window.JSZip.loadAsync(window.PLANTILLAS[plantilla], { base64: true });
     const xml = await zip.file('word/document.xml').async('string');
     zip.file('word/document.xml', llenar(xml, datos));

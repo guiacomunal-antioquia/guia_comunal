@@ -1,4 +1,4 @@
-﻿# Guía Comunal DPCC — prototipo (versión 14)
+﻿# Guía Comunal DPCC — prototipo (versión 18)
 
 Sitio estático (HTML, CSS y JavaScript, sin programas que instalar). Se publica en **GitHub Pages** desde esta carpeta (`guia_comunal`, conectada al repositorio). Para verlo en el computador, abra `index.html` o sírvala con `python -m http.server 8767`. El `index.html` solo no basta: necesita las carpetas que lo acompañan.
 
@@ -42,6 +42,7 @@ Faltan fotos de: David Ramírez, Ana Machado, Sandra Arias, Mónica Caro y todos
 ### 3. Formatos en Word (para descargar en blanco) → carpeta `descargas/`
 - **Reemplazar un formato:** copie el Word nuevo en `descargas/` con **el mismo nombre** del que reemplaza. Listo.
 - **Agregar un formato:** cópielo en `descargas/` y agregue una línea en `FORMATOS` (archivo `js/datos.js`) copiando una de las que ya existen: `grupo` (título del grupo), `nombre` (lo que se lee en la página) y `archivo` (nombre exacto del Word). Si el `id` empieza por `listado`, la página le pone el aviso "imprímalo antes de la reunión".
+- **Bloques de firma (versión 18):** en las actas del Tribunal y de elección, los datos de quien firma (nombre, documento y teléfono) quedaban flotando arriba de su línea. Las celdas del dato ahora están alineadas abajo, como sus etiquetas. `build_templates.py` lo hace solo al regenerar (`alinear_abajo`). Las plantillas cargan con el mismo `?v=` de la página.
 - **Ojo:** los Word que la herramienta **llena sola** (actas del Tribunal y de la elección, planchas y listas) salen de una copia con marcadores, no de `descargas/`. Si cambia el formato oficial de una de esas actas, hay que regenerar esa copia (ver "Regenerar" al final). Mientras tanto la herramienta sigue llenando la versión anterior.
 
 ### 4. Guías → carpeta `guias/`
@@ -98,6 +99,8 @@ Nada se borró: cada elemento se vuelve a mostrar cambiando un ajuste o agregand
 
 **Sección Estatutos (visible otra vez desde la versión 14).** Se volvió a mostrar porque los jurados califican qué otros trámites se le pueden implementar a la Guía. Tiene los requisitos básicos de la reforma y el aviso «Próximamente»; le faltan la guía, los formatos y la herramienta. Para ocultarla: `MOSTRAR.estatutos = false` en `js/datos.js` (se quita del menú y `#/estatutos` lleva al inicio).
 
+**Promotores (versión 15).** Se cargaron 24 promotores con su correo institucional (archivo "Promotores_correo_institucional", nov. 2026): Remedios, Segovia, Yalí, Campamento, Abriaquí, Anzá, Armenia, Cañasgordas, Ebéjico, Giraldo, Olaya, Peque, Sabanalarga, Abejorral, Concepción, Granada, Guarne, Nariño, San Luis, San Rafael, Jardín, Jericó, Titiribí y Támesis. En `contacto` va el correo; si lleva @ el mapa lo muestra con ✉️ y como enlace, si no con 📞. El de Cañasgordas se corrigió en el Excel y ya está cargado (v16). El de Anzá también se corrigió (sin tilde) y está cargado (v17). El de Campamento dice "desarrollocomunitaro" (¿falta una i?): se cargó tal como venía.
+
 **Campos del mapa sin dato (se muestran para la presentación ante los jurados).** El correo del profesional, la silueta de quien no tiene foto, el promotor (foto, nombre y contacto), las cifras de organismos y el correo de Medellín **se ven** aunque falte el dato, con el aviso *En actualización* (las cifras muestran «—» y la nota «Cifras en actualización»). Así se ve todo lo que llevará el recuadro. Se controla con `MOSTRAR.camposMapaVacios` en `js/datos.js`: `true` = se muestran (actual); `false` = solo se ve lo que tiene dato. Cada dato que se llene en `datos/mapa.js` reemplaza el aviso.
 
 **Video del proceso de elección** (`media/video-proceso-eleccion.mp4`): debe estar en **H.264 (MP4)**. El original venía en HEVC/H.265 y en Chrome y Edge se oía pero se veía en negro; se convirtió a H.264 (720 × 1280, vertical) y el original quedó fuera del repositorio, en la carpeta `Videos originales`. Si se reemplaza, use H.264 y suba el `?v=` de su `url` en `js/videos.js`.
@@ -138,7 +141,7 @@ Para presentar la Guía (por ejemplo, ante un jurado) desde **cualquier computad
 - Tipografía: solo **Poppins**. Colores del Manual de Identidad Visual y grises de antioquia.gov.co (variables al inicio de `css/estilos.css`).
 - Íconos de línea de un solo estilo (`js/iconos.js`); los emojis del contenido se cambian solos por el ícono equivalente.
 - Logo oficial: `img/logo-gobernacion.webp`.
-- Cada vez que se cambie un archivo CSS o JS, suba el número `?v=` en `index.html` (va en `v=14`) para que los navegadores no usen la versión vieja guardada.
+- Cada vez que se cambie un archivo CSS o JS, suba el número `?v=` en `index.html` (va en `v=18`) para que los navegadores no usen la versión vieja guardada.
 
 ## Conexión con la Dirección (Microsoft institucional)
 - **Terminados:** la herramienta abre el correo a organismoscomunales@antioquia.gov.co con el asunto `[ELECCIÓN DIGNATARIOS - NUEVA v1] ID - Organismo - Municipio - Estado` o `[ELECCIÓN DIGNATARIOS - SUBSANACIÓN v2] …`. Un flujo de Power Automate ("Cuando llega un correo nuevo" en el buzón, filtrado por ese asunto) puede llevarlo a una Lista de SharePoint o a un Excel.
