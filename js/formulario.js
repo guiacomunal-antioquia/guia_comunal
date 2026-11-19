@@ -451,7 +451,8 @@
       <details class="opcional"><summary>Ver el mensaje que se enviará</summary><pre class="correo-vista">${esc(asunto())}\n\n${esc(cuerpo())}</pre></details>
     </div>
     ${reg ? `<div class="comprobante"><h3>✅ Código de registro: ${esc(reg.codigo)}</h3><p>Guárdelo para hacer seguimiento. Generado el ${esc(new Date(reg.fecha).toLocaleString('es-CO'))}.</p>
-      <div class="botones"><button type="button" class="btn" data-comprobante>Descargar comprobante</button><button type="button" class="btn btn--claro" data-imprimir>🖨️ Imprimir</button></div></div>` : ''}`}`;
+      <div class="botones"><button type="button" class="btn" data-comprobante>Descargar comprobante</button><button type="button" class="btn btn--claro" data-imprimir>🖨️ Imprimir</button></div></div>` : ''}
+    <p class="ayuda aviso-compartido">🔒 <b>¿Usó un computador compartido?</b> (por ejemplo, en la alcaldía o en un café internet). Cuando haya enviado el correo y guardado su código, borre la solicitud de este equipo: <button type="button" class="btn btn--texto" data-reiniciar>Borrar lo guardado en este equipo</button></p>`}`;
   };
 
   /* ======================= Cálculos de la elección ======================= */

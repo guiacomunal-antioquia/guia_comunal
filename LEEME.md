@@ -1,4 +1,4 @@
-﻿# Guía Comunal DPCC — prototipo (versión 18)
+﻿# Guía Comunal DPCC — prototipo (versión 19)
 
 Sitio estático (HTML, CSS y JavaScript, sin programas que instalar). Se publica en **GitHub Pages** desde esta carpeta (`guia_comunal`, conectada al repositorio). Para verlo en el computador, abra `index.html` o sírvala con `python -m http.server 8767`. El `index.html` solo no basta: necesita las carpetas que lo acompañan.
 
@@ -99,7 +99,7 @@ Nada se borró: cada elemento se vuelve a mostrar cambiando un ajuste o agregand
 
 **Sección Estatutos (visible otra vez desde la versión 14).** Se volvió a mostrar porque los jurados califican qué otros trámites se le pueden implementar a la Guía. Tiene los requisitos básicos de la reforma y el aviso «Próximamente»; le faltan la guía, los formatos y la herramienta. Para ocultarla: `MOSTRAR.estatutos = false` en `js/datos.js` (se quita del menú y `#/estatutos` lleva al inicio).
 
-**Promotores (versión 15).** Se cargaron 24 promotores con su correo institucional (archivo "Promotores_correo_institucional", nov. 2026): Remedios, Segovia, Yalí, Campamento, Abriaquí, Anzá, Armenia, Cañasgordas, Ebéjico, Giraldo, Olaya, Peque, Sabanalarga, Abejorral, Concepción, Granada, Guarne, Nariño, San Luis, San Rafael, Jardín, Jericó, Titiribí y Támesis. En `contacto` va el correo; si lleva @ el mapa lo muestra con ✉️ y como enlace, si no con 📞. El de Cañasgordas se corrigió en el Excel y ya está cargado (v16). El de Anzá también se corrigió (sin tilde) y está cargado (v17). El de Campamento dice "desarrollocomunitaro" (¿falta una i?): se cargó tal como venía.
+**Promotores (versión 15).** Se cargaron 24 promotores con su correo institucional (archivo "Promotores_correo_institucional", nov. 2026): Remedios, Segovia, Yalí, Campamento, Abriaquí, Anzá, Armenia, Cañasgordas, Ebéjico, Giraldo, Olaya, Peque, Sabanalarga, Abejorral, Concepción, Granada, Guarne, Nariño, San Luis, San Rafael, Jardín, Jericó, Titiribí y Támesis. En `contacto` va el correo; si lleva @ el mapa lo muestra con ✉️ y como enlace, si no con 📞. El de Cañasgordas se corrigió en el Excel y ya está cargado (v16). El de Anzá también se corrigió (sin tilde) y está cargado (v17). El de Campamento se corrigió a "desarrollocomunitario" (v19).
 
 **Campos del mapa sin dato (se muestran para la presentación ante los jurados).** El correo del profesional, la silueta de quien no tiene foto, el promotor (foto, nombre y contacto), las cifras de organismos y el correo de Medellín **se ven** aunque falte el dato, con el aviso *En actualización* (las cifras muestran «—» y la nota «Cifras en actualización»). Así se ve todo lo que llevará el recuadro. Se controla con `MOSTRAR.camposMapaVacios` en `js/datos.js`: `true` = se muestran (actual); `false` = solo se ve lo que tiene dato. Cada dato que se llene en `datos/mapa.js` reemplaza el aviso.
 
@@ -137,11 +137,19 @@ Para presentar la Guía (por ejemplo, ante un jurado) desde **cualquier computad
 4. **Al cambiar de período**, las filas del período anterior quedan como **histórico** de solo lectura y las solicitudes nuevas se guardan con el período nuevo. Así la Gobernación puede consultar quién quedó prevalidado y terminado en cada período.
 5. La Vista de la Dirección leería esa base (con los mismos filtros y la exportación a Excel), en vez del navegador.
 
+## Lineamientos de TIC aplicados (versión 19)
+- **JSZip dentro de la página** (`js/lib/jszip-3.10.1.min.js`), copiado de cdnjs y verificado con su huella SRI oficial. Si no cargara, `js/word.js` usa cdnjs como respaldo con esa misma huella (`integrity`). Para actualizarlo, descargue la versión nueva, verifique su huella y cambie el nombre en `word.js`.
+- **Aviso de computador compartido** en el paso 8, con el botón «Borrar lo guardado en este equipo».
+- **Política de referencia** (`<meta name="referrer" content="strict-origin-when-cross-origin">`): a otros sitios solo se les envía el dominio.
+- **`README.md`** para el repositorio (propósito, tecnología, estructura, cómo ejecutar, datos y seguridad).
+- **Mensajes de commit** con el formato `tipo(alcance): descripción` (por ejemplo `feat(mapa): …`, `fix(formatos): …`, `docs: …`).
+- Pendiente para la versión con servidor (TIC): CAPTCHA y límite de solicitudes por dirección en el envío al servidor, inicio de sesión y roles para la Vista de la Dirección, base de datos, ambientes de QA, pruebas automatizadas y repositorio en Azure DevOps.
+
 ## Identidad visual
 - Tipografía: solo **Poppins**. Colores del Manual de Identidad Visual y grises de antioquia.gov.co (variables al inicio de `css/estilos.css`).
 - Íconos de línea de un solo estilo (`js/iconos.js`); los emojis del contenido se cambian solos por el ícono equivalente.
 - Logo oficial: `img/logo-gobernacion.webp`.
-- Cada vez que se cambie un archivo CSS o JS, suba el número `?v=` en `index.html` (va en `v=18`) para que los navegadores no usen la versión vieja guardada.
+- Cada vez que se cambie un archivo CSS o JS, suba el número `?v=` en `index.html` (va en `v=19`) para que los navegadores no usen la versión vieja guardada.
 
 ## Conexión con la Dirección (Microsoft institucional)
 - **Terminados:** la herramienta abre el correo a organismoscomunales@antioquia.gov.co con el asunto `[ELECCIÓN DIGNATARIOS - NUEVA v1] ID - Organismo - Municipio - Estado` o `[ELECCIÓN DIGNATARIOS - SUBSANACIÓN v2] …`. Un flujo de Power Automate ("Cuando llega un correo nuevo" en el buzón, filtrado por ese asunto) puede llevarlo a una Lista de SharePoint o a un Excel.

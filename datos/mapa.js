@@ -114,7 +114,7 @@ window.CONTACTOS_MUNICIPIO = {
   'Angostura':                  { promotor: 'Dato', fotoPromotor: '', contacto: 'Dato', registradas: 'Dato', activas: 'Dato', inactivas: 'Dato', asocomunales: 'Dato' },
   'Belmira':                    { promotor: 'Dato', fotoPromotor: '', contacto: 'Dato', registradas: 'Dato', activas: 'Dato', inactivas: 'Dato', asocomunales: 'Dato' },
   'Briceño':                    { promotor: 'Dato', fotoPromotor: '', contacto: 'Dato', registradas: 'Dato', activas: 'Dato', inactivas: 'Dato', asocomunales: 'Dato' },
-  'Campamento':                 { promotor: 'Deyson Humberto Caro Cadavid', fotoPromotor: '', contacto: 'desarrollocomunitaro@campamento-antioquia.gov.co', registradas: 'Dato', activas: 'Dato', inactivas: 'Dato', asocomunales: 'Dato' },
+  'Campamento':                 { promotor: 'Deyson Humberto Caro Cadavid', fotoPromotor: '', contacto: 'desarrollocomunitario@campamento-antioquia.gov.co', registradas: 'Dato', activas: 'Dato', inactivas: 'Dato', asocomunales: 'Dato' },
   'Carolina del Príncipe':      { promotor: 'Dato', fotoPromotor: '', contacto: 'Dato', registradas: 'Dato', activas: 'Dato', inactivas: 'Dato', asocomunales: 'Dato' },
   'Don Matías':                 { promotor: 'Dato', fotoPromotor: '', contacto: 'Dato', registradas: 'Dato', activas: 'Dato', inactivas: 'Dato', asocomunales: 'Dato' },
   'Entrerríos':                 { promotor: 'Dato', fotoPromotor: '', contacto: 'Dato', registradas: 'Dato', activas: 'Dato', inactivas: 'Dato', asocomunales: 'Dato' },

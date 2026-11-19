@@ -7,17 +7,24 @@
      {{.campo}}    dato del elemento dentro de la fila repetida
    JSZip y las plantillas solo se descargan la primera vez que alguien genera un documento. */
 (function () {
-  const JSZIP_URL = 'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js';
+  /* JSZip 3.10.1 va dentro de la página (js/lib/), copiado de cdnjs y verificado con su huella
+     SRI oficial (lineamientos de TIC: dependencias aprobadas, sin depender de servicios externos).
+     Si por algo no carga, se usa cdnjs como respaldo, con la misma huella (integrity). */
+  const JSZIP_LOCAL = 'js/lib/jszip-3.10.1.min.js';
+  const JSZIP_CDN = 'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js';
+  const JSZIP_SRI = 'sha512-XMVd28F1oH/O71fzwBnV7HucLxVwtxf26XV8P4wPk26EDxuGZ91N8bsOttmnomcCD3CS5ZMRL50H0GgOHvegtg==';
+  const cargarZip = () => (window.JSZip ? Promise.resolve() : cargarScript(JSZIP_LOCAL).catch(() => cargarScript(JSZIP_CDN, JSZIP_SRI)));
   // Las plantillas llevan el mismo ?v= que este archivo (index.html), para que al cambiarlas
   // los navegadores no sigan usando la copia vieja guardada.
   const VERSION = ((document.currentScript && document.currentScript.src) || '').split('?v=')[1] || '';
   const PLANTILLAS_URL = 'js/plantillas.js' + (VERSION ? '?v=' + VERSION : '');
   const cargados = {};
 
-  function cargarScript(src) {
+  function cargarScript(src, integridad) {
     if (!cargados[src]) {
       cargados[src] = new Promise((ok, falla) => {
         const s = document.createElement('script');
+        if (integridad) { s.integrity = integridad; s.crossOrigin = 'anonymous'; }
         s.src = src;
         s.onload = ok;
         s.onerror = () => { delete cargados[src]; falla(new Error('No se pudo cargar ' + src)); };
@@ -74,7 +81,7 @@
   }
 
   async function generarWord(plantilla, datos, nombreArchivo) {
-    await cargarScript(JSZIP_URL);
+    await cargarZip();
     if (!window.PLANTILLAS) await cargarScript(PLANTILLAS_URL);
     const zip = await window.JSZip.loadAsync(window.PLANTILLAS[plantilla], { base64: true });
     const xml = await zip.file('word/document.xml').async('string');
@@ -87,5 +94,5 @@
     return blob;
   }
 
-  window.Word = { generarWord, descargarBlob, cargarScript, cargarZip: () => cargarScript(JSZIP_URL) };
+  window.Word = { generarWord, descargarBlob, cargarScript, cargarZip };
 })();
