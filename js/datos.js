@@ -23,7 +23,7 @@ window.MUNICIPIOS = {
    ningún lado y su dirección (#/estatutos) lleva al inicio. No se borra nada.
    =================================================================================== */
 window.MOSTRAR = {
-  estatutos: false,        // Reforma de estatutos: falta la guía, los formatos y la herramienta
+  estatutos: true,         // Reforma de estatutos (visible desde nov. 2026 para mostrar a los jurados los trámites que vienen; aún sin guía, formatos ni herramienta)
   // Mapa: true = el recuadro de cada municipio muestra TODOS los campos previstos (correo del
   // profesional, silueta si no hay foto, promotor y cifras de organismos) aunque falte el dato,
   // con el aviso "En actualización". Así los jurados ven lo que llevará la página.

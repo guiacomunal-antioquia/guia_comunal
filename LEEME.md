@@ -1,4 +1,4 @@
-﻿# Guía Comunal DPCC — prototipo (versión 12)
+﻿# Guía Comunal DPCC — prototipo (versión 14)
 
 Sitio estático (HTML, CSS y JavaScript, sin programas que instalar). Se publica en **GitHub Pages** desde esta carpeta (`guia_comunal`, conectada al repositorio). Para verlo en el computador, abra `index.html` o sírvala con `python -m http.server 8767`. El `index.html` solo no basta: necesita las carpetas que lo acompañan.
 
@@ -76,7 +76,7 @@ Cartilla, afiche y circular. Para reemplazar uno, use el mismo nombre de archivo
 | Mapa | Un solo mapa; cada municipio tiene su dirección | `#/mapa`, `#/mapa/urrao` |
 | Formatos y guías | Formatos en Word · Guías · Consultas oficiales | `#/documentos/formatos`, `#/documentos/guias`, `#/documentos/consulta` |
 | Aprenda | La acción comunal · Preguntas de repaso · Glosario | `#/aprenda/accion-comunal`, `#/aprenda/juego`, `#/aprenda/glosario` |
-| Estatutos | **Oculta** (ver "Elementos ocultos") | `#/estatutos` lleva al inicio mientras esté oculta |
+| Estatutos | Reforma de estatutos: requisitos básicos y «Próximamente» (muestra los trámites que vienen) | `#/estatutos` |
 | (pie) | Vista de la Dirección, con datos de ejemplo | `#/direccion` |
 
 - El **asistente** es el botón redondo de abajo a la derecha, en todas las pantallas.
@@ -92,14 +92,22 @@ Nada se borró: cada elemento se vuelve a mostrar cambiando un ajuste o agregand
 | Video «¿En qué municipios está presente el acompañamiento?» (`v4`) | Mapa, debajo de la leyenda de subregiones | El video | Llenar su `url` en `js/videos.js` |
 | Video «¿Dónde consultar información oficial?» (`v5`) y su desplegable | Formatos y guías › Consultas oficiales | El video | Llenar su `url` en `js/videos.js` |
 | 7 videos cortos por proceso (`proc-libro`, `proc-asamblea`, `proc-tribunal`, `proc-planchas`, `proc-votacion`, `proc-escrutinio`, `proc-registro`) | Guías (desplegable «Videos cortos por etapa») y el detalle de cada etapa en Elecciones › Etapas | Los videos | Llenar la `url` de cada uno en `js/videos.js`; el desplegable aparece con el primero que tenga enlace |
-| Sección **Reforma de estatutos** («Próximamente») y su botón del menú | Menú principal, en la pantalla `#/estatutos` | Guía, formatos y herramienta de reforma (hoy solo tiene 4 requisitos básicos) | `MOSTRAR.estatutos = true` en `js/datos.js` (vuelven el botón del menú y la dirección) |
 | Nota «Orden pendiente» | Elecciones › Causas de devolución | Datos de frecuencia de la Dirección | Se quitó el texto; si se reordena, basta con cambiar el orden en `js/contenido.js` |
 | Etiqueta «Por validar con la Dirección» | Calculadora, orden de cargos | Validación de la Dirección | Se quitó la etiqueta; el texto dice que mandan los estatutos |
 | Nota «Prototipo presentado como propuesta de mejora» | Franja inferior del pie de página | — | Se quitó (era para los evaluadores, no para el público) |
 
+**Sección Estatutos (visible otra vez desde la versión 14).** Se volvió a mostrar porque los jurados califican qué otros trámites se le pueden implementar a la Guía. Tiene los requisitos básicos de la reforma y el aviso «Próximamente»; le faltan la guía, los formatos y la herramienta. Para ocultarla: `MOSTRAR.estatutos = false` en `js/datos.js` (se quita del menú y `#/estatutos` lleva al inicio).
+
 **Campos del mapa sin dato (se muestran para la presentación ante los jurados).** El correo del profesional, la silueta de quien no tiene foto, el promotor (foto, nombre y contacto), las cifras de organismos y el correo de Medellín **se ven** aunque falte el dato, con el aviso *En actualización* (las cifras muestran «—» y la nota «Cifras en actualización»). Así se ve todo lo que llevará el recuadro. Se controla con `MOSTRAR.camposMapaVacios` en `js/datos.js`: `true` = se muestran (actual); `false` = solo se ve lo que tiene dato. Cada dato que se llene en `datos/mapa.js` reemplaza el aviso.
 
 **Video del proceso de elección** (`media/video-proceso-eleccion.mp4`): debe estar en **H.264 (MP4)**. El original venía en HEVC/H.265 y en Chrome y Edge se oía pero se veía en negro; se convirtió a H.264 (720 × 1280, vertical) y el original quedó fuera del repositorio, en la carpeta `Videos originales`. Si se reemplaza, use H.264 y suba el `?v=` de su `url` en `js/videos.js`.
+
+## Registro de demostración (`demo.html`)
+Para presentar la Guía (por ejemplo, ante un jurado) desde **cualquier computador o celular con internet**: abra `…/demo.html`. Pone en ese navegador una solicitud de ejemplo con **datos ficticios** (JAC VEREDA LA PRUEBA (EJEMPLO), Urrao) y abre la herramienta en el paso 7.
+- Trae **un error a propósito**: la vicepresidenta de la Plancha 1 (CARLA PRUEBA TRES, CC 10000003) es también del Tribunal. Corrección en vivo: en el paso 5 cambiarla por CC 20000099 · PRUEBA NUEVA · BEATRIZ; el semáforo queda en verde y se habilitan las descargas.
+- No está enlazada desde la Guía y no cambia nada de ella. Si en ese navegador ya hay un borrador, pide confirmación antes de reemplazarlo. Se puede abrir cuantas veces quiera para volver a empezar.
+- No funciona en ventana de incógnito o privada (ahí no se guarda el borrador).
+- Desde la versión 13, una pestaña de la herramienta solo guarda al cerrarse si tiene cambios propios, y toma el borrador que se guarde en otra pestaña: así una pestaña vieja no borra el ejemplo.
 
 ## Calculadora del cociente (`js/calculadora.js`)
 - **Bloques:** Directiva (4), Fiscalía (fiscal y suplente), Conciliación (3), Delegados (3 con sus suplentes) y Otro número.
@@ -130,7 +138,7 @@ Nada se borró: cada elemento se vuelve a mostrar cambiando un ajuste o agregand
 - Tipografía: solo **Poppins**. Colores del Manual de Identidad Visual y grises de antioquia.gov.co (variables al inicio de `css/estilos.css`).
 - Íconos de línea de un solo estilo (`js/iconos.js`); los emojis del contenido se cambian solos por el ícono equivalente.
 - Logo oficial: `img/logo-gobernacion.webp`.
-- Cada vez que se cambie un archivo CSS o JS, suba el número `?v=` en `index.html` (va en `v=12`) para que los navegadores no usen la versión vieja guardada.
+- Cada vez que se cambie un archivo CSS o JS, suba el número `?v=` en `index.html` (va en `v=14`) para que los navegadores no usen la versión vieja guardada.
 
 ## Conexión con la Dirección (Microsoft institucional)
 - **Terminados:** la herramienta abre el correo a organismoscomunales@antioquia.gov.co con el asunto `[ELECCIÓN DIGNATARIOS - NUEVA v1] ID - Organismo - Municipio - Estado` o `[ELECCIÓN DIGNATARIOS - SUBSANACIÓN v2] …`. Un flujo de Power Automate ("Cuando llega un correo nuevo" en el buzón, filtrado por ese asunto) puede llevarlo a una Lista de SharePoint o a un Excel.

@@ -83,7 +83,9 @@
   });
   let S = Object.assign(nuevo(), leer(CLAVE) || {});
   /* Borrador: se guarda en este navegador con cada cambio y al cerrar o recargar la página. */
+  let sinGuardar = false;  // hay algo escrito en esta pestaña que aún no se guardó
   function guardarS() {
+    sinGuardar = false;
     guardar(CLAVE, S);
     const g = document.getElementById('fGuardado');
     if (g) g.textContent = `✓ Borrador guardado en este equipo · ${new Date().toLocaleTimeString('es-CO', { hour: 'numeric', minute: '2-digit' })}`;
@@ -1150,10 +1152,22 @@ ${comp.cargos.map((c) => fila(c.cargo, c.persona ? fl(c.persona) : '')).join('')
       if (op.cambia) pintar();
     });
 
-    // Si cierra, recarga o cambia de pestaña, el borrador queda guardado al instante.
-    const alSalir = () => guardar(CLAVE, S);
+    // Si cierra, recarga o cambia de pestaña con algo sin guardar, se guarda al instante. Solo si
+    // ESTA pestaña tiene cambios: así una pestaña vieja (o vacía) no borra el borrador que se escribió
+    // o se cargó en otra pestaña (por ejemplo, con demo.html).
+    const alSalir = () => { if (sinGuardar) guardarS(); };
     window.addEventListener('pagehide', alSalir);
     document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') alSalir(); });
+    // Si otra pestaña guarda el borrador, esta lo toma (cuando no tiene cambios propios pendientes)
+    window.addEventListener('storage', (ev) => {
+      if (ev.key !== CLAVE || sinGuardar) return;
+      const x = leer(CLAVE);
+      S = Object.assign(nuevo(), x || {});
+      S.adjuntos = Object.assign({ prep: [], elec: [] }, S.adjuntos);
+      S.junta = Object.assign(nuevo().junta, S.junta);
+      S.solicitud = Object.assign(nuevo().solicitud, S.solicitud);
+      pintar();
+    });
     let t;
     cont.addEventListener('input', (ev) => {
       const el = ev.target;
@@ -1161,6 +1175,7 @@ ${comp.cargos.map((c) => fila(c.cargo, c.persona ? fl(c.persona) : '')).join('')
       let v = el.value;
       if (/\.ced$/.test(el.dataset.k)) { const limpio = v.replace(/[.\s,]/g, ''); if (limpio !== v) { v = limpio; el.value = v; } }
       ponerRuta(S, el.dataset.k, v);
+      sinGuardar = true;
       clearTimeout(t);
       t = setTimeout(() => { guardarS(); refrescarEstado(); }, 300);
     });

@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Ejemplo de demostración · Guía Comunal DPCC</title>
+<style>body{font-family:Poppins,Arial,sans-serif;background:#F8F9FA;color:#212529;display:grid;place-items:center;min-height:100vh;margin:0;padding:16px;text-align:center}</style>
+</head>
+<body>
+<p>Cargando el ejemplo de demostración…</p>
+<script>
+/* REGISTRO DE DEMOSTRACIÓN (para presentar la Guía, por ejemplo ante el jurado).
+   - Página aparte: no está enlazada desde ningún menú y no cambia nada de la Guía.
+   - Al abrirla pone en ESTE navegador una solicitud de ejemplo con datos FICTICIOS y abre la
+     herramienta en el paso 7 ("Revisar y descargar"). Si ya había un borrador, pide confirmación
+     antes de reemplazarlo.
+   - Trae UN error a propósito para corregirlo en vivo: la vicepresidenta de la Plancha 1
+     (CARLA PRUEBA TRES, CC 10000003) es también integrante del Tribunal de Garantías.
+     Corrección: en el paso 5, cambiar a esa candidata por otra persona (por ejemplo
+     CC 20000099 · PRUEBA NUEVA · BEATRIZ) y el semáforo pasa a verde.
+   - Se puede volver a abrir cuantas veces quiera: siempre deja el ejemplo igual, con el error.
+   - Clave del borrador: "dpcc-formulario-v2" (la misma de js/formulario.js). */
+(function () {
+  'use strict';
+  const CLAVE = 'dpcc-formulario-v2';
+  const P = (c, a, n, x) => Object.assign({ tdoc: 'CC', ced: c, ape: a, nom: n }, x || {});
+  let k = 20000000;
+  const C = (a, n, m) => P(String(++k), a, n, { mujer: !!m, mayor: true });
+  const plancha = (num, f, pre) => ({ numero: String(num), fecha: f, hora: '10:00',
+    dir: [C(pre + 'UNO', 'ANA', 1), C(pre + 'DOS', 'BETO'), C(pre + 'TRES', 'CARLA', 1), C(pre + 'CUATRO', 'DARIO')],
+    fis: [C(pre + 'CINCO', 'ELENA', 1), C(pre + 'SEIS', 'FABIO')],
+    con: [C(pre + 'SIETE', 'GLORIA', 1), C(pre + 'OCHO', 'HECTOR'), C(pre + 'NUEVE', 'IRENE', 1)],
+    com: [Object.assign({ comision: 'C.T. OBRAS' }, C(pre + 'DIEZ', 'JULIO')), Object.assign({ comision: 'C.T. SALUD' }, C(pre + 'ONCE', 'KAREN', 1)), Object.assign({ comision: 'C.T. DEPORTES' }, C(pre + 'DOCE', 'LUIS'))],
+    del: [C(pre + 'TRECE', 'MARTA', 1), C(pre + 'CATORCE', 'NORA', 1), C(pre + 'QUINCE', 'OSCAR'), C(pre + 'DIECISEIS', 'PAULA', 1), C(pre + 'DIECISIETE', 'RAUL'), C(pre + 'DIECIOCHO', 'SARA', 1)],
+    presentadaPor: [P('10000001', 'PRUEBA UNO', 'ANA')], recibidaPor: ['0', '1', '2'],
+    parentescoHay: 'No', parentescoGrado: '', parentescoQuienes: '', parentescoAut: false });
+  const tp = [P('10000003', 'PRUEBA TRES', 'CARLA'), P('10000004', 'PRUEBA CUATRO', 'DARIO'), P('10000005', 'PRUEBA CINCO', 'ELENA')];
+  const ts = [P('10000006', 'PRUEBA SEIS', 'FABIO'), P('10000007', 'PRUEBA SIETE', 'GLORIA'), P('10000008', 'PRUEBA OCHO', 'HECTOR')];
+  const pres = P('10000001', 'PRUEBA UNO', 'ANA', { tel: '3000000001' }), sec = P('10000002', 'PRUEBA DOS', 'BRUNO', { tel: '3000000002' });
+  const planchas = [plancha(1, '2026-08-20', 'ALFA '), plancha(2, '2026-08-21', 'BETA ')];
+  // El error a propósito: la vicepresidenta de la Plancha 1 es integrante del Tribunal
+  planchas[0].dir[1] = P('10000003', 'PRUEBA TRES', 'CARLA', { mujer: true, mayor: true });
+  const S = { paso: 7,
+    solicitud: { tipo: 'Nueva', anterior: '', version: '' }, periodo: '',
+    junta: { tipo: 'JAC', id: '99999', nombre: 'JAC VEREDA LA PRUEBA (EJEMPLO)', subregion: 'Suroeste', municipio: 'Urrao', nit: '900000000-1', territorio: 'Rural', direccion: 'Vereda La Prueba', correo: 'jac.ejemplo@ejemplo.com', celular: '3000000000', telefono: '' },
+    asamblea: { actaNo: '12', lugar: 'CASETA COMUNAL', fecha: '2026-08-01', hora: '09:00', horaFin: '11:00', totalAfiliados: '10', asistentes: '8', actaAntNo: '11', actaAntFecha: '2026-07-10', pres, sec,
+      tipoEleccion: 'Total', cargosProveer: '', sistemaEleccion: 'En asamblea', numMesas: '', jurados: [], sistemaPostulacion: 'Por planchas', limFecha: '2026-08-25', limHora: '17:00',
+      lugarEleccion: 'CASETA COMUNAL', elecFecha: '2026-09-06', elecHora: '08:00', empate: 'Segunda votación inmediata.', comisiones: 'C.T. OBRAS\nC.T. SALUD\nC.T. DEPORTES', observaciones: '' },
+    tribunal: { tp, ts, dignatarios: '' },
+    adjuntos: { prep: [{ nombre: 'listado-asamblea-preparatoria.jpg', tam: 1450000, tipo: 'image/jpeg' }], elec: [{ nombre: 'listado-asamblea-eleccion.jpg', tam: 1380000, tipo: 'image/jpeg' }] },
+    bloques: { dir: true, fis: true, con: true, com: true, del: true },
+    planchas, activa: 0,
+    votacion: { realizada: 'Sí', actaNo: '13', lugar: 'CASETA COMUNAL', fecha: '2026-09-06', hora: '08:00', horaFin: '12:00', horaInicio: '', horaCierre: '', lugarPublicacion: '', afiliadosHabiles: '10', votantes: '9', tgPresentes: '3',
+      firma1: P('10000009', 'PRUEBA NUEVE', 'IVAN', { tel: '' }), firma2: P('10000010', 'PRUEBA DIEZ', 'JUANA', { tel: '' }),
+      votos: { dir: { p: ['5', '3'], bl: '1', nu: '0' }, fis: { p: ['5', '4'], bl: '0', nu: '0' }, con: { p: ['5', '3'], bl: '1', nu: '0' }, del: { p: ['6', '2'], bl: '1', nu: '0' } }, ajustes: {},
+      coordinadores: [P('30000001', 'COORD UNO', 'PERSONA', { votos: '3', comision: 'C.T. OBRAS' }), P('30000002', 'COORD DOS', 'PERSONA', { votos: '3', comision: 'C.T. SALUD' }), P('30000003', 'COORD TRES', 'PERSONA', { votos: '3', comision: 'C.T. DEPORTES' })], observaciones: '' },
+    confirmadas: { 'fecha-oficial-2026-09-06': true, 'comisiones-estatutos': true, 'compara-acta': true },
+    autoriza: false, registro: null };
+  const ir = () => location.replace('index.html#/eleccion/herramienta/paso-7');
+  let hay = null;
+  try { hay = localStorage.getItem(CLAVE); } catch (e) { /* sin almacenamiento */ }
+  if (hay && !confirm('En este navegador ya hay una solicitud en borrador.\n\n¿Reemplazarla por el ejemplo de demostración (datos ficticios)?')) { ir(); return; }
+  try { localStorage.setItem(CLAVE, JSON.stringify(S)); } catch (e) { alert('Este navegador no permite guardar el ejemplo (por ejemplo, en una ventana privada).'); }
+  ir();
+})();
+</script>
+</body>
+</html>
